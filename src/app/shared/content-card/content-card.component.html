@@ -1,0 +1,117 @@
+<article class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+  <header class="relative">
+    <img
+      [src]="safeContent().imageUrl"
+      [alt]="safeContent().alt"
+      [attr.aria-label]="safeContent().aria"
+      class="w-full h-64 object-cover transition-transform duration-300 hover:scale-105"
+    >
+    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+      <h2 class="text-2xl text-white font-bold">{{ safeContent().name }}</h2>
+    </div>
+  </header>
+
+  <div class="p-6 space-y-6">
+    <p class="text-gray-700 leading-relaxed">{{ safeContent().description }}</p>
+
+    <ng-container [ngSwitch]="contentType()">
+      <!-- Pour les races -->
+      <div *ngSwitchCase="'race'" class="space-y-6">
+        <ng-container *ngIf="getRaceDetails()">
+          <div *ngFor="let detail of getRaceDetails()! | keyvalue"
+               class="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors duration-200">
+            <h3 class="text-xl font-semibold mb-3 text-primary-600">
+              {{ detail.value.name }}
+            </h3>
+            <p class="text-gray-700 leading-relaxed">
+              {{ detail.value.content }}
+            </p>
+          </div>
+        </ng-container>
+      </div>
+
+      <!-- Pour les backgrounds -->
+      <div *ngSwitchCase="'background'" class="space-y-6">
+        <ng-container *ngIf="getBackgroundContent() as bgContent">
+          <!-- Informations de base -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div *ngIf="bgContent.starting_proficiencies" class="bg-gray-50 rounded-lg p-4">
+              <h3 class="text-lg font-semibold text-primary-600 mb-2">Maîtrises de départ</h3>
+              <p class="text-gray-700">{{ bgContent.starting_proficiencies }}</p>
+            </div>
+
+            <div *ngIf="bgContent.mastered_tools" class="bg-gray-50 rounded-lg p-4">
+              <h3 class="text-lg font-semibold text-primary-600 mb-2">Outils maîtrisés</h3>
+              <p class="text-gray-700">{{ bgContent.mastered_tools }}</p>
+            </div>
+
+            <div *ngIf="bgContent.language_options" class="bg-gray-50 rounded-lg p-4">
+              <h3 class="text-lg font-semibold text-primary-600 mb-2">Options de langues</h3>
+              <p class="text-gray-700">{{ bgContent.language_options }}</p>
+            </div>
+          </div>
+
+          <!-- Équipement -->
+          <div *ngIf="bgContent.starting_equipment" class="bg-gray-50 rounded-lg p-4">
+            <h3 class="text-lg font-semibold text-primary-600 mb-2">Équipement de départ</h3>
+            <p class="text-gray-700">{{ bgContent.starting_equipment }}</p>
+          </div>
+
+          <!-- Traits de personnalité -->
+          <div *ngIf="hasPersonalityTraits()" class="bg-gray-50 rounded-lg p-4">
+            <h3 class="text-lg font-semibold text-primary-600 mb-3">
+              Traits de personnalité (choisissez-en {{ getPersonalityTraitsChoose() }})
+            </h3>
+            <ul class="space-y-2">
+              <li *ngFor="let trait of getPersonalityTraitsFrom()"
+                  class="flex items-start">
+          <span class="inline-block w-6 h-6 bg-primary-100 text-primary-600 rounded-full text-center mr-2">
+            {{ trait.id }}
+          </span>
+                <span class="text-gray-700">{{ trait.string }}</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Aptitude spéciale -->
+          <div *ngIf="hasFeature()" class="bg-gray-50 rounded-lg p-4">
+            <h3 class="text-lg font-semibold text-primary-600 mb-2">
+              {{ getFeatureName() }}
+            </h3>
+            <p class="text-gray-700">{{ getFeatureDescription() }}</p>
+          </div>
+        </ng-container>
+      </div>
+
+
+      <!-- Pour les classes -->
+      <div *ngSwitchCase="'class'" class="space-y-6">
+        <ng-container *ngIf="getClassContent() as classContent">
+          <!-- Illustration des capacités -->
+          <div *ngIf="classContent.alt_abilities" class="bg-gray-50 rounded-lg p-4">
+            <h3 class="text-lg font-semibold text-primary-600 mb-2">Aperçu des capacités</h3>
+            <p class="text-gray-700">{{ classContent.alt_abilities }}</p>
+          </div>
+
+          <!-- Trait principal -->
+          <div *ngIf="classContent.trait && classContent.trait_description" class="bg-gray-50 rounded-lg p-4">
+            <h3 class="text-lg font-semibold text-primary-600 mb-2">{{ classContent.trait }}</h3>
+            <p class="text-gray-700">{{ classContent.trait_description }}</p>
+          </div>
+
+          <!-- Principes de classe -->
+          <div *ngIf="classContent.class_principles && classContent.class_principles_description" class="bg-gray-50 rounded-lg p-4">
+            <h3 class="text-lg font-semibold text-primary-600 mb-2">{{ classContent.class_principles }}</h3>
+            <p class="text-gray-700">{{ classContent.class_principles_description }}</p>
+          </div>
+
+          <!-- Création de personnage -->
+          <div *ngIf="classContent.create && classContent.create_description" class="bg-gray-50 rounded-lg p-4">
+            <h3 class="text-lg font-semibold text-primary-600 mb-2">{{ classContent.create }}</h3>
+            <p class="text-gray-700">{{ classContent.create_description }}</p>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+</article>

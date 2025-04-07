@@ -1,0 +1,22 @@
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+  <div *ngFor="let item of items; let i = index"
+       class="cursor-pointer hover:scale-105 transition-transform">
+    <div class="relative max-w-[200px] mx-auto w-full aspect-[3/4] rounded-lg overflow-hidden"
+         (click)="onSelect(i)">  <!-- Utilisez l'index ici -->
+      <img [src]="item.imageUrl"
+           [alt]="item.alt"
+           [attr.aria-label]="item.aria"
+           class="w-full h-full object-cover">
+      <div class="absolute bottom-0 w-full bg-black bg-opacity-50 p-2">
+        <h3 class="text-white text-center text-sm">{{ item.name }}</h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
