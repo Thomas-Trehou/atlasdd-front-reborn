@@ -28,7 +28,7 @@
         "saving_throws": "Force, Constitution",
         "skills": "choisissez deux compétences parmi Athlétisme, Dressage, Intimidation, Nature, Perception et Survie"
       },
-      "equipement": {
+      "equipment": {
         "description": "Vous commencez avec l'équipement suivant, en plus de l'équipement accordé par votre historique :",
         "choices": [
           "(a) une hache à deux mains ou (b) n'importe quelle arme de guerre de corps à corps",
@@ -95,8 +95,7 @@
           "description": "Au niveau 20, vous êtes l'incarnation de la puissance du monde sauvage. Vos valeurs de Force et de Constitution augmentent de 4. Votre maximum dans ces valeurs de caractéristique est maintenant de 24."
         }
       ],
-      "specialization":
-      {
+      "specialization": {
         "name": "Voies primitives",
         "description": "La rage brûle dans le cœur de tous les barbares, tel un four qui les pousse vers la grandeur. Toutefois, les barbares n'attribuent pas tous cette rage à la même source. Pour certains, c'est un réservoir interne où la douleur, le chagrin et la colère se forgent en une fureur aussi dure que l'acier, alors que d'autres y voient une bénédiction spirituelle, le cadeau d'un animal totem.",
         "choices": [
@@ -246,14 +245,14 @@
         "saving_throws": "Dextérité, Charisme",
         "skills": "choisissez trois compétences de votre choix"
       },
-      "equipement": {
+      "equipment": {
         "description": "Vous commencez avec l'équipement suivant, en plus de l'équipement accordé par votre historique :",
-        "choices": {
-          "stuff_1": "(a) une rapière, (b) une épée longue ou (c) n'importe quelle arme courante",
-          "stuff_2": "(a) un sac de diplomate ou (b) un sac d'artiste",
-          "stuff_3": "(a) un luth ou (b) n'importe quel autre instrument de musique",
-          "stuff_4": "une armure de cuir et une dague"
-        }
+        "choices": [
+          "(a) une rapière, (b) une épée longue ou (c) n'importe quelle arme courante",
+          "(a) un sac de diplomate ou (b) un sac d'artiste",
+          "(a) un luth ou (b) n'importe quel autre instrument de musique",
+          "une armure de cuir et une dague"
+        ]
       },
       "leveling_table": "./assets/images/lvlclass/lvl_Barde.webp",
       "abilities": [
@@ -329,53 +328,55 @@
       "specialization": {
         "name": "Collèges bardiques",
         "description": "La voie de barde est intrinsèquement grégaire [qui pousse à former des groupes et à avoir les mêmes comportements]. Les bardes se cherchent les uns les autres pour échanger chansons et histoires, se vanter de leurs réalisations et partager leurs connaissances. Ils forment des associations libres qu'ils appellent des collèges, afin de faciliter leurs rencontres et préserver leurs traditions particulières.",
-        "choice_1": {
-          "name": "Collège du savoir",
-          "description": "Les bardes du collège du savoir savent quelque chose sur tout, collectant des morceaux de connaissances à partir de sources aussi diverses que d'anciens livres ou des contes de paysans. Qu'ils chantent des ballades populaires dans les tavernes ou qu'ils composent dans les cours royales, ces bardes utilisent leurs dons pour tenir le public en haleine. Lorsque les applaudissements s'apaisent, les membres du public pourraient se questionner sur la véracité de ce qu'ils tenaient pour vrai, de leur foi pour la religion du temple local jusqu'à leur fidélité au roi. La loyauté de ces bardes réside dans la poursuite de la beauté et de la vérité, et non pas dans la fidélité à un monarque ou aux principes d'une divinité. Un noble qui conserve un tel barde comme héraut ou conseiller sait que le barde préférera être honnête que politicien. Les membres du collège se réunissent dans des bibliothèques et parfois dans de vrais collèges, avec des salles de classe et des dortoirs, afin de partager leur savoir avec les autres. Ils se rencontrent également lors de festivals ou d'affaires d'état, où ils peuvent mettre à jour des corruptions, démêler des mensonges ou bien encore se moquer de certaines figures de l'autorité.",
-          "abilities": {
-            "ability_1": {
-              "name": "Maîtrises supplémentaires",
-              "description": "Lorsque vous rejoignez le collège du savoir au niveau 3, vous gagnez la maîtrise de trois compétences de votre choix."
-            },
-            "ability_2": {
-              "name": "Mots cinglants",
-              "description": "Également au niveau 3, vous apprenez à utiliser votre esprit pour détourner l'attention ou semer la confusion, ainsi qu'à saper la confiance et la compétence des autres. Quand une créature que vous pouvez voir dans un rayon de 18 mètres autour de vous fait un jet d'attaque, de caractéristique ou de dégâts, vous pouvez utiliser votre réaction pour dépenser une utilisation d'Inspiration bardique et soustraire votre jet du résultat de la cible. Vous pouvez choisir d'utiliser cette capacité après que la créature ait fait son jet, mais vous devez le faire avant que le MD ne dise si son jet est un succès ou un échec, ou avant que la créature inflige ses dégâts. La créature est immunisée si elle ne peut pas vous entendre ou si les charmes ne l'affectent pas."
-            },
-            "ability_3": {
-              "name": "Secrets magiques supplémentaires",
-              "description": "Au niveau 6, vous apprenez deux sorts de votre choix de n'importe quelle classe. Les sorts choisis doivent être d'un niveau que vous pouvez lancer, comme le montre la table du barde, ou être des sorts mineurs. Les sorts choisis comptent comme des sorts de barde pour vous, mais ne comptent pas pour le nombre de sorts de barde connus."
-            },
-            "ability_4": {
-              "name": "Compétence hors-pair",
-              "description": "À partir du niveau 14, quand vous faites un jet de caractéristique, vous pouvez utiliser une Inspiration bardique. Lancez le dé d'Inspiration bardique et ajoutez le résultat à votre jet de caractéristique. Vous pouvez choisir de le faire après avoir fait votre jet de votre caractéristique, mais vous devez le faire avant que le MD ne vous indique si vous réussissez ou échouez."
-            }
+        "choices": [
+          {
+            "name": "Collège du savoir",
+            "description": "Les bardes du collège du savoir savent quelque chose sur tout, collectant des morceaux de connaissances à partir de sources aussi diverses que d'anciens livres ou des contes de paysans. Qu'ils chantent des ballades populaires dans les tavernes ou qu'ils composent dans les cours royales, ces bardes utilisent leurs dons pour tenir le public en haleine. Lorsque les applaudissements s'apaisent, les membres du public pourraient se questionner sur la véracité de ce qu'ils tenaient pour vrai, de leur foi pour la religion du temple local jusqu'à leur fidélité au roi. La loyauté de ces bardes réside dans la poursuite de la beauté et de la vérité, et non pas dans la fidélité à un monarque ou aux principes d'une divinité. Un noble qui conserve un tel barde comme héraut ou conseiller sait que le barde préférera être honnête que politicien. Les membres du collège se réunissent dans des bibliothèques et parfois dans de vrais collèges, avec des salles de classe et des dortoirs, afin de partager leur savoir avec les autres. Ils se rencontrent également lors de festivals ou d'affaires d'état, où ils peuvent mettre à jour des corruptions, démêler des mensonges ou bien encore se moquer de certaines figures de l'autorité.",
+            "abilities": [
+              {
+                "name": "Maîtrises supplémentaires",
+                "description": "Lorsque vous rejoignez le collège du savoir au niveau 3, vous gagnez la maîtrise de trois compétences de votre choix."
+              },
+              {
+                "name": "Mots cinglants",
+                "description": "Également au niveau 3, vous apprenez à utiliser votre esprit pour détourner l'attention ou semer la confusion, ainsi qu'à saper la confiance et la compétence des autres. Quand une créature que vous pouvez voir dans un rayon de 18 mètres autour de vous fait un jet d'attaque, de caractéristique ou de dégâts, vous pouvez utiliser votre réaction pour dépenser une utilisation d'Inspiration bardique et soustraire votre jet du résultat de la cible. Vous pouvez choisir d'utiliser cette capacité après que la créature ait fait son jet, mais vous devez le faire avant que le MD ne dise si son jet est un succès ou un échec, ou avant que la créature inflige ses dégâts. La créature est immunisée si elle ne peut pas vous entendre ou si les charmes ne l'affectent pas."
+              },
+              {
+                "name": "Secrets magiques supplémentaires",
+                "description": "Au niveau 6, vous apprenez deux sorts de votre choix de n'importe quelle classe. Les sorts choisis doivent être d'un niveau que vous pouvez lancer, comme le montre la table du barde, ou être des sorts mineurs. Les sorts choisis comptent comme des sorts de barde pour vous, mais ne comptent pas pour le nombre de sorts de barde connus."
+              },
+              {
+                "name": "Compétence hors-pair",
+                "description": "À partir du niveau 14, quand vous faites un jet de caractéristique, vous pouvez utiliser une Inspiration bardique. Lancez le dé d'Inspiration bardique et ajoutez le résultat à votre jet de caractéristique. Vous pouvez choisir de le faire après avoir fait votre jet de votre caractéristique, mais vous devez le faire avant que le MD ne vous indique si vous réussissez ou échouez."
+              }
+            ]
+          },
+          {
+            "name": "Collège de la vaillance",
+            "description": "Les bardes du collège de la vaillance sont d'hardis poètes dont les contes perpétuent la mémoire des grands héros du passé et inspirent la nouvelle génération. Ces bardes se réunissent dans des prés ou autour de grands feux de joie pour chanter les actes des puissants, passés et présents. Ils parcourent le monde pour être témoin de grands événements et s'assurer que la mémoire de ces événements ne s’efface pas de ce monde. Avec leurs chansons, ils inspirent les autres pour qu'ils atteignent les mêmes sommets que les héros d’autres fois.",
+            "abilities": [
+              {
+                "name": "Maîtrises supplémentaires",
+                "description": "Lorsque vous rejoignez le collège de la vaillance au niveau 3, vous gagnez la maîtrise des armures intermédiaires, des boucliers et des armes de guerre."
+              },
+              {
+                "name": "Inspiration martiale",
+                "description": "Également au niveau 3, vous apprenez à inspirer les autres dans la bataille. Une créature qui a un dé d'Inspiration bardique de votre part peut jeter ce dé et ajouter le résultat au jet de dégâts d'une arme qu'elle vient de faire. Ou bien, quand un jet d'attaque est fait contre cette créature, elle peut utiliser sa réaction pour jeter le dé d'Inspiration bardique et ajouter le résultat à sa CA contre cette attaque, après avoir vu le jet mais avant de savoir si elle touche ou non."
+              },
+              {
+                "name": "Attaque supplémentaire",
+                "description": "À partir de niveau 6, vous pouvez attaquer deux fois, au lieu d'une seule, chaque fois que vous réalisez l’action Attaquer durant votre tour."
+              },
+              {
+                "name": "Magie de combat,",
+                "description": "Au niveau 14, vous maîtrisez l'art de tisser les sorts et d'utiliser une arme en un seul acte harmonieux. Lorsque vous utilisez votre action pour lancer un sort de barde, vous pouvez faire une attaque avec une arme en tant qu'action bonus."
+              }
+            ]
           }
-        },
-        "choice_2": {
-          "name": "Collège de la vaillance",
-          "description": "Les bardes du collège de la vaillance sont d'hardis poètes dont les contes perpétuent la mémoire des grands héros du passé et inspirent la nouvelle génération. Ces bardes se réunissent dans des prés ou autour de grands feux de joie pour chanter les actes des puissants, passés et présents. Ils parcourent le monde pour être témoin de grands événements et s'assurer que la mémoire de ces événements ne s’efface pas de ce monde. Avec leurs chansons, ils inspirent les autres pour qu'ils atteignent les mêmes sommets que les héros d’autres fois.",
-          "abilities": {
-            "ability_1": {
-              "name": "Maîtrises supplémentaires",
-              "description": "Lorsque vous rejoignez le collège de la vaillance au niveau 3, vous gagnez la maîtrise des armures intermédiaires, des boucliers et des armes de guerre."
-            },
-            "ability_2": {
-              "name": "Inspiration martiale",
-              "description": "Également au niveau 3, vous apprenez à inspirer les autres dans la bataille. Une créature qui a un dé d'Inspiration bardique de votre part peut jeter ce dé et ajouter le résultat au jet de dégâts d'une arme qu'elle vient de faire. Ou bien, quand un jet d'attaque est fait contre cette créature, elle peut utiliser sa réaction pour jeter le dé d'Inspiration bardique et ajouter le résultat à sa CA contre cette attaque, après avoir vu le jet mais avant de savoir si elle touche ou non."
-            },
-            "ability_3": {
-              "name": "Attaque supplémentaire",
-              "description": "À partir de niveau 6, vous pouvez attaquer deux fois, au lieu d'une seule, chaque fois que vous réalisez l’action Attaquer durant votre tour."
-            },
-            "ability_4": {
-              "name": "Magie de combat,",
-              "description": "Au niveau 14, vous maîtrisez l'art de tisser les sorts et d'utiliser une arme en un seul acte harmonieux. Lorsque vous utilisez votre action pour lancer un sort de barde, vous pouvez faire une attaque avec une arme en tant qu'action bonus."
-            }
-          }
-        }
+        ]
       }
     },
-    "tables": {}
+    "tables": []
   },
   {
     "contentType": "class",
@@ -406,165 +407,169 @@
         "saving_throws": "Sagesse, Charisme",
         "skills": "choisissez deux compétences parmi Histoire, Intuition, Médecine, Persuasion et Religion"
       },
-      "equipement": {
+      "equipment": {
         "description": "Vous commencez avec l'équipement suivant, en plus de l'équipement accordé par votre historique :",
-        "choices": {
-          "stuff_1": "(a) une masse d'armes ou (b) un marteau de guerre (si vous le maîtrisez)",
-          "stuff_2": "(a) une armure d'écailles ou (b) une armure de cuir ou (c) une cotte de mailles (si vous la maîtrisez)",
-          "stuff_3": "(a) une arbalète légère et 20 carreaux ou (b) une arme courante",
-          "stuff_4": "(a) un sac d'ecclésiastique ou (b) un sac d'explorateur",
-          "stuff_5": "un bouclier et un symbole sacré"
-        }
+        "choices": [
+          "(a) une masse d'armes ou (b) un marteau de guerre (si vous le maîtrisez)",
+          "(a) une armure d'écailles ou (b) une armure de cuir ou (c) une cotte de mailles (si vous la maîtrisez)",
+          "(a) une arbalète légère et 20 carreaux ou (b) une arme courante",
+          "(a) un sac d'ecclésiastique ou (b) un sac d'explorateur",
+          "un bouclier et un symbole sacré"
+        ]
       },
       "leveling_table": "./assets/images/lvlclass/lvl_Clerc.webp",
-      "ability_1": {
-        "name": "Sorts mineurs",
-        "description": "Au niveau 1, vous connaissez trois sorts mineurs de clerc de votre choix. Vous apprendrez des sorts mineurs supplémentaires de votre choix aux niveaux supérieurs, comme indiqué dans la colonne Sorts mineurs connus de la table ci-dessus."
-      },
-      "ability_2": {
-        "name": "Préparer et lancer des sorts",
-        "description": "La table du clerc montre combien d'emplacements de sorts vous avez pour lancer vos sorts de clerc de niveau 1 et supérieur. Pour lancer un de ces sorts, vous devez dépenser un emplacement du niveau du sort ou supérieur. Vous regagnez tous les emplacements de sorts dépensés lorsque vous terminez un repos long. Vous devez préparer la liste des sorts de clerc qui vous sont disponibles pour les lancer. Pour ce faire, choisissez un nombre de sorts de clerc égal à votre modificateur de Sagesse + votre niveau de clerc (minimum un sort). Les sorts doivent être d'un niveau pour lequel vous avez des emplacements de sorts. Par exemple, si vous êtes un clerc de niveau 3, vous avez suivant la table quatre emplacements de sorts de niveaux 1 et deux emplacements de sorts de niveau 2. Avec une Sagesse de 16, votre liste de sorts préparés peut inclure six sorts de niveau 1 et 2, selon n'importe quelle combinaison. Si vous préparez le sort de niveau 1 soins, vous pouvez le lancer en utilisant un emplacement de niveau 1 ou de niveau 2. Lancer le sort ne le supprime pas de votre liste de sorts préparés. Vous pouvez modifier votre liste de sorts préparés lorsque vous terminez un repos long. Préparer une nouvelle liste de sorts de clerc nécessite du temps pour prier et méditer : au moins 1 minute par niveau de sort pour chaque sort sur votre liste."
-      },
-      "ability_3": {
-        "name": "Caractéristique d'incantation",
-        "description": "La Sagesse est votre caractéristique d'incantation pour vos sorts de clerc. La puissance de vos sorts vient de votre dévotion à votre dieu. Vous utilisez votre Sagesse chaque fois qu'un sort se réfère à votre capacité de lancer des sorts. En outre, vous utilisez votre modificateur de Sagesse pour définir le DD du jet de sauvegarde d'un sort de clerc que vous lancez ainsi que pour le jet d'attaque de celui-ci. *) DD de sauvegarde des sorts = 8 + votre bonus de maîtrise + votre modificateur de Sagesse. *) Modificateur aux attaques avec un sort = votre bonus de maîtrise + votre modificateur de Sagesse."
-      },
-      "ability_4": {
-        "name": "Rituel",
-        "description": "Vous pouvez lancer un sort de clerc en tant que rituel si ce sort possède l'étiquette rituel et si vous avez préparé le sort."
-      },
-      "ability_5": {
-        "name": "Focaliseur d'incantation",
-        "description": "Vous pouvez utiliser un symbole sacré comme focaliseur d'incantation pour vos sorts de clerc."
-      },
-      "ability_6": {
-        "name": "Domaine divin",
-        "description": "Choisissez un domaine lié à votre divinité : duperie, guerre, lumière, nature, savoir, tempête ou vie. Votre choix vous accorde des sorts de domaine et des capacités spéciales dès le niveau 1, puis de nouvelles aux niveaux 6, 8 et 17. Il vous octroie également des manières supplémentaires pour utiliser le Conduit divin du niveau 2."
-      },
-      "ability_7": {
-        "name": "Sorts de domaine",
-        "description": "Chaque domaine possède une liste de sorts, les sorts de domaine, que vous gagnez au niveau de clerc indiqué dans la description du domaine. Une fois que vous gagnez un sort de domaine, il est toujours préparé, et ne compte pas dans le nombre de sorts que vous pouvez préparer chaque jour. Si vous gagnez un sort de domaine qui ne figure pas sur la liste de sorts de clerc, le sort est néanmoins un sort de clerc pour vous."
-      },
-      "ability_8": {
-        "name": "Conduit divin",
-        "description": "Au niveau 2, vous gagnez la possibilité de canaliser l'énergie divine directement depuis votre divinité et d'utiliser cette énergie pour alimenter des effets magiques. Vous commencez avec deux effets : Renvoi des morts-vivants et un effet déterminé par votre domaine. Certains domaines vous accordent des effets supplémentaires lorsque vous montez de niveau, comme indiqué dans la description du domaine. Lorsque vous utilisez votre Conduit divin, vous choisissez quel effet créer. Vous devez ensuite terminer un repos court ou long pour pouvoir utiliser votre Conduit divin de nouveau. Certains effets du Conduit divin demandent un jet de sauvegarde. Lorsque vous utilisez un tel effet de cette classe, le DD est égal au DD de vos sorts de clerc. À partir du niveau 6, vous pouvez utiliser votre Conduit divin deux fois entre deux repos, et à partir du niveau 18, vous pouvez l'utiliser trois fois entre deux repos. Lorsque vous terminez un repos court ou long, vous regagnez vos utilisations dépensées."
-      },
-      "ability_9": {
-        "name": "Conduit divin : renvoi des morts-vivants",
-        "description": "Au prix d'une action, vous présentez votre symbole sacré en psalmodiant une prière contre les morts-vivants. Chaque mort-vivant qui peut vous voir ou vous entendre et qui se trouve à 9 mètres ou moins de vous doit effectuer un jet de sauvegarde de Sagesse. Si la créature rate son jet de sauvegarde, elle est renvoyée pendant 1 minute ou jusqu'à ce qu'elle prenne des dégâts. Une créature renvoyée doit passer ses actions à essayer de s'éloigner le plus loin possible de vous et ne peut volontairement se rapprocher à 9 mètres ou moins de vous. Elle ne peut pas utiliser de réactions et peut utiliser ses actions seulement pour Foncer ou essayer de s'échapper d'un effet immobilisant. S'il n'y a nulle part où aller, la créature peut utiliser l'action Esquiver."
-      },
-      "ability_10": {
-        "name": "Amélioration de caractéristiques",
-        "description": "Au niveau 4, puis par la suite aux niveaux 8, 12, 16 et 19, vous pouvez augmenter une valeur de caractéristique de votre choix de +2, ou bien augmenter deux valeurs de caractéristique de votre choix de +1. Vous ne pouvez cependant pas augmenter une caractéristique au-delà de 20 par ce biais."
-      },
-      "ability_11": {
-        "name": "Destruction des morts-vivants",
-        "description": "À partir du niveau 5, quand un mort-vivant rate son jet de sauvegarde contre votre capacité de Renvoi des morts-vivants, la créature est immédiatement détruite si son FP est égal ou inférieur à un certain seuil, comme indiqué dans le tableau ci-dessous."
-      },
-      "ability_12": {
-        "name": "Intervention divine",
-        "description": "À partir du niveau 10, vous pouvez faire appel à votre divinité pour qu'elle intervienne en cas de besoin réel. Implorer l'aide de votre divinité vous oblige à utiliser votre action. Décrivez l'aide que vous recherchez, et lancez 1d100. Si vous obtenez un nombre égal ou inférieur à votre niveau de clerc, votre divinité intervient. Le MD choisit la nature de l'intervention ; l'effet d'un sort de clerc ou d'un sort de domaine est approprié. Si votre divinité intervient, vous ne pouvez plus utiliser cette capacité durant les 7 prochains jours. Dans le cas contraire, vous pouvez l'utiliser à nouveau après avoir terminé un repos long. Au niveau 20, l'appel à votre divinité réussit automatiquement ; aucun jet n'est nécessaire."
-      },
+      "abilities": [
+        {
+          "name": "Sorts mineurs",
+          "description": "Au niveau 1, vous connaissez trois sorts mineurs de clerc de votre choix. Vous apprendrez des sorts mineurs supplémentaires de votre choix aux niveaux supérieurs, comme indiqué dans la colonne Sorts mineurs connus de la table ci-dessus."
+        },
+        {
+          "name": "Préparer et lancer des sorts",
+          "description": "La table du clerc montre combien d'emplacements de sorts vous avez pour lancer vos sorts de clerc de niveau 1 et supérieur. Pour lancer un de ces sorts, vous devez dépenser un emplacement du niveau du sort ou supérieur. Vous regagnez tous les emplacements de sorts dépensés lorsque vous terminez un repos long. Vous devez préparer la liste des sorts de clerc qui vous sont disponibles pour les lancer. Pour ce faire, choisissez un nombre de sorts de clerc égal à votre modificateur de Sagesse + votre niveau de clerc (minimum un sort). Les sorts doivent être d'un niveau pour lequel vous avez des emplacements de sorts. Par exemple, si vous êtes un clerc de niveau 3, vous avez suivant la table quatre emplacements de sorts de niveaux 1 et deux emplacements de sorts de niveau 2. Avec une Sagesse de 16, votre liste de sorts préparés peut inclure six sorts de niveau 1 et 2, selon n'importe quelle combinaison. Si vous préparez le sort de niveau 1 soins, vous pouvez le lancer en utilisant un emplacement de niveau 1 ou de niveau 2. Lancer le sort ne le supprime pas de votre liste de sorts préparés. Vous pouvez modifier votre liste de sorts préparés lorsque vous terminez un repos long. Préparer une nouvelle liste de sorts de clerc nécessite du temps pour prier et méditer : au moins 1 minute par niveau de sort pour chaque sort sur votre liste."
+        },
+        {
+          "name": "Caractéristique d'incantation",
+          "description": "La Sagesse est votre caractéristique d'incantation pour vos sorts de clerc. La puissance de vos sorts vient de votre dévotion à votre dieu. Vous utilisez votre Sagesse chaque fois qu'un sort se réfère à votre capacité de lancer des sorts. En outre, vous utilisez votre modificateur de Sagesse pour définir le DD du jet de sauvegarde d'un sort de clerc que vous lancez ainsi que pour le jet d'attaque de celui-ci. *) DD de sauvegarde des sorts = 8 + votre bonus de maîtrise + votre modificateur de Sagesse. *) Modificateur aux attaques avec un sort = votre bonus de maîtrise + votre modificateur de Sagesse."
+        },
+        {
+          "name": "Rituel",
+          "description": "Vous pouvez lancer un sort de clerc en tant que rituel si ce sort possède l'étiquette rituel et si vous avez préparé le sort."
+        },
+        {
+          "name": "Focaliseur d'incantation",
+          "description": "Vous pouvez utiliser un symbole sacré comme focaliseur d'incantation pour vos sorts de clerc."
+        },
+        {
+          "name": "Domaine divin",
+          "description": "Choisissez un domaine lié à votre divinité : duperie, guerre, lumière, nature, savoir, tempête ou vie. Votre choix vous accorde des sorts de domaine et des capacités spéciales dès le niveau 1, puis de nouvelles aux niveaux 6, 8 et 17. Il vous octroie également des manières supplémentaires pour utiliser le Conduit divin du niveau 2."
+        },
+        {
+          "name": "Sorts de domaine",
+          "description": "Chaque domaine possède une liste de sorts, les sorts de domaine, que vous gagnez au niveau de clerc indiqué dans la description du domaine. Une fois que vous gagnez un sort de domaine, il est toujours préparé, et ne compte pas dans le nombre de sorts que vous pouvez préparer chaque jour. Si vous gagnez un sort de domaine qui ne figure pas sur la liste de sorts de clerc, le sort est néanmoins un sort de clerc pour vous."
+        },
+        {
+          "name": "Conduit divin",
+          "description": "Au niveau 2, vous gagnez la possibilité de canaliser l'énergie divine directement depuis votre divinité et d'utiliser cette énergie pour alimenter des effets magiques. Vous commencez avec deux effets : Renvoi des morts-vivants et un effet déterminé par votre domaine. Certains domaines vous accordent des effets supplémentaires lorsque vous montez de niveau, comme indiqué dans la description du domaine. Lorsque vous utilisez votre Conduit divin, vous choisissez quel effet créer. Vous devez ensuite terminer un repos court ou long pour pouvoir utiliser votre Conduit divin de nouveau. Certains effets du Conduit divin demandent un jet de sauvegarde. Lorsque vous utilisez un tel effet de cette classe, le DD est égal au DD de vos sorts de clerc. À partir du niveau 6, vous pouvez utiliser votre Conduit divin deux fois entre deux repos, et à partir du niveau 18, vous pouvez l'utiliser trois fois entre deux repos. Lorsque vous terminez un repos court ou long, vous regagnez vos utilisations dépensées."
+        },
+        {
+          "name": "Conduit divin : renvoi des morts-vivants",
+          "description": "Au prix d'une action, vous présentez votre symbole sacré en psalmodiant une prière contre les morts-vivants. Chaque mort-vivant qui peut vous voir ou vous entendre et qui se trouve à 9 mètres ou moins de vous doit effectuer un jet de sauvegarde de Sagesse. Si la créature rate son jet de sauvegarde, elle est renvoyée pendant 1 minute ou jusqu'à ce qu'elle prenne des dégâts. Une créature renvoyée doit passer ses actions à essayer de s'éloigner le plus loin possible de vous et ne peut volontairement se rapprocher à 9 mètres ou moins de vous. Elle ne peut pas utiliser de réactions et peut utiliser ses actions seulement pour Foncer ou essayer de s'échapper d'un effet immobilisant. S'il n'y a nulle part où aller, la créature peut utiliser l'action Esquiver."
+        },
+        {
+          "name": "Amélioration de caractéristiques",
+          "description": "Au niveau 4, puis par la suite aux niveaux 8, 12, 16 et 19, vous pouvez augmenter une valeur de caractéristique de votre choix de +2, ou bien augmenter deux valeurs de caractéristique de votre choix de +1. Vous ne pouvez cependant pas augmenter une caractéristique au-delà de 20 par ce biais."
+        },
+        {
+          "name": "Destruction des morts-vivants",
+          "description": "À partir du niveau 5, quand un mort-vivant rate son jet de sauvegarde contre votre capacité de Renvoi des morts-vivants, la créature est immédiatement détruite si son FP est égal ou inférieur à un certain seuil, comme indiqué dans le tableau ci-dessous."
+        },
+        {
+          "name": "Intervention divine",
+          "description": "À partir du niveau 10, vous pouvez faire appel à votre divinité pour qu'elle intervienne en cas de besoin réel. Implorer l'aide de votre divinité vous oblige à utiliser votre action. Décrivez l'aide que vous recherchez, et lancez 1d100. Si vous obtenez un nombre égal ou inférieur à votre niveau de clerc, votre divinité intervient. Le MD choisit la nature de l'intervention ; l'effet d'un sort de clerc ou d'un sort de domaine est approprié. Si votre divinité intervient, vous ne pouvez plus utiliser cette capacité durant les 7 prochains jours. Dans le cas contraire, vous pouvez l'utiliser à nouveau après avoir terminé un repos long. Au niveau 20, l'appel à votre divinité réussit automatiquement ; aucun jet n'est nécessaire."
+        }
+      ],
       "specialization": {
         "name": "Domaines divins",
         "description": "Dans un panthéon, chaque divinité exerce une influence sur différents aspects de la vie et la civilisation des mortels ; c'est le domaine d'une divinité. Tous les domaines sur lesquels une divinité exerce une influence sont appelés le portefeuille de la divinité. Par exemple, le portefeuille du dieu grec Apollon comprend les domaines du Savoir, de la Vie et de la Lumière. En tant que clerc, vous choisissez un aspect du portefeuille de votre divinité à représenter, et vous êtes doté de pouvoirs liés à ce domaine. Votre choix peut correspondre à une secte particulière dédiée à votre divinité, ou tout simplement répondre à une question de préférence personnelle, l'aspect de la divinité qui vous plaît le plus.",
-        "choice_1": {
-          "name": "Domaine de la duperie",
-          "description": "Les dieux de la duperie (comme Tymora, Beshaba, Olidammara, le Voyageur, Garl Brilledor et Loki) sont des fauteurs de troubles et des instigateurs qui représentent un défi constant à l'ordre accepté parmi les dieux et les mortels. Ils sont les patrons des voleurs, des canailles, des joueurs, des rebelles et des libérateurs. Leurs clercs sont une force perturbatrice, se moquant de tyrans, volant les riches, libérant les captifs, et bafouant les traditions. Ils préfèrent le subterfuge, les farces, la tromperie et le vol plutôt qu'une confrontation directe.",
-          "abilities": {
-            "ability_1": {
-              "name": "Sorts de domaine",
-              "description": "(lvl 1) charme-personne, déguisement / (lvl 3) image miroir, passage sans trace / (lvl 5) clignotement, dissipation de la magie / (lvl 7) métamorphose, porte dimensionnelle / (lvl 9) domination de personne, modification de mémoire"
-            },
-            "ability_2": {
-              "name": "Conduit divin : invocation de réplique",
-              "description": "À partir du niveau 2, vous pouvez utiliser votre Conduit divin pour créer une copie illusoire de vous-même. Par une action, vous créez une illusion parfaite de vous-même qui dure pendant 1 minute, ou jusqu'à ce que vous perdiez votre concentration (comme si vous étiez concentré sur un sort). L'illusion apparaît dans un espace inoccupé que vous pouvez voir dans un rayon de 9 mètres autour de vous. Par une action bonus à votre tour, vous pouvez déplacer l'illusion jusqu'à 9 mètres, dans un espace que vous pouvez voir, et sans l'éloigner de plus de 36 mètres de vous. Durant ce temps, vous pouvez lancer des sorts comme si vous étiez dans l'espace de l'illusion, mais vous devez utiliser vos propres sens. En outre, lorsque vous et votre illusion êtes à 1,50 mètre ou moins d'une créature qui peut voir l'illusion, vous avez un avantage aux jets d'attaque contre cette créature, l'illusion distrayant la cible."
-            },
-            "ability_3": {
-              "name": "Conduit divin : linceul d'ombre",
-              "description": "À partir du niveau 6, vous pouvez utiliser votre Conduit divin pour disparaître. Par une action, vous devenez invisible jusqu'à la fin de votre prochain tour. Vous redevenez visible si vous attaquez ou lancez un sort."
-            },
-            "ability_4": {
-              "name": "Frappe divine",
-              "description": "Au niveau 8, vous gagnez la possibilité d’imprégner votre arme de poison, un cadeau de votre divinité. Une fois à chacun de vos tours, lorsque vous touchez une créature avec une attaque d'arme, vous pouvez infliger 1d8 dégâts de poison supplémentaires. Lorsque vous atteignez le niveau 14, les dégâts supplémentaires passent à 2d8."
-            },
-            "ability_5": {
-              "name": "Réplique améliorée",
-              "description": "Au niveau 17, vous pouvez créer jusqu'à quatre doublons de vous-même, au lieu d'un, lorsque vous utilisez Invocation de duplicata. Par une action bonus à votre tour, vous pouvez déplacer un certain nombre d'entre eux jusqu'à 9 mètres, et sans les éloigner de plus de 36 mètres de vous."
+        "choices": [
+          {
+            "name": "Domaine de la duperie",
+            "description": "Les dieux de la duperie (comme Tymora, Beshaba, Olidammara, le Voyageur, Garl Brilledor et Loki) sont des fauteurs de troubles et des instigateurs qui représentent un défi constant à l'ordre accepté parmi les dieux et les mortels. Ils sont les patrons des voleurs, des canailles, des joueurs, des rebelles et des libérateurs. Leurs clercs sont une force perturbatrice, se moquant de tyrans, volant les riches, libérant les captifs, et bafouant les traditions. Ils préfèrent le subterfuge, les farces, la tromperie et le vol plutôt qu'une confrontation directe.",
+            "abilities": {
+              "ability_1": {
+                "name": "Sorts de domaine",
+                "description": "(lvl 1) charme-personne, déguisement / (lvl 3) image miroir, passage sans trace / (lvl 5) clignotement, dissipation de la magie / (lvl 7) métamorphose, porte dimensionnelle / (lvl 9) domination de personne, modification de mémoire"
+              },
+              "ability_2": {
+                "name": "Conduit divin : invocation de réplique",
+                "description": "À partir du niveau 2, vous pouvez utiliser votre Conduit divin pour créer une copie illusoire de vous-même. Par une action, vous créez une illusion parfaite de vous-même qui dure pendant 1 minute, ou jusqu'à ce que vous perdiez votre concentration (comme si vous étiez concentré sur un sort). L'illusion apparaît dans un espace inoccupé que vous pouvez voir dans un rayon de 9 mètres autour de vous. Par une action bonus à votre tour, vous pouvez déplacer l'illusion jusqu'à 9 mètres, dans un espace que vous pouvez voir, et sans l'éloigner de plus de 36 mètres de vous. Durant ce temps, vous pouvez lancer des sorts comme si vous étiez dans l'espace de l'illusion, mais vous devez utiliser vos propres sens. En outre, lorsque vous et votre illusion êtes à 1,50 mètre ou moins d'une créature qui peut voir l'illusion, vous avez un avantage aux jets d'attaque contre cette créature, l'illusion distrayant la cible."
+              },
+              "ability_3": {
+                "name": "Conduit divin : linceul d'ombre",
+                "description": "À partir du niveau 6, vous pouvez utiliser votre Conduit divin pour disparaître. Par une action, vous devenez invisible jusqu'à la fin de votre prochain tour. Vous redevenez visible si vous attaquez ou lancez un sort."
+              },
+              "ability_4": {
+                "name": "Frappe divine",
+                "description": "Au niveau 8, vous gagnez la possibilité d’imprégner votre arme de poison, un cadeau de votre divinité. Une fois à chacun de vos tours, lorsque vous touchez une créature avec une attaque d'arme, vous pouvez infliger 1d8 dégâts de poison supplémentaires. Lorsque vous atteignez le niveau 14, les dégâts supplémentaires passent à 2d8."
+              },
+              "ability_5": {
+                "name": "Réplique améliorée",
+                "description": "Au niveau 17, vous pouvez créer jusqu'à quatre doublons de vous-même, au lieu d'un, lorsque vous utilisez Invocation de duplicata. Par une action bonus à votre tour, vous pouvez déplacer un certain nombre d'entre eux jusqu'à 9 mètres, et sans les éloigner de plus de 36 mètres de vous."
+              }
+            }
+          },
+          {
+            "name": "Domaine de la guerre",
+            "description": "La guerre se manifeste de plusieurs façons. Elle peut transformer des personnes ordinaires en héros. Elle peut être horrible et désespérée, avec des actes de cruautés et de couardises éclipsant les instants d’excellence et de courage. Dans tous les cas, les dieux de la guerre observent les guerriers et les récompensent pour leurs actes glorieux. Les clercs de ces dieux excellent au combat et sont source d’inspiration pour participer à de bons combats ou pour offrir des actes de violence en tant que prières. Les dieux de la guerre sont des champions de l’honneur et de la chevalerie (comme par exemple Torm, Heironeous et Kiri-Jolith), les dieux de la destruction ou du pillage (comme Erythnul, la Furie, Gruumsh et Ares) et les dieux de la conquête ou de la domination (comme Baine, Hector et Maglubiyet). D’autres dieux de la guerre (comme Tempus, Nike et Nuada) observent une plus grande neutralité, promouvant la guerre dans toutes ces manifestations et supportant les guerriers dans toutes les circonstances.",
+            "abilities": {
+              "ability_1": {
+                "name": "Sorts de domaine",
+                "description": "(lvl 1) bouclier de la foi, faveur divine / (lvl 3) arme magique, arme spirituelle / (lvl 5) aura du croisé, esprits gardiens / (lvl 7) liberté de mouvement, peau de pierre / (lvl 9) colonne de flamme, immobilisation de monstre"
+              },
+              "ability_2": {
+                "name": "Maîtrises supplémentaires",
+                "description": "Au niveau 1, vous gagnez la maîtrise des armes de guerres et des armures lourdes."
+              },
+              "ability_3": {
+                "name": "Prêtre de guerre",
+                "description": "À partir du niveau 1, votre dieu vous inspire lors des combats. Lorsque vous utilisez l’action Attaquer, vous pouvez faire une attaque avec une arme en tant qu’action bonus. Vous pouvez utiliser cette capacité un nombre de fois égal à votre modificateur de Sagesse (minimum 1). Vous regagnez les attaques utilisées à la fin d’un repos long."
+              },
+              "ability_4": {
+                "name": "Conduit divin : frappe guidée",
+                "description": "À partir du niveau 2, vous pouvez utiliser votre Conduit divin pour frapper avec une grande précision. Lorsque vous faites un jet d’attaque, vous pouvez utilisez votre Conduit divin pour gagner un bonus de +10 au jet. Vous pouvez décider d’utiliser cette capacité après avoir vu le résultat du jet, mais avant que le MD ne vous en donne le résultat."
+              },
+              "ability_5": {
+                "name": "Conduit divin : bénédiction du dieu de la guerre",
+                "description": "Au niveau 6, lorsqu'une créature dans un rayon de 9 mètres autour de vous fait un jet d’attaque, vous pouvez utiliser votre réaction pour faire bénéficier cette créature d’un bonus de +10 à son jet, en utilisant votre Conduit divin. Vous pouvez choisir d’utiliser cette compétence après avoir vu le résultat du jet, mais vous devez le faire avant que le MD ne dise si l’attaque a réussi ou échoué."
+              },
+              "ability_6": {
+                "name": "Frappe divine",
+                "description": "Au niveau 8, vous gagnez la possibilité d’imprégner votre arme d’énergie divine. Une fois à chacun de vos tours, lorsque vous touchez une créature avec une attaque d'arme, vous pouvez infliger 1d8 dégâts supplémentaires du même type que celui de votre arme. Lorsque vous atteignez le niveau 14, les dégâts supplémentaires passent à 2d8."
+              },
+              "ability_7": {
+                "name": "Avatar de bataille",
+                "description": "Au niveau 17, vous obtenez la résistance aux dégâts contondants, perforants et tranchants d'attaques non magiques."
+              }
+            }
+          },
+          {
+            "name": "Domaine de la lumière",
+            "description": "Les dieux de la lumière (y compris Helm, Lathandre, Pholtus, Branchala, la Flamme d'argent, Bélénus, Apollo et Ré-Horakhty) promeuvent les idéaux de renaissance et de renouveau, de vérité, de vigilance et de beauté, souvent en utilisant le symbole du soleil. Certains de ces dieux sont dépeints comme le soleil lui-même ou comme le conducteur du char qui guide le soleil à travers le ciel. D'autres sont d'inlassables sentinelles dont les yeux percent chaque ombre et voient à travers toutes les tromperies. Certains sont des divinités de la beauté et des artistes, qui enseignent que l'art est un véhicule ou l'amélioration de l'âme. Les clercs d'un dieu de la lumière sont des âmes éclairées infusés par l'éclat et la puissance de la vision perspicace de leurs dieux, et chargés de chasser les mensonges et de brûler les ténèbres.",
+            "abilities": {
+              "ability_1": {
+                "name": "Sorts de domaine",
+                "description": "(lvl 1) lueurs féeriques, mains brûlantes / (lvl 3) rayon ardent, sphère de feu / (lvl 5) boule de feu, lumière du jour / (lvl 7) gardien de la foi, mur de feu / (lvl 9) colonne de flamme, scrutation"
+              },
+              "ability_2": {
+                "name": "Sort mineur supplémentaire",
+                "description": "Lorsque vous choisissez ce domaine au niveau 1, vous gagnez le sort mineur lumière si vous ne le connaissez pas déjà. Ce sort mineur ne compte pas dans le nombre de sorts mineurs de clerc que vous connaissez."
+              },
+              "ability_3": {
+                "name": "Illumination protectrice",
+                "description": "Au niveau 1, vous pouvez interposer une lumière divine entre vous et un ennemi qui attaque. Lorsque vous êtes attaqué par une créature située à 9 mètres ou moins de vous et que vous pouvez voir, vous pouvez utiliser votre réaction pour imposer un désavantage à son jet d'attaque, en faisant éclater une lumière avant qu'il touche ou rate. Un attaquant qui ne peut pas être aveuglé est immunisé face à cette capacité. Vous pouvez utiliser cette capacité un nombre de fois égal à votre modificateur de Sagesse (minimum une fois). Vous en retrouver toutes les utilisations dépensées lorsque vous terminez un repos long."
+              },
+              "ability_4": {
+                "name": "Conduit divin : radiance de l'aube",
+                "description": "À partir du niveau 2, vous pouvez utiliser votre Conduit divin pour exploiter la lumière du soleil, bannissant les ténèbres et infligeant des dégâts radiants à vos ennemis. Par une action, vous présentez votre symbole sacré et toutes les ténèbres magiques dans un rayon de 9 mètres autour de vous sont dissipées. En outre, chaque créature hostile dans un rayon de 9 mètres autour de vous doit réaliser un jet de sauvegarde de Constitution. Une créature prend 2d10 + votre niveau de clerc dégâts radiants en cas d'échec, ou la moitié de ces dégâts en cas de réussite. Une créature qui dispose d'une couverture totale vis à vis de vous n'est pas affectée."
+              },
+              "ability_5": {
+                "name": "Illumination améliorée",
+                "description": "À partir du niveau 6, vous pouvez également utiliser votre capacité de Illumination protectrice quand une créature que vous pouvez voir et située à 9 mètres ou moins de vous attaque une créature autre que vous-même."
+              },
+              "ability_6": {
+                "name": "Incantation puissante",
+                "description": "À partir du niveau 8, vous ajoutez votre modificateur de Sagesse aux dégâts que vous infligez avec n'importe quel sort mineur de clerc."
+              },
+              "ability_7": {
+                "name": "Halo de lumière",
+                "description": "À partir du niveau 6, vous pouvez également utiliser votre capacité de Illumination protectrice quand une créature que vous pouvez voir et située à 9 mètres ou moins de vous attaque une créature autre que vous-même."
+              }
             }
           }
-        },
-        "choice_2": {
-          "name": "Domaine de la guerre",
-          "description": "La guerre se manifeste de plusieurs façons. Elle peut transformer des personnes ordinaires en héros. Elle peut être horrible et désespérée, avec des actes de cruautés et de couardises éclipsant les instants d’excellence et de courage. Dans tous les cas, les dieux de la guerre observent les guerriers et les récompensent pour leurs actes glorieux. Les clercs de ces dieux excellent au combat et sont source d’inspiration pour participer à de bons combats ou pour offrir des actes de violence en tant que prières. Les dieux de la guerre sont des champions de l’honneur et de la chevalerie (comme par exemple Torm, Heironeous et Kiri-Jolith), les dieux de la destruction ou du pillage (comme Erythnul, la Furie, Gruumsh et Ares) et les dieux de la conquête ou de la domination (comme Baine, Hector et Maglubiyet). D’autres dieux de la guerre (comme Tempus, Nike et Nuada) observent une plus grande neutralité, promouvant la guerre dans toutes ces manifestations et supportant les guerriers dans toutes les circonstances.",
-          "abilities": {
-            "ability_1": {
-              "name": "Sorts de domaine",
-              "description": "(lvl 1) bouclier de la foi, faveur divine / (lvl 3) arme magique, arme spirituelle / (lvl 5) aura du croisé, esprits gardiens / (lvl 7) liberté de mouvement, peau de pierre / (lvl 9) colonne de flamme, immobilisation de monstre"
-            },
-            "ability_2": {
-              "name": "Maîtrises supplémentaires",
-              "description": "Au niveau 1, vous gagnez la maîtrise des armes de guerres et des armures lourdes."
-            },
-            "ability_3": {
-              "name": "Prêtre de guerre",
-              "description": "À partir du niveau 1, votre dieu vous inspire lors des combats. Lorsque vous utilisez l’action Attaquer, vous pouvez faire une attaque avec une arme en tant qu’action bonus. Vous pouvez utiliser cette capacité un nombre de fois égal à votre modificateur de Sagesse (minimum 1). Vous regagnez les attaques utilisées à la fin d’un repos long."
-            },
-            "ability_4": {
-              "name": "Conduit divin : frappe guidée",
-              "description": "À partir du niveau 2, vous pouvez utiliser votre Conduit divin pour frapper avec une grande précision. Lorsque vous faites un jet d’attaque, vous pouvez utilisez votre Conduit divin pour gagner un bonus de +10 au jet. Vous pouvez décider d’utiliser cette capacité après avoir vu le résultat du jet, mais avant que le MD ne vous en donne le résultat."
-            },
-            "ability_5": {
-              "name": "Conduit divin : bénédiction du dieu de la guerre",
-              "description": "Au niveau 6, lorsqu'une créature dans un rayon de 9 mètres autour de vous fait un jet d’attaque, vous pouvez utiliser votre réaction pour faire bénéficier cette créature d’un bonus de +10 à son jet, en utilisant votre Conduit divin. Vous pouvez choisir d’utiliser cette compétence après avoir vu le résultat du jet, mais vous devez le faire avant que le MD ne dise si l’attaque a réussi ou échoué."
-            },
-            "ability_6": {
-              "name": "Frappe divine",
-              "description": "Au niveau 8, vous gagnez la possibilité d’imprégner votre arme d’énergie divine. Une fois à chacun de vos tours, lorsque vous touchez une créature avec une attaque d'arme, vous pouvez infliger 1d8 dégâts supplémentaires du même type que celui de votre arme. Lorsque vous atteignez le niveau 14, les dégâts supplémentaires passent à 2d8."
-            },
-            "ability_7": {
-              "name": "Avatar de bataille",
-              "description": "Au niveau 17, vous obtenez la résistance aux dégâts contondants, perforants et tranchants d'attaques non magiques."
-            }
-          }
-        },
-        "choice_3": {
-          "name": "Domaine de la lumière",
-          "description": "Les dieux de la lumière (y compris Helm, Lathandre, Pholtus, Branchala, la Flamme d'argent, Bélénus, Apollo et Ré-Horakhty) promeuvent les idéaux de renaissance et de renouveau, de vérité, de vigilance et de beauté, souvent en utilisant le symbole du soleil. Certains de ces dieux sont dépeints comme le soleil lui-même ou comme le conducteur du char qui guide le soleil à travers le ciel. D'autres sont d'inlassables sentinelles dont les yeux percent chaque ombre et voient à travers toutes les tromperies. Certains sont des divinités de la beauté et des artistes, qui enseignent que l'art est un véhicule ou l'amélioration de l'âme. Les clercs d'un dieu de la lumière sont des âmes éclairées infusés par l'éclat et la puissance de la vision perspicace de leurs dieux, et chargés de chasser les mensonges et de brûler les ténèbres.",
-          "abilities": {
-            "ability_1": {
-              "name": "Sorts de domaine",
-              "description": "(lvl 1) lueurs féeriques, mains brûlantes / (lvl 3) rayon ardent, sphère de feu / (lvl 5) boule de feu, lumière du jour / (lvl 7) gardien de la foi, mur de feu / (lvl 9) colonne de flamme, scrutation"
-            },
-            "ability_2": {
-              "name": "Sort mineur supplémentaire",
-              "description": "Lorsque vous choisissez ce domaine au niveau 1, vous gagnez le sort mineur lumière si vous ne le connaissez pas déjà. Ce sort mineur ne compte pas dans le nombre de sorts mineurs de clerc que vous connaissez."
-            },
-            "ability_3": {
-              "name": "Illumination protectrice",
-              "description": "Au niveau 1, vous pouvez interposer une lumière divine entre vous et un ennemi qui attaque. Lorsque vous êtes attaqué par une créature située à 9 mètres ou moins de vous et que vous pouvez voir, vous pouvez utiliser votre réaction pour imposer un désavantage à son jet d'attaque, en faisant éclater une lumière avant qu'il touche ou rate. Un attaquant qui ne peut pas être aveuglé est immunisé face à cette capacité. Vous pouvez utiliser cette capacité un nombre de fois égal à votre modificateur de Sagesse (minimum une fois). Vous en retrouver toutes les utilisations dépensées lorsque vous terminez un repos long."
-            },
-            "ability_4": {
-              "name": "Conduit divin : radiance de l'aube",
-              "description": "À partir du niveau 2, vous pouvez utiliser votre Conduit divin pour exploiter la lumière du soleil, bannissant les ténèbres et infligeant des dégâts radiants à vos ennemis. Par une action, vous présentez votre symbole sacré et toutes les ténèbres magiques dans un rayon de 9 mètres autour de vous sont dissipées. En outre, chaque créature hostile dans un rayon de 9 mètres autour de vous doit réaliser un jet de sauvegarde de Constitution. Une créature prend 2d10 + votre niveau de clerc dégâts radiants en cas d'échec, ou la moitié de ces dégâts en cas de réussite. Une créature qui dispose d'une couverture totale vis à vis de vous n'est pas affectée."
-            },
-            "ability_5": {
-              "name": "Illumination améliorée",
-              "description": "À partir du niveau 6, vous pouvez également utiliser votre capacité de Illumination protectrice quand une créature que vous pouvez voir et située à 9 mètres ou moins de vous attaque une créature autre que vous-même."
-            },
-            "ability_6": {
-              "name": "Incantation puissante",
-              "description": "À partir du niveau 8, vous ajoutez votre modificateur de Sagesse aux dégâts que vous infligez avec n'importe quel sort mineur de clerc."
-            },
-            "ability_7": {
-              "name": "Halo de lumière",
-              "description": "À partir du niveau 6, vous pouvez également utiliser votre capacité de Illumination protectrice quand une créature que vous pouvez voir et située à 9 mètres ou moins de vous attaque une créature autre que vous-même."
-            }
-          }
-        }
+        ]
       }
     },
-    "tables": {}
+    "tables": []
   },
   {
     "contentType": "class",
@@ -595,161 +600,165 @@
         "saving_throws": "Intelligence, Sagesse",
         "skills": "choisissez deux compétences parmi Arcanes, Dressage, Intuition, Médecine, Nature, Perception, Religion et Survie"
       },
-      "equipement": {
+      "equipment": {
         "description": "Vous commencez avec l'équipement suivant, en plus de l'équipement accordé par votre historique :",
-        "choices": {
-          "stuff_1": "(a) un bouclier en bois ou (b) une arme courante",
-          "stuff_2": "(a) un cimeterre ou (b) une arme courante de corps à corps",
-          "stuff_3": "une armure de cuir, un sac d'explorateur et un focaliseur druidique"
-        }
+        "choices": [
+          "(a) un bouclier en bois ou (b) une arme courante",
+          "(a) un cimeterre ou (b) une arme courante de corps à corps",
+          "une armure de cuir, un sac d'explorateur et un focaliseur druidique"
+        ]
       },
       "leveling_table": "./assets/images/lvlclass/lvl_Druide.webp",
-      "ability_1": {
-        "name": "Druidique",
-        "description": "Vous connaissez le druidique, le langage secret des druides. Vous pouvez parler cette langue et l'utiliser pour laisser des messages secrets. Vous, et les autres personnes connaissant ce langage, remarquez automatiquement un tel message. Les autres personnages remarquent la présence du message s'ils réussissent un jet de Sagesse (Perception) DD 15 mais ne peuvent pas le déchiffrer sans utiliser la magie."
-      },
-      "ability_2": {
-        "name": "Incantation",
-        "description": "Puisant dans l'essence divine de la nature elle-même, vous pouvez lancer des sorts pour modeler cette essence selon votre volonté."
-      },
-      "ability_3": {
-        "name": "Sorts mineurs",
-        "description": "Au niveau 1, vous connaissez deux sorts mineurs de druide de votre choix. Vous apprendrez des sorts mineurs de druide supplémentaires de votre choix aux niveaux supérieurs, comme indiqué dans la colonne Sorts mineurs connus de la table ci-dessus."
-      },
-      "ability_4": {
-        "name": "Préparer et lancer des sorts",
-        "description": "La table du druide montre combien d'emplacements de sorts vous avez pour lancer vos sorts de druide de niveau 1 et supérieur. Pour lancer un de ces sorts, vous devez dépenser un emplacement du niveau du sort ou supérieur. Vous regagnez tous les emplacements de sorts dépensés lorsque vous terminez un repos long. Vous devez préparer la liste des sorts de druide qui vous sont disponibles pour les lancer. Pour ce faire, choisissez un nombre de sorts de druide égal à votre modificateur de Sagesse + votre niveau de druide (minimum un sort). Les sorts doivent être d'un niveau pour lequel vous avez des emplacements de sorts. Par exemple, si vous êtes un druide de niveau 3, vous avez suivant la table quatre emplacements de sorts de niveaux 1 et deux emplacements de sorts de niveau 2. Avec une Sagesse de 16, votre liste de sorts préparés peut inclure six sorts de niveau 1 et 2, selon n'importe quelle combinaison. Si vous préparez le sort de niveau 1 soins, vous pouvez le lancer en utilisant un emplacement de niveau 1 ou de niveau 2. Lancer le sort ne le supprime pas de votre liste de sorts préparés. Vous pouvez modifier votre liste de sorts préparés lorsque vous terminez un repos long. Préparer une nouvelle liste de sorts de druide nécessite du temps pour prier et méditer : au moins 1 minute par niveau de sort pour chaque sort sur votre liste."
-      },
-      "ability_5": {
-        "name": "Caractéristique d'incantation",
-        "description": "La Sagesse est votre caractéristique d'incantation pour vos sorts de druide, étant donné que votre puissance magique dépend de votre dévotion ainsi que de votre connexion à la nature. Vous utilisez votre Sagesse chaque fois qu'un sort se réfère à votre capacité de lancer des sorts. En outre, vous utilisez votre modificateur de Sagesse pour définir le DD du jet de sauvegarde d'un sort de druide que vous lancez ainsi que pour le jet d'attaque de celui-ci. DD de sauvegarde des sorts = 8 + votre bonus de maîtrise + votre modificateur de Sagesse. Modificateur aux attaques avec un sort = votre bonus de maîtrise + votre modificateur de Sagesse."
-      },
-      "ability_6": {
-        "name": "Rituel",
-        "description": "Vous pouvez lancer un sort de druide en tant que rituel si ce sort possède l'étiquette rituel et si vous avez préparé le sort."
-      },
-      "ability_7": {
-        "name": "Focaliseur d'incantation",
-        "description": "Vous pouvez utiliser un focaliseur druidique comme focaliseur d'incantation pour vos sorts de druide."
-      },
-      "ability_8": {
-        "name": "Forme sauvage",
-        "description": "À partir du niveau 2, vous pouvez utiliser votre action pour prendre par magie la forme d'une bête que vous avez déjà vue auparavant. Vous pouvez utiliser ce pouvoir deux fois. Vous récupérez les utilisations dépensées après avoir effectué un repos court ou long. Votre niveau de druide détermine le type de bête dont vous pouvez prendre l'apparence, comme indiqué dans la table ci-dessous. Au niveau 2, par exemple, vous pouvez vous transformer en n'importe quelle bête ayant un facteur de puissance de 1/4 ou inférieur et qui n'a ni vitesse de vol ni vitesse de nage. * Niv: 2 -> FPmax: 1/4 -> Restrictions: Pas de vitesse de vol ni de nage -> Exemple: Loup * Niv: 4 -> FPmax: 1/2 -> Restrictions: Pas de vitesse de vol -> Exemple: Crocodile * Niv: 8 -> FPmax: 1 -> Restrictions: Aucune -> Exemple: Aigle géant *  Vous pouvez rester sous forme de bête un nombre d'heures égal à la moitié de votre niveau de druide (arrondi à l'entier inférieur). Une fois le temps écoulé, vous reprenez votre forme normale à moins que vous ne dépensiez une nouvelle utilisation de cette capacité. Vous pouvez également revenir plus tôt à votre forme normale en utilisant une action bonus lors de votre tour. Vous revenez automatiquement à votre forme normale si vous tombez inconscient, si vous tombez à 0 point de vie ou si vous mourrez. Tant que vous êtes transformé, les règles suivantes s'appliquent : 1) Vos statistiques de jeu sont remplacées par celles de la bête, mais vous conservez votre alignement, votre personnalité et vos valeurs de Charisme, Intelligence et Sagesse. Vous conservez également vos maîtrises de jets de sauvegarde et de compétences, en plus de gagner celles de la créature. Si la créature a les mêmes maîtrises que vous et que son bonus dans ce bloc de stat est supérieur au vôtre, utilisez son bonus. Si la créature possède des actions légendaires ou des actions de repaire, vous ne pouvez pas les utiliser. 2) Quand vous vous transformez, vous endossez également les points de vie de la bête et ses dés de vie. Lorsque vous reprenez votre forme vous récupérez le nombre de points de vie que vous aviez avant votre transformation. De plus, si vous vous retransformez parce que vous êtes tombé à 0 point de vie, tous les dégâts supplémentaires sont encaissés par les points de vie de votre forme normale. Par exemple, si vous subissez 10 points de dégâts sous forme animale alors que vous n'aviez plus qu'un point de vie, vous retournez à votre forme normale et encaissez 9 points de dégâts. Tant que ces dégâts résiduels ne font pas tomber les points de vie de votre forme normale à 0, vous ne sombrez pas dans l'inconscience. 3) Vous ne pouvez pas lancer de sorts, et votre capacité à parler ou effectuer toute action qui nécessite des mains est limitée aux possibilités qu'offre votre forme de bête. Toutefois, vous transformer ne brise pas votre concentration sur un sort que vous aviez déjà lancé, ni ne vous empêche d'utiliser une action pour rediriger un sort, comme le sort appel de la foudre, que vous auriez déjà lancé. 4) Vous conservez les bénéfices de toutes vos capacités de classe, de race, ou de n'importe quelle autre origine, et vous pouvez les utiliser si vous en êtes physiquement capable. Cependant, vous ne pouvez pas utiliser de sens spéciaux, comme la vision dans le noir, sauf si votre nouvelle forme les possède également. 5) Vous choisissez si votre équipement tombe sur le sol, fusionne avec votre nouvelle forme ou est porté par votre nouvelle forme. L'équipement porté fonctionne correctement, mais le MD décide pour chaque pièce d'équipement s'il est possible pour votre nouvelle forme de la porter, en fonction de la morphologie et de la taille de la bête. Votre équipement ne change pas de taille ou de forme pour s'adapter à votre nouvelle forme, et tout l'équipement que la nouvelle forme ne peut pas porter tombe sur le sol ou fusionne avec vous. L'équipement qui fusionne avec la nouvelle forme n'a aucun effet tant que vous restez sous cette forme."
-      },
-      "ability_9": {
-        "name": "Cercle druidique",
-        "description": "Au niveau 2, vous devez choisir à quel cercle de druide vous appartenez : le cercle de la terre ou le cercle de la lune, chacun étant détaillé plus bas. Votre choix vous confère de nouvelles capacités aux niveaux 2, puis 6, 10, et 14."
-      },
-      "ability_10": {
-        "name": "Amélioration de caractéristiques",
-        "description": "Au niveau 4, puis par la suite aux niveaux 8, 12, 16 et 19, vous pouvez augmenter une valeur de caractéristique de votre choix de +2, ou bien augmenter deux valeurs de caractéristique de votre choix de +1. Vous ne pouvez cependant pas augmenter une caractéristique au-delà de 20 par ce biais."
-      },
-      "ability_11": {
-        "name": "Jeunesse éternelle",
-        "description": "À partir du niveau 18, la magie primordiale qui vous parcourt ralentit le vieillissement de votre corps. Vous ne prenez qu'un an d'âge toutes les dix années écoulées."
-      },
-      "ability_12": {
-        "name": "Incantation animale",
-        "description": "À partir du niveau 18, vous pouvez lancer sous votre Forme sauvage la plupart de vos sorts de druide. Vous pouvez réaliser les composantes somatiques et verbales d'un sort de druide lorsque vous êtes sous forme de bête, mais vous ne pouvez pas utiliser de composante matérielle."
-      },
-      "ability_13": {
-        "name": "Archidruide",
-        "description": "Au niveau 20, vous pouvez utiliser Forme sauvage un nombre illimité de fois par jour. De plus, vous pouvez ignorer les composantes verbales et somatiques de vos sorts de même que toute composante matérielle non coûteuse qui n'est consommée par le sort. Vous gagnez ces avantages que vous soyez sous votre forme normale ou sous votre forme de bête de Forme sauvage."
-      },
+      "abilities": [
+        {
+          "name": "Druidique",
+          "description": "Vous connaissez le druidique, le langage secret des druides. Vous pouvez parler cette langue et l'utiliser pour laisser des messages secrets. Vous, et les autres personnes connaissant ce langage, remarquez automatiquement un tel message. Les autres personnages remarquent la présence du message s'ils réussissent un jet de Sagesse (Perception) DD 15 mais ne peuvent pas le déchiffrer sans utiliser la magie."
+        },
+        {
+          "name": "Incantation",
+          "description": "Puisant dans l'essence divine de la nature elle-même, vous pouvez lancer des sorts pour modeler cette essence selon votre volonté."
+        },
+        {
+          "name": "Sorts mineurs",
+          "description": "Au niveau 1, vous connaissez deux sorts mineurs de druide de votre choix. Vous apprendrez des sorts mineurs de druide supplémentaires de votre choix aux niveaux supérieurs, comme indiqué dans la colonne Sorts mineurs connus de la table ci-dessus."
+        },
+        {
+          "name": "Préparer et lancer des sorts",
+          "description": "La table du druide montre combien d'emplacements de sorts vous avez pour lancer vos sorts de druide de niveau 1 et supérieur. Pour lancer un de ces sorts, vous devez dépenser un emplacement du niveau du sort ou supérieur. Vous regagnez tous les emplacements de sorts dépensés lorsque vous terminez un repos long. Vous devez préparer la liste des sorts de druide qui vous sont disponibles pour les lancer. Pour ce faire, choisissez un nombre de sorts de druide égal à votre modificateur de Sagesse + votre niveau de druide (minimum un sort). Les sorts doivent être d'un niveau pour lequel vous avez des emplacements de sorts. Par exemple, si vous êtes un druide de niveau 3, vous avez suivant la table quatre emplacements de sorts de niveaux 1 et deux emplacements de sorts de niveau 2. Avec une Sagesse de 16, votre liste de sorts préparés peut inclure six sorts de niveau 1 et 2, selon n'importe quelle combinaison. Si vous préparez le sort de niveau 1 soins, vous pouvez le lancer en utilisant un emplacement de niveau 1 ou de niveau 2. Lancer le sort ne le supprime pas de votre liste de sorts préparés. Vous pouvez modifier votre liste de sorts préparés lorsque vous terminez un repos long. Préparer une nouvelle liste de sorts de druide nécessite du temps pour prier et méditer : au moins 1 minute par niveau de sort pour chaque sort sur votre liste."
+        },
+        {
+          "name": "Caractéristique d'incantation",
+          "description": "La Sagesse est votre caractéristique d'incantation pour vos sorts de druide, étant donné que votre puissance magique dépend de votre dévotion ainsi que de votre connexion à la nature. Vous utilisez votre Sagesse chaque fois qu'un sort se réfère à votre capacité de lancer des sorts. En outre, vous utilisez votre modificateur de Sagesse pour définir le DD du jet de sauvegarde d'un sort de druide que vous lancez ainsi que pour le jet d'attaque de celui-ci. DD de sauvegarde des sorts = 8 + votre bonus de maîtrise + votre modificateur de Sagesse. Modificateur aux attaques avec un sort = votre bonus de maîtrise + votre modificateur de Sagesse."
+        },
+        {
+          "name": "Rituel",
+          "description": "Vous pouvez lancer un sort de druide en tant que rituel si ce sort possède l'étiquette rituel et si vous avez préparé le sort."
+        },
+        {
+          "name": "Focaliseur d'incantation",
+          "description": "Vous pouvez utiliser un focaliseur druidique comme focaliseur d'incantation pour vos sorts de druide."
+        },
+        {
+          "name": "Forme sauvage",
+          "description": "À partir du niveau 2, vous pouvez utiliser votre action pour prendre par magie la forme d'une bête que vous avez déjà vue auparavant. Vous pouvez utiliser ce pouvoir deux fois. Vous récupérez les utilisations dépensées après avoir effectué un repos court ou long. Votre niveau de druide détermine le type de bête dont vous pouvez prendre l'apparence, comme indiqué dans la table ci-dessous. Au niveau 2, par exemple, vous pouvez vous transformer en n'importe quelle bête ayant un facteur de puissance de 1/4 ou inférieur et qui n'a ni vitesse de vol ni vitesse de nage. * Niv: 2 -> FPmax: 1/4 -> Restrictions: Pas de vitesse de vol ni de nage -> Exemple: Loup * Niv: 4 -> FPmax: 1/2 -> Restrictions: Pas de vitesse de vol -> Exemple: Crocodile * Niv: 8 -> FPmax: 1 -> Restrictions: Aucune -> Exemple: Aigle géant *  Vous pouvez rester sous forme de bête un nombre d'heures égal à la moitié de votre niveau de druide (arrondi à l'entier inférieur). Une fois le temps écoulé, vous reprenez votre forme normale à moins que vous ne dépensiez une nouvelle utilisation de cette capacité. Vous pouvez également revenir plus tôt à votre forme normale en utilisant une action bonus lors de votre tour. Vous revenez automatiquement à votre forme normale si vous tombez inconscient, si vous tombez à 0 point de vie ou si vous mourrez. Tant que vous êtes transformé, les règles suivantes s'appliquent : 1) Vos statistiques de jeu sont remplacées par celles de la bête, mais vous conservez votre alignement, votre personnalité et vos valeurs de Charisme, Intelligence et Sagesse. Vous conservez également vos maîtrises de jets de sauvegarde et de compétences, en plus de gagner celles de la créature. Si la créature a les mêmes maîtrises que vous et que son bonus dans ce bloc de stat est supérieur au vôtre, utilisez son bonus. Si la créature possède des actions légendaires ou des actions de repaire, vous ne pouvez pas les utiliser. 2) Quand vous vous transformez, vous endossez également les points de vie de la bête et ses dés de vie. Lorsque vous reprenez votre forme vous récupérez le nombre de points de vie que vous aviez avant votre transformation. De plus, si vous vous retransformez parce que vous êtes tombé à 0 point de vie, tous les dégâts supplémentaires sont encaissés par les points de vie de votre forme normale. Par exemple, si vous subissez 10 points de dégâts sous forme animale alors que vous n'aviez plus qu'un point de vie, vous retournez à votre forme normale et encaissez 9 points de dégâts. Tant que ces dégâts résiduels ne font pas tomber les points de vie de votre forme normale à 0, vous ne sombrez pas dans l'inconscience. 3) Vous ne pouvez pas lancer de sorts, et votre capacité à parler ou effectuer toute action qui nécessite des mains est limitée aux possibilités qu'offre votre forme de bête. Toutefois, vous transformer ne brise pas votre concentration sur un sort que vous aviez déjà lancé, ni ne vous empêche d'utiliser une action pour rediriger un sort, comme le sort appel de la foudre, que vous auriez déjà lancé. 4) Vous conservez les bénéfices de toutes vos capacités de classe, de race, ou de n'importe quelle autre origine, et vous pouvez les utiliser si vous en êtes physiquement capable. Cependant, vous ne pouvez pas utiliser de sens spéciaux, comme la vision dans le noir, sauf si votre nouvelle forme les possède également. 5) Vous choisissez si votre équipement tombe sur le sol, fusionne avec votre nouvelle forme ou est porté par votre nouvelle forme. L'équipement porté fonctionne correctement, mais le MD décide pour chaque pièce d'équipement s'il est possible pour votre nouvelle forme de la porter, en fonction de la morphologie et de la taille de la bête. Votre équipement ne change pas de taille ou de forme pour s'adapter à votre nouvelle forme, et tout l'équipement que la nouvelle forme ne peut pas porter tombe sur le sol ou fusionne avec vous. L'équipement qui fusionne avec la nouvelle forme n'a aucun effet tant que vous restez sous cette forme."
+        },
+        {
+          "name": "Cercle druidique",
+          "description": "Au niveau 2, vous devez choisir à quel cercle de druide vous appartenez : le cercle de la terre ou le cercle de la lune, chacun étant détaillé plus bas. Votre choix vous confère de nouvelles capacités aux niveaux 2, puis 6, 10, et 14."
+        },
+        {
+          "name": "Amélioration de caractéristiques",
+          "description": "Au niveau 4, puis par la suite aux niveaux 8, 12, 16 et 19, vous pouvez augmenter une valeur de caractéristique de votre choix de +2, ou bien augmenter deux valeurs de caractéristique de votre choix de +1. Vous ne pouvez cependant pas augmenter une caractéristique au-delà de 20 par ce biais."
+        },
+        {
+          "name": "Jeunesse éternelle",
+          "description": "À partir du niveau 18, la magie primordiale qui vous parcourt ralentit le vieillissement de votre corps. Vous ne prenez qu'un an d'âge toutes les dix années écoulées."
+        },
+        {
+          "name": "Incantation animale",
+          "description": "À partir du niveau 18, vous pouvez lancer sous votre Forme sauvage la plupart de vos sorts de druide. Vous pouvez réaliser les composantes somatiques et verbales d'un sort de druide lorsque vous êtes sous forme de bête, mais vous ne pouvez pas utiliser de composante matérielle."
+        },
+        {
+          "name": "Archidruide",
+          "description": "Au niveau 20, vous pouvez utiliser Forme sauvage un nombre illimité de fois par jour. De plus, vous pouvez ignorer les composantes verbales et somatiques de vos sorts de même que toute composante matérielle non coûteuse qui n'est consommée par le sort. Vous gagnez ces avantages que vous soyez sous votre forme normale ou sous votre forme de bête de Forme sauvage."
+        }
+      ],
       "specialization": {
         "name": "Cercles druidiques",
         "description": "Bien que leur organisation soit invisible pour la plupart des étrangers, les druides appartiennent à une société qui s'étend sur tout le territoire, ignorant les frontières politiques. Tout druide est membre à part entière de cette société druidique, même si certains sont si isolés qu'ils n'ont jamais vu un membre de haut rang de la société ou participé à des rassemblements druidiques. Les druides se reconnaissent mutuellement comme frères et sœurs. Mais tout comme les créatures des étendues sauvages, les druides sont parfois en concurrence entre eux, voire même s'affrontent. À l'échelle locale, les druides sont organisés en cercles qui partagent certains points de vue sur la nature, l'équilibre, et la vision de ce qu'est un druide.",
-        "choice_1": {
-          "name": "Cercle de la lune",
-          "description": "Les druides du cercle de la lune sont les féroces gardiens du monde sauvage. Leur ordre se réunit lors des pleines lunes pour partager des informations et échanger des avis et avertissements. Ils fréquentent les plus profondes régions des territoires sauvages, où ils peuvent rester des semaines sans croiser le chemin d'une autre créature humanoïde, et encore moins d'un druide. Changeant comme la lune, un druide de ce cercle peut, une nuit, rôder silencieusement comme un chat, survoler la cime des arbres comme un aigle le jour suivant, et débouler au travers des broussailles sous forme d'ours pour chasser un monstre indésirable. Le druide a le monde sauvage dans le sang.",
-          "abilities": {
-            "ability_1": {
-              "name": "Forme sauvage de combat",
-              "description": "Lorsque vous choisissez ce cercle au niveau 2, vous obtenez la possibilité d'utiliser Forme sauvage durant votre tour par une action bonus, au lieu d'une action. De plus, lorsque vous êtes transformé via Forme sauvage, vous pouvez utiliser une action bonus pour dépenser un emplacement de sort et récupérer ainsi 1d8 points de vie par niveau d'emplacement de sort dépensé."
-            },
-            "ability_2": {
-              "name": "Formes du cercle",
-              "description": "Les rites de votre cercle vous permettent de prendre la forme d'animaux plus dangereux. À partir du niveau 2, vous pouvez utiliser Forme sauvage pour vous transformer en une bête de facteur de puissance inférieur ou égal à 1 (ignorez la colonne FP maximum de la table Types de bêtes, vous êtes cependant toujours soumis aux autres restrictions). À partir du niveau 6, vous pouvez vous transformer en une bête de facteur de puissance inférieur ou égal à votre niveau de druide divisé par 3, arrondi à l'entier inférieur."
-            },
-            "ability_3": {
-              "name": "Frappe primitive",
-              "description": "À partir du niveau 6, vos attaques sous forme de bête comptent comme des attaques magiques pour ce qui est de surmonter la résistance et l'immunité aux attaques et dégâts non magiques."
-            },
-            "ability_4": {
-              "name": "Forme sauvage élémentaire",
-              "description": "Au niveau 10, vous pouvez dépenser deux utilisations de Forme sauvage en même temps pour vous transformer en un élémentaire de l'air, de l'eau, de la terre ou du feu."
-            },
-            "ability_5": {
-              "name": "Mille formes",
-              "description": "Au niveau 14, vous avez appris à utiliser la magie pour améliorer votre forme physique de façon plus subtile. Vous pouvez lancer le sort modification d'apparence à volonté."
+        "choices": [
+          {
+            "name": "Cercle de la lune",
+            "description": "Les druides du cercle de la lune sont les féroces gardiens du monde sauvage. Leur ordre se réunit lors des pleines lunes pour partager des informations et échanger des avis et avertissements. Ils fréquentent les plus profondes régions des territoires sauvages, où ils peuvent rester des semaines sans croiser le chemin d'une autre créature humanoïde, et encore moins d'un druide. Changeant comme la lune, un druide de ce cercle peut, une nuit, rôder silencieusement comme un chat, survoler la cime des arbres comme un aigle le jour suivant, et débouler au travers des broussailles sous forme d'ours pour chasser un monstre indésirable. Le druide a le monde sauvage dans le sang.",
+            "abilities": {
+              "ability_1": {
+                "name": "Forme sauvage de combat",
+                "description": "Lorsque vous choisissez ce cercle au niveau 2, vous obtenez la possibilité d'utiliser Forme sauvage durant votre tour par une action bonus, au lieu d'une action. De plus, lorsque vous êtes transformé via Forme sauvage, vous pouvez utiliser une action bonus pour dépenser un emplacement de sort et récupérer ainsi 1d8 points de vie par niveau d'emplacement de sort dépensé."
+              },
+              "ability_2": {
+                "name": "Formes du cercle",
+                "description": "Les rites de votre cercle vous permettent de prendre la forme d'animaux plus dangereux. À partir du niveau 2, vous pouvez utiliser Forme sauvage pour vous transformer en une bête de facteur de puissance inférieur ou égal à 1 (ignorez la colonne FP maximum de la table Types de bêtes, vous êtes cependant toujours soumis aux autres restrictions). À partir du niveau 6, vous pouvez vous transformer en une bête de facteur de puissance inférieur ou égal à votre niveau de druide divisé par 3, arrondi à l'entier inférieur."
+              },
+              "ability_3": {
+                "name": "Frappe primitive",
+                "description": "À partir du niveau 6, vos attaques sous forme de bête comptent comme des attaques magiques pour ce qui est de surmonter la résistance et l'immunité aux attaques et dégâts non magiques."
+              },
+              "ability_4": {
+                "name": "Forme sauvage élémentaire",
+                "description": "Au niveau 10, vous pouvez dépenser deux utilisations de Forme sauvage en même temps pour vous transformer en un élémentaire de l'air, de l'eau, de la terre ou du feu."
+              },
+              "ability_5": {
+                "name": "Mille formes",
+                "description": "Au niveau 14, vous avez appris à utiliser la magie pour améliorer votre forme physique de façon plus subtile. Vous pouvez lancer le sort modification d'apparence à volonté."
+              }
+            }
+          },
+          {
+            "name": "Cercle de la terre",
+            "description": "Le cercle de la terre est constitué de mystiques et de sages qui perpétuent des rites et d'anciens savoirs au travers d'une vaste tradition orale. Ces druides se rencontrent dans ces cercles d'arbres sacrés ou de pierres levées pour se chuchoter des secrets primordiaux en druidique. Les membres les plus sages du cercle officient, en tant que grands prêtres, dans les communautés qui respectent la Vieille Foi et servent de conseillers auprès de leurs dirigeants. En tant que membre de ce cercle, votre magie est influencée par la terre qui vous a vu initié aux rites mystérieux du cercle.",
+            "abilities": {
+              "ability_1": {
+                "name": "Sort mineur supplémentaire",
+                "description": "Lorsque vous choisissez ce cercle au niveau 2, vous apprenez un sort mineur de druide supplémentaire de votre choix. Ce sort mineur ne compte pas dans le nombre de sorts mineurs de druide que vous connaissez."
+              },
+              "ability_2": {
+                "name": "Récupération naturelle",
+                "description": "À partir du niveau 2, vous pouvez récupérer une partie de votre énergie magique en méditant et communiant avec la nature. Lors d'un repos court, vous choisissez les emplacements de sorts que vous souhaitez récupérer. Les emplacements de sorts doivent avoir un niveau cumulé inférieur ou égal à la moitié de votre niveau de druide (arrondi à l'entier supérieur), et aucun de ces emplacements ne doit être de niveau 6 ou supérieur. Vous ne pouvez pas utiliser de nouveau cette capacité avant d'avoir terminé un repos long. Par exemple, si vous êtes un druide de niveau 4, vous pouvez récupérer jusqu'à deux niveaux d'emplacement de sort. Vous pouvez soit choisir un emplacement de sort de niveau 2, soit deux emplacements de sorts de niveau 1."
+              },
+              "ability_3": {
+                "name": "Sorts de cercle",
+                "description": "Votre connexion mystique à la terre vous permet de lancer certains sorts. Aux niveaux 3, 5, 7 et 9, vous accédez à des sorts de cercle liés à la terre qui vous a vu devenir druide. Choisissez ce terrain (arctique, désert, forêt, littoral, marais, montagne, Outreterre ou plaine) et consultez la liste de sorts associée. Une fois que vous avez accès à un sort de cercle, ce sort est constamment préparé et ne compte pas dans le total de sorts que vous pouvez préparer chaque jour. Si vous accédez à un sort qui n'apparaît pas dans la liste de sorts du druide, ce sort est néanmoins considéré comme étant un sort de druide pour vous."
+              },
+              "ability_4": {
+                "name": "Arctique",
+                "description": "(lvl 3) croissance d'épines, immobilisation de personne / (lvl 5) lenteur, tempête de neige / (lvl 7) liberté de mouvement, tempête de grêle / (lvl 9) communion avec la nature, cône de froid"
+              },
+              "ability_5": {
+                "name": "Désert",
+                "description": "(lvl 3) flou, silence / (lvl 5) création de nourriture et d'eau, protection contre une énergie / (lvl 7) flétrissement, terrain hallucinatoire / (lvl 9) fléau d'insectes, mur de pierre"
+              },
+              "ability_6": {
+                "name": "Forêt",
+                "description": "(lvl 3) pattes d'araignée, peau d'écorce / (lvl 5) appel de la foudre, croissance végétale / (lvl 7) divination, liberté de mouvement / (lvl 9) communion avec la nature, passage par les arbres"
+              },
+              "ability_7": {
+                "name": "Littoral",
+                "description": "(lvl 3) foulée brumeuse, image miroir / (lvl 5) marche sur l'eau, respiration aquatique / (lvl 7) contrôle de l'eau, liberté de mouvement / (lvl 9) invocation d'élémentaire, scrutation"
+              },
+              "ability_8": {
+                "name": "Marais",
+                "description": "(lvl 3) flèche acide de Melf, ténèbres / (lvl 5) marche sur l'eau, nuage nauséabond / (lvl 7) liberté de mouvement, localisation de créature / (lvl 9) fléau d'insectes, scrutation"
+              },
+              "ability_9": {
+                "name": "Montagne",
+                "description": "(lvl 3) croissance d'épines, pattes d'araignée / (lvl 5) éclair, fusion dans la pierre / (lvl 7) façonnage de la pierre, peau de pierre / (lvl 9) mur de pierre, passe-muraille"
+              },
+              "ability_10": {
+                "name": "Outreterre",
+                "description": "(lvl 3) pattes d'araignée, toile d'araignée / (lvl 5) forme gazeuse, nuage nauséabond / (lvl 7) façonnage de la pierre, invisibilité supérieure / (lvl 9) brume mortelle, fléau d'insectes"
+              },
+              "ability_11": {
+                "name": "Plaine",
+                "description": "(lvl 3) invisibilité, passage sans trace / (lvl 5) hâte, lumière du jour / (lvl 7) divination, liberté de mouvement / (lvl 9) fléau d'insectes, songe"
+              },
+              "ability_12": {
+                "name": "Foulée tellurique",
+                "description": "À partir du niveau 6, vous déplacer sur un terrain difficile non magique ne vous coûte pas de déplacement supplémentaire. Vous pouvez également traverser la végétation non magique sans être ralenti et sans subir de dégâts si elle est constituée d'épines, de pointes ou d'autres inconvénients similaires. De plus, vous avez un avantage aux jets de sauvegarde contre les plantes qui ont été créées magiquement ou manipulées pour empêcher les mouvements, comme celles créées par le sort enchevêtrement."
+              },
+              "ability_13": {
+                "name": "Protégé de dame Nature",
+                "description": "Lorsque vous atteignez le niveau 10, vous ne pouvez plus être charmé ou effrayé par les élémentaires ou les fées, et vous êtes immunisé contre les poisons et les maladies."
+              },
+              "ability_14": {
+                "name": "Sanctuaire de dame Nature",
+                "description": "Lorsque vous atteignez le niveau 14, les créatures du monde naturel ressentent votre connexion avec la nature et hésitent à vous attaquer. Quand une bête ou une plante vous attaque, cette créature doit réussir un jet de sauvegarde de Sagesse contre votre DD de sort de druide. Si elle échoue, la créature doit choisir une autre cible, ou bien l'attaque rate automatiquement. En cas de jet de sauvegarde réussi, la créature est immunisée à cet effet pour 24 heures. La créature est consciente de cet effet avant qu'elle n'effectue son attaque contre vous."
+              }
             }
           }
-        },
-        "choice_2": {
-          "name": "Cercle de la terre",
-          "description": "Le cercle de la terre est constitué de mystiques et de sages qui perpétuent des rites et d'anciens savoirs au travers d'une vaste tradition orale. Ces druides se rencontrent dans ces cercles d'arbres sacrés ou de pierres levées pour se chuchoter des secrets primordiaux en druidique. Les membres les plus sages du cercle officient, en tant que grands prêtres, dans les communautés qui respectent la Vieille Foi et servent de conseillers auprès de leurs dirigeants. En tant que membre de ce cercle, votre magie est influencée par la terre qui vous a vu initié aux rites mystérieux du cercle.",
-          "abilities": {
-            "ability_1": {
-              "name": "Sort mineur supplémentaire",
-              "description": "Lorsque vous choisissez ce cercle au niveau 2, vous apprenez un sort mineur de druide supplémentaire de votre choix. Ce sort mineur ne compte pas dans le nombre de sorts mineurs de druide que vous connaissez."
-            },
-            "ability_2": {
-              "name": "Récupération naturelle",
-              "description": "À partir du niveau 2, vous pouvez récupérer une partie de votre énergie magique en méditant et communiant avec la nature. Lors d'un repos court, vous choisissez les emplacements de sorts que vous souhaitez récupérer. Les emplacements de sorts doivent avoir un niveau cumulé inférieur ou égal à la moitié de votre niveau de druide (arrondi à l'entier supérieur), et aucun de ces emplacements ne doit être de niveau 6 ou supérieur. Vous ne pouvez pas utiliser de nouveau cette capacité avant d'avoir terminé un repos long. Par exemple, si vous êtes un druide de niveau 4, vous pouvez récupérer jusqu'à deux niveaux d'emplacement de sort. Vous pouvez soit choisir un emplacement de sort de niveau 2, soit deux emplacements de sorts de niveau 1."
-            },
-            "ability_3": {
-              "name": "Sorts de cercle",
-              "description": "Votre connexion mystique à la terre vous permet de lancer certains sorts. Aux niveaux 3, 5, 7 et 9, vous accédez à des sorts de cercle liés à la terre qui vous a vu devenir druide. Choisissez ce terrain (arctique, désert, forêt, littoral, marais, montagne, Outreterre ou plaine) et consultez la liste de sorts associée. Une fois que vous avez accès à un sort de cercle, ce sort est constamment préparé et ne compte pas dans le total de sorts que vous pouvez préparer chaque jour. Si vous accédez à un sort qui n'apparaît pas dans la liste de sorts du druide, ce sort est néanmoins considéré comme étant un sort de druide pour vous."
-            },
-            "ability_4": {
-              "name": "Arctique",
-              "description": "(lvl 3) croissance d'épines, immobilisation de personne / (lvl 5) lenteur, tempête de neige / (lvl 7) liberté de mouvement, tempête de grêle / (lvl 9) communion avec la nature, cône de froid"
-            },
-            "ability_5": {
-              "name": "Désert",
-              "description": "(lvl 3) flou, silence / (lvl 5) création de nourriture et d'eau, protection contre une énergie / (lvl 7) flétrissement, terrain hallucinatoire / (lvl 9) fléau d'insectes, mur de pierre"
-            },
-            "ability_6": {
-              "name": "Forêt",
-              "description": "(lvl 3) pattes d'araignée, peau d'écorce / (lvl 5) appel de la foudre, croissance végétale / (lvl 7) divination, liberté de mouvement / (lvl 9) communion avec la nature, passage par les arbres"
-            },
-            "ability_7": {
-              "name": "Littoral",
-              "description": "(lvl 3) foulée brumeuse, image miroir / (lvl 5) marche sur l'eau, respiration aquatique / (lvl 7) contrôle de l'eau, liberté de mouvement / (lvl 9) invocation d'élémentaire, scrutation"
-            },
-            "ability_8": {
-              "name": "Marais",
-              "description": "(lvl 3) flèche acide de Melf, ténèbres / (lvl 5) marche sur l'eau, nuage nauséabond / (lvl 7) liberté de mouvement, localisation de créature / (lvl 9) fléau d'insectes, scrutation"
-            },
-            "ability_9": {
-              "name": "Montagne",
-              "description": "(lvl 3) croissance d'épines, pattes d'araignée / (lvl 5) éclair, fusion dans la pierre / (lvl 7) façonnage de la pierre, peau de pierre / (lvl 9) mur de pierre, passe-muraille"
-            },
-            "ability_10": {
-              "name": "Outreterre",
-              "description": "(lvl 3) pattes d'araignée, toile d'araignée / (lvl 5) forme gazeuse, nuage nauséabond / (lvl 7) façonnage de la pierre, invisibilité supérieure / (lvl 9) brume mortelle, fléau d'insectes"
-            },
-            "ability_11": {
-              "name": "Plaine",
-              "description": "(lvl 3) invisibilité, passage sans trace / (lvl 5) hâte, lumière du jour / (lvl 7) divination, liberté de mouvement / (lvl 9) fléau d'insectes, songe"
-            },
-            "ability_12": {
-              "name": "Foulée tellurique",
-              "description": "À partir du niveau 6, vous déplacer sur un terrain difficile non magique ne vous coûte pas de déplacement supplémentaire. Vous pouvez également traverser la végétation non magique sans être ralenti et sans subir de dégâts si elle est constituée d'épines, de pointes ou d'autres inconvénients similaires. De plus, vous avez un avantage aux jets de sauvegarde contre les plantes qui ont été créées magiquement ou manipulées pour empêcher les mouvements, comme celles créées par le sort enchevêtrement."
-            },
-            "ability_13": {
-              "name": "Protégé de dame Nature",
-              "description": "Lorsque vous atteignez le niveau 10, vous ne pouvez plus être charmé ou effrayé par les élémentaires ou les fées, et vous êtes immunisé contre les poisons et les maladies."
-            },
-            "ability_14": {
-              "name": "Sanctuaire de dame Nature",
-              "description": "Lorsque vous atteignez le niveau 14, les créatures du monde naturel ressentent votre connexion avec la nature et hésitent à vous attaquer. Quand une bête ou une plante vous attaque, cette créature doit réussir un jet de sauvegarde de Sagesse contre votre DD de sort de druide. Si elle échoue, la créature doit choisir une autre cible, ou bien l'attaque rate automatiquement. En cas de jet de sauvegarde réussi, la créature est immunisée à cet effet pour 24 heures. La créature est consciente de cet effet avant qu'elle n'effectue son attaque contre vous."
-            }
-          }
-        }
+        ]
       }
     },
-    "tables": {}
+    "tables": []
   },
   {
     "contentType": "class",
@@ -780,14 +789,14 @@
         "saving_throws": "Constitution, Charisme",
         "skills": "choisissez deux compétences parmi Arcanes, Intimidation, Intuition, Persuasion, Religion et Tromperie"
       },
-      "equipement": {
+      "equipment": {
         "description": "Vous commencez avec l'équipement suivant, en plus de l'équipement accordé par votre historique :",
-        "choices": {
-          "stuff_1": "(a) une arbalète légère et 20 carreaux ou (b) n'importe quelle arme courante",
-          "stuff_2": "(a) une sacoche à composantes ou (b) un focaliseur arcanique",
-          "stuff_3": "(a) un sac d'exploration souterraine ou (b) un sac d'explorateur",
-          "stuff_4": "deux dagues"
-        }
+        "choices": [
+          "(a) une arbalète légère et 20 carreaux ou (b) n'importe quelle arme courante",
+          "(a) une sacoche à composantes ou (b) un focaliseur arcanique",
+          "(a) un sac d'exploration souterraine ou (b) un sac d'explorateur",
+          "deux dagues"
+        ]
       },
       "leveling_table": "./assets/images/lvlclass/lvl_Ensorceleur.webp",
       "ability_1": {
@@ -1170,7 +1179,7 @@
         "saving_throws": "Force, Constitution",
         "skills": "choisissez deux compétences parmi Acrobaties, Athlétisme, Dressage, Histoire, Intimidation, Intuition, Perception et Survie"
       },
-      "equipement": {
+      "equipment": {
         "description": "Vous commencez avec l'équipement suivant, en plus de l'équipement accordé par votre historique :",
         "choices": {
           "stuff_1": "(a) une cotte de mailles ou (b) une armure de cuir, un arc long et 20 flèches",
@@ -1525,7 +1534,7 @@
         "saving_throws": "Intelligence, Sagesse",
         "skills": "choisissez deux compétences parmi Arcanes, Histoire, Intuition, Investigation, Médecine et Religion"
       },
-      "equipement": {
+      "equipment": {
         "description": "Vous commencez avec l'équipement suivant, en plus de l'équipement accordé par votre historique :",
         "choices": {
           "stuff_1": "(a) un bâton ou (b) une dague",
@@ -1831,7 +1840,7 @@
         "saving_throws": "Force, Dextérité",
         "skills": "choisissez deux compétences parmi Acrobaties, Athlétisme, Discrétion, Histoire, Intuition et Religion"
       },
-      "equipement": {
+      "equipment": {
         "description": "Vous commencez avec l'équipement suivant, en plus de l'équipement accordé par votre historique :",
         "choices": {
           "stuff_1": "(a) une épée courte ou (b) n'importe quelle arme courante",
@@ -2098,7 +2107,7 @@
         "saving_throws": "Sagesse, Charisme",
         "skills": "choisissez deux compétences parmi Arcanes, Histoire, Intimidation, Investigation, Nature, Religion et Tromperie"
       },
-      "equipement": {
+      "equipment": {
         "description": "Vous commencez avec l'équipement suivant, en plus de l'équipement accordé par votre historique :",
         "choices": {
           "stuff_1": "(a) une arbalète légère et 20 carreaux ou (b) n'importe quelle arme courante",
@@ -2352,7 +2361,7 @@
         "saving_throws": "Sagesse, Charisme",
         "skills": "choisissez deux compétences parmi Athlétisme, Intimidation, Intuition, Médecine, Persuasion et Religion"
       },
-      "equipement": {
+      "equipment": {
         "description": "Vous commencez avec l'équipement suivant, en plus de l'équipement accordé par votre historique :",
         "choices": {
           "stuff_1": "(a) une arme de guerre et un bouclier ou (b) deux armes de guerre",
@@ -2682,7 +2691,7 @@
         "saving_throws": "Force, Dextérité",
         "skills": "choisissez trois compétences parmi Athlétisme, Discrétion, Dressage, Intuition, Investigation, Nature, Perception et Survie"
       },
-      "equipement": {
+      "equipment": {
         "description": "Vous commencez avec l'équipement suivant, en plus de l'équipement accordé par votre historique :",
         "choices": {
           "stuff_1": "(a) armure d'écailles ou (b) armure de cuir",
@@ -2852,7 +2861,7 @@
         "saving_throws": "Dextérité, Intelligence",
         "skills": "choisissez quatre compétences parmi Acrobaties, Athlétisme, Discrétion, Escamotage, Intimidation, Intuition, Investigation, Perception, Persuasion, Représentation et Tromperie"
       },
-      "equipement": {
+      "equipment": {
         "description": "Vous commencez avec l'équipement suivant, en plus de l'équipement accordé par votre historique :",
         "choices": {
           "stuff_1": "(a) une rapière ou (b) une épée courte",

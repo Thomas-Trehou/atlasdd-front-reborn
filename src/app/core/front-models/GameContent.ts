@@ -93,7 +93,7 @@ export interface ClassAbilities {
   equipment: Equipment;
   leveling_table: string;
   abilities: Ability[];
-  specializations: Specialization[];
+  specialization: Specialization;
 }
 
 export interface ClassContent extends BaseGameContent {

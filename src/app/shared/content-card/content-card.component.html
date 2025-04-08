@@ -189,28 +189,52 @@
               </div>
             </div>
 
-            <!-- Spécialisations -->
-            <div *ngIf="classContent.class_abilities.specializations?.length" class="space-y-4">
-              <h3 class="text-xl font-semibold text-primary-600">Spécialisations</h3>
-              <div *ngFor="let spec of classContent.class_abilities.specializations" class="bg-gray-50 rounded-lg p-4">
-                <h4 class="text-lg font-semibold text-primary-700 mb-2">{{ spec.name }}</h4>
-                <p class="text-gray-700 mb-4">{{ spec.description }}</p>
+            <!-- Spécialisation -->
+            <div *ngIf="classContent.class_abilities.specialization" class="space-y-4">
+              <h3 class="text-xl font-semibold text-primary-600">Spécialisation</h3>
+              <div class="bg-gray-50 rounded-lg p-4">
+                <h4 class="text-lg font-semibold text-primary-700 mb-2">{{ classContent.class_abilities.specialization.name }}</h4>
+                <p class="text-gray-700 mb-4">{{ classContent.class_abilities.specialization.description }}</p>
 
-                <div *ngIf="spec.choices?.length" class="space-y-4 mt-4">
-                  <div *ngFor="let choice of spec.choices" class="border-l-4 border-primary-300 pl-4">
-                    <h5 class="font-medium text-primary-600 mb-2">{{ choice.name }}</h5>
-                    <p class="text-gray-700 mb-3">{{ choice.description }}</p>
+                <div *ngIf="classContent.class_abilities.specialization.choices?.length" class="space-y-4 mt-4">
+                  <div *ngFor="let choice of classContent.class_abilities.specialization.choices; let i = index"
+                       class="border border-primary-200 rounded-lg overflow-hidden">
+                    <!-- En-tête du déroulant (toujours visible) -->
+                    <button
+                      (click)="toggleSpecChoice(i)"
+                      class="w-full flex justify-between items-center p-4 bg-primary-50 hover:bg-primary-100 transition-colors text-left"
+                      [attr.aria-expanded]="isSpecChoiceOpen(i)"
+                      [attr.aria-controls]="'spec-choice-' + i">
+                      <h5 class="font-medium text-primary-600">{{ choice.name }}</h5>
+                      <svg
+                        class="w-5 h-5 transition-transform transform"
+                        [ngClass]="{'rotate-180': isSpecChoiceOpen(i)}"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
 
-                    <div *ngIf="choice.abilities?.length" class="space-y-3 mt-3">
-                      <div *ngFor="let ability of choice.abilities">
-                        <h6 class="font-medium text-primary-500">{{ ability.name }}</h6>
-                        <p class="text-gray-700">{{ ability.description }}</p>
+                    <!-- Contenu du déroulant (visible uniquement lorsqu'il est ouvert) -->
+                    <div
+                      id="'spec-choice-' + i"
+                      class="p-4 bg-white transition-all overflow-hidden"
+                      [ngClass]="{'hidden': !isSpecChoiceOpen(i), 'block': isSpecChoiceOpen(i)}">
+                      <p class="text-gray-700 mb-3">{{ choice.description }}</p>
+
+                      <div *ngIf="choice.abilities?.length" class="space-y-3 mt-3">
+                        <div *ngFor="let ability of choice.abilities" class="border-l-4 border-primary-300 pl-4 py-2">
+                          <h6 class="font-medium text-primary-500">{{ ability.name }}</h6>
+                          <p class="text-gray-700">{{ ability.description }}</p>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+
           </div>
 
           <!-- Tables supplémentaires -->

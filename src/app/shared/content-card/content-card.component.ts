@@ -21,6 +21,15 @@ import { KeyValuePipe } from '@angular/common';
 export class ContentCardComponent {
   @Input() content!: () => GameContent;
   @Input() contentTypeValue?: 'race' | 'background' | 'class' | 'unknown';
+  private openSpecChoices: boolean[] = [];
+
+  isSpecChoiceOpen(index: number): boolean {
+    return this.openSpecChoices[index] === true;
+  }
+
+  toggleSpecChoice(index: number): void {
+    this.openSpecChoices[index] = !this.openSpecChoices[index];
+  }
 
   // Vérifier si le content est défini avant utilisation
   safeContent(): GameContent {
@@ -134,4 +143,5 @@ export class ContentCardComponent {
   protected readonly isRaceContent = isRaceContent;
   protected readonly isBackgroundContent = isBackgroundContent;
   protected readonly isClassContent = isClassContent;
+
 }
