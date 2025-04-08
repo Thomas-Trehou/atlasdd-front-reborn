@@ -1,20 +1,24 @@
 <article class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-  <header class="relative">
-    <img
-      [src]="safeContent().imageUrl"
-      [alt]="safeContent().alt"
-      [attr.aria-label]="safeContent().aria"
-      class="w-full h-64 object-cover transition-transform duration-300 hover:scale-105"
-    >
-    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-      <h2 class="text-2xl text-white font-bold">{{ safeContent().name }}</h2>
+  <header class="relative flex flex-col md:flex-row">
+    <div class="relative md:w-1/2">
+      <img
+        [src]="safeContent().imageUrl"
+        [alt]="safeContent().alt"
+        [attr.aria-label]="safeContent().aria"
+        class="w-full h-64 md:h-full object-cover transition-transform duration-300 hover:scale-105"
+      >
+      <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+        <h2 class="text-2xl text-white font-bold">{{ safeContent().name }}</h2>
+      </div>
+    </div>
+
+    <div class="p-6 md:w-1/2 flex items-center bg-gray-50">
+      <p class="text-gray-700 leading-relaxed">{{ safeContent().description }}</p>
     </div>
   </header>
 
   <div class="p-6 space-y-6">
-    <p class="text-gray-700 leading-relaxed">{{ safeContent().description }}</p>
-
-    <ng-container [ngSwitch]="contentType()">
+  <ng-container [ngSwitch]="contentType()">
       <!-- Pour les races -->
       <div *ngSwitchCase="'race'" class="space-y-6">
         <ng-container *ngIf="getRaceDetails()">
@@ -87,13 +91,7 @@
       <!-- Pour les classes -->
       <div *ngSwitchCase="'class'" class="space-y-6">
         <ng-container *ngIf="getClassContent() as classContent">
-          <!-- Illustration des capacités -->
-          <div *ngIf="classContent.alt_abilities" class="bg-gray-50 rounded-lg p-4">
-            <h3 class="text-lg font-semibold text-primary-600 mb-2">Aperçu des capacités</h3>
-            <p class="text-gray-700">{{ classContent.alt_abilities }}</p>
-          </div>
-
-          <!-- Trait principal -->
+          <!-- Trait caractéristique -->
           <div *ngIf="classContent.trait && classContent.trait_description" class="bg-gray-50 rounded-lg p-4">
             <h3 class="text-lg font-semibold text-primary-600 mb-2">{{ classContent.trait }}</h3>
             <p class="text-gray-700">{{ classContent.trait_description }}</p>
@@ -109,6 +107,133 @@
           <div *ngIf="classContent.create && classContent.create_description" class="bg-gray-50 rounded-lg p-4">
             <h3 class="text-lg font-semibold text-primary-600 mb-2">{{ classContent.create }}</h3>
             <p class="text-gray-700">{{ classContent.create_description }}</p>
+            <p *ngIf="classContent.create_fast" class="text-gray-700 mt-2 italic">{{ classContent.create_fast }}</p>
+          </div>
+
+          <!-- Capacités de classe -->
+          <div *ngIf="classContent.class_abilities" class="space-y-6">
+            <img
+              *ngIf="classContent.alt_abilities && classContent.class_abilities.leveling_table"
+              [src]="classContent.class_abilities.leveling_table"
+              [alt]="classContent.alt_abilities"
+              class="w-full rounded-lg shadow-md"
+            >
+
+            <!-- Santé -->
+            <div *ngIf="classContent.class_abilities.health" class="bg-gray-50 rounded-lg p-4">
+              <h3 class="text-xl font-semibold mb-3 text-primary-600">Points de vie</h3>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <h4 class="font-medium text-primary-700">Dés de vie</h4>
+                  <p class="text-gray-700">{{ classContent.class_abilities.health.hit_dice }}</p>
+                </div>
+                <div>
+                  <h4 class="font-medium text-primary-700">Points de vie au niveau 1</h4>
+                  <p class="text-gray-700">{{ classContent.class_abilities.health.health_at_lvl_1 }}</p>
+                </div>
+                <div>
+                  <h4 class="font-medium text-primary-700">Points de vie aux niveaux supérieurs</h4>
+                  <p class="text-gray-700">{{ classContent.class_abilities.health.health_by_lvl }}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Maîtrises -->
+            <div *ngIf="classContent.class_abilities.masteries" class="bg-gray-50 rounded-lg p-4">
+              <h3 class="text-xl font-semibold mb-3 text-primary-600">Maîtrises</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <h4 class="font-medium text-primary-700">Armures</h4>
+                  <p class="text-gray-700">{{ classContent.class_abilities.masteries.armors }}</p>
+                </div>
+                <div>
+                  <h4 class="font-medium text-primary-700">Armes</h4>
+                  <p class="text-gray-700">{{ classContent.class_abilities.masteries.weapons }}</p>
+                </div>
+                <div>
+                  <h4 class="font-medium text-primary-700">Outils</h4>
+                  <p class="text-gray-700">{{ classContent.class_abilities.masteries.tools }}</p>
+                </div>
+                <div>
+                  <h4 class="font-medium text-primary-700">Jets de sauvegarde</h4>
+                  <p class="text-gray-700">{{ classContent.class_abilities.masteries.saving_throws }}</p>
+                </div>
+                <div>
+                  <h4 class="font-medium text-primary-700">Compétences</h4>
+                  <p class="text-gray-700">{{ classContent.class_abilities.masteries.skills }}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Équipement -->
+            <div *ngIf="classContent.class_abilities.equipment" class="bg-gray-50 rounded-lg p-4">
+              <h3 class="text-xl font-semibold mb-3 text-primary-600">Équipement</h3>
+              <p class="text-gray-700 mb-3">{{ classContent.class_abilities.equipment.description }}</p>
+              <div class="space-y-2">
+                <div *ngFor="let choice of classContent.class_abilities.equipment.choices; let i = index"
+                     class="flex items-start">
+            <span class="inline-block w-6 h-6 bg-primary-100 text-primary-600 rounded-full text-center mr-2">
+              {{ i + 1 }}
+            </span>
+                  <span class="text-gray-700">{{ choice }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Capacités -->
+            <div *ngIf="classContent.class_abilities.abilities?.length" class="bg-gray-50 rounded-lg p-4">
+              <h3 class="text-xl font-semibold mb-3 text-primary-600">Capacités de classe</h3>
+              <div *ngFor="let ability of classContent.class_abilities.abilities" class="mb-4 last:mb-0">
+                <h4 class="font-medium text-primary-700 mb-1">{{ ability.name }}</h4>
+                <p class="text-gray-700">{{ ability.description }}</p>
+              </div>
+            </div>
+
+            <!-- Spécialisations -->
+            <div *ngIf="classContent.class_abilities.specializations?.length" class="space-y-4">
+              <h3 class="text-xl font-semibold text-primary-600">Spécialisations</h3>
+              <div *ngFor="let spec of classContent.class_abilities.specializations" class="bg-gray-50 rounded-lg p-4">
+                <h4 class="text-lg font-semibold text-primary-700 mb-2">{{ spec.name }}</h4>
+                <p class="text-gray-700 mb-4">{{ spec.description }}</p>
+
+                <div *ngIf="spec.choices?.length" class="space-y-4 mt-4">
+                  <div *ngFor="let choice of spec.choices" class="border-l-4 border-primary-300 pl-4">
+                    <h5 class="font-medium text-primary-600 mb-2">{{ choice.name }}</h5>
+                    <p class="text-gray-700 mb-3">{{ choice.description }}</p>
+
+                    <div *ngIf="choice.abilities?.length" class="space-y-3 mt-3">
+                      <div *ngFor="let ability of choice.abilities">
+                        <h6 class="font-medium text-primary-500">{{ ability.name }}</h6>
+                        <p class="text-gray-700">{{ ability.description }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tables supplémentaires -->
+          <div *ngIf="classContent.tables?.length" class="space-y-4">
+            <div *ngFor="let table of classContent.tables" class="bg-gray-50 rounded-lg p-4">
+              <h3 class="text-lg font-semibold text-primary-600 mb-3">{{ table.name }}</h3>
+              <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                  <thead class="bg-gray-100">
+                  <tr>
+                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Valeur</th>
+                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Effet</th>
+                  </tr>
+                  </thead>
+                  <tbody class="bg-white divide-y divide-gray-200">
+                  <tr *ngFor="let choice of table.choices">
+                    <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-700">{{ choice.value }}</td>
+                    <td class="px-4 py-2 text-sm text-gray-700">{{ choice.effect }}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </ng-container>
       </div>

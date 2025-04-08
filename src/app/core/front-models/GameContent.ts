@@ -2,13 +2,13 @@
 export type ContentType = 'race' | 'background' | 'class';
 
 export interface BaseGameContent {
+  contentType: ContentType;
   index: string;
   imageUrl: string;
   name: string;
   alt: string;
   aria: string;
   description: string;
-  contentType: ContentType; // Nouvelle propriété pour distinguer explicitement les types
 }
 
 export interface RaceContent extends BaseGameContent {
@@ -41,6 +41,61 @@ export interface BackgroundContent extends BaseGameContent {
   };
 }
 
+export interface TableChoice {
+  value: string;
+  effect: string;
+}
+
+export interface Table {
+  name: string;
+  choices: TableChoice[];
+}
+
+export interface Health {
+  hit_dice: string;
+  health_at_lvl_1: string;
+  health_by_lvl: string;
+}
+
+export interface Masteries {
+  armors: string;
+  weapons: string;
+  tools: string;
+  saving_throws: string;
+  skills: string;
+}
+
+export interface Equipment {
+  description: string;
+  choices: string[];
+}
+
+export interface Ability {
+  name: string;
+  description: string;
+}
+
+export interface SpecializationChoice {
+  name: string;
+  description: string;
+  abilities: Ability[];
+}
+
+export interface Specialization {
+  name: string;
+  description: string;
+  choices: SpecializationChoice[];
+}
+
+export interface ClassAbilities {
+  health: Health;
+  masteries: Masteries;
+  equipment: Equipment;
+  leveling_table: string;
+  abilities: Ability[];
+  specializations: Specialization[];
+}
+
 export interface ClassContent extends BaseGameContent {
   contentType: 'class';
   alt_abilities?: string;
@@ -50,6 +105,9 @@ export interface ClassContent extends BaseGameContent {
   class_principles_description?: string;
   create?: string;
   create_description?: string;
+  create_fast?: string;
+  class_abilities?: ClassAbilities;
+  tables?: Table[];
 
 }
 

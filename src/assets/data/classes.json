@@ -17,24 +17,24 @@
     "create_fast": "Vous pouvez concevoir rapidement un barbare en suivant ces quelques suggestions. En premier lieu, la Force devrait être votre plus haute valeur de caractéristique, suivie par la Constitution. Ensuite, choisissez l'historique sauvageon.",
     "class_abilities": {
       "health": {
-        "dé_de_vie": "1d12 par niveau de barbare",
-        "vie_au_niveau_1": "12 + votre modificateur de Constitution",
-        "vie_par_niveau": "1d12 (ou 7) + votre modificateur de Constitution"
+        "hit_dice": "1d12 par niveau de barbare",
+        "health_at_lvl_1": "12 + votre modificateur de Constitution",
+        "health_by_lvl": "1d12 (ou 7) + votre modificateur de Constitution"
       },
       "masteries": {
-        "armures": "armures légères, armures intermédiaires, boucliers",
-        "armes": "armes courantes, armes de guerre",
-        "outils": "aucun",
-        "jet_de_sauvegarde": "Force, Constitution",
-        "compétences": "choisissez deux compétences parmi Athlétisme, Dressage, Intimidation, Nature, Perception et Survie"
+        "armors": "armures légères, armures intermédiaires, boucliers",
+        "weapons": "armes courantes, armes de guerre",
+        "tools": "aucun",
+        "saving_throws": "Force, Constitution",
+        "skills": "choisissez deux compétences parmi Athlétisme, Dressage, Intimidation, Nature, Perception et Survie"
       },
       "equipement": {
         "description": "Vous commencez avec l'équipement suivant, en plus de l'équipement accordé par votre historique :",
-        "choices": {
-          "stuff_1": "(a) une hache à deux mains ou (b) n'importe quelle arme de guerre de corps à corps",
-          "stuff_2": "(a) deux hachettes ou (b) n'importe quelle arme courante",
-          "stuff_3": "un sac d'explorateur et quatre javelines"
-        }
+        "choices": [
+          "(a) une hache à deux mains ou (b) n'importe quelle arme de guerre de corps à corps",
+          "(a) deux hachettes ou (b) n'importe quelle arme courante",
+          "un sac d'explorateur et quatre javelines"
+        ]
       },
       "leveling_table": "./assets/images/lvlclass/lvl_Barbare.webp",
       "abilities": [
@@ -95,7 +95,8 @@
           "description": "Au niveau 20, vous êtes l'incarnation de la puissance du monde sauvage. Vos valeurs de Force et de Constitution augmentent de 4. Votre maximum dans ces valeurs de caractéristique est maintenant de 24."
         }
       ],
-      "specialization": {
+      "specialization":
+      {
         "name": "Voies primitives",
         "description": "La rage brûle dans le cœur de tous les barbares, tel un four qui les pousse vers la grandeur. Toutefois, les barbares n'attribuent pas tous cette rage à la même source. Pour certains, c'est un réservoir interne où la douleur, le chagrin et la colère se forgent en une fureur aussi dure que l'acier, alors que d'autres y voient une bénédiction spirituelle, le cadeau d'un animal totem.",
         "choices": [
@@ -234,16 +235,16 @@
     "create_fast": "Vous pouvez concevoir rapidement un barde en suivant ces quelques suggestions. En premier lieu, le Charisme devrait être votre plus haute valeur de caractéristique, suivie par la Dextérité. Ensuite, choisissez l'historique artiste. Enfin, choisissez les sorts mineurs lumières dansantes et moquerie cruelle, en plus des sorts de niveau 1 charme-personne, détection de la magie, mot de guérison et vague tonnante.",
     "class_abilities": {
       "health": {
-        "dé_de_vie": "1d8 par niveau de barde",
-        "vie_au_niveau_1": "8 + votre modificateur de Constitution",
-        "vie_par_niveau": "1d8 (ou 5) + votre modificateur de Constitution"
+        "hit_dice": "1d8 par niveau de barde",
+        "health_at_lvl_1": "8 + votre modificateur de Constitution",
+        "health_by_lvl": "1d8 (ou 5) + votre modificateur de Constitution"
       },
       "masteries": {
-        "armures": "armures légères",
-        "armes": "armes courantes, arbalète de poing, épée longue, épée courte, rapière",
-        "outils": "trois instruments de musique de votre choix",
-        "jet_de_sauvegarde": "Dextérité, Charisme",
-        "compétences": "choisissez trois compétences de votre choix"
+        "armors": "armures légères",
+        "weapons": "armes courantes, arbalète de poing, épée longue, épée courte, rapière",
+        "tools": "trois instruments de musique de votre choix",
+        "saving_throws": "Dextérité, Charisme",
+        "skills": "choisissez trois compétences de votre choix"
       },
       "equipement": {
         "description": "Vous commencez avec l'équipement suivant, en plus de l'équipement accordé par votre historique :",
@@ -394,16 +395,16 @@
     "create_fast": "Vous pouvez concevoir rapidement un clerc en suivant ces quelques suggestions. En premier lieu, la Sagesse devrait être votre plus haute valeur de caractéristique, suivie par la Force ou la Constitution. Ensuite, choisissez l'historique acolyte.",
     "class_abilities": {
       "health": {
-        "dé_de_vie": "1d8 par niveau de clerc",
-        "vie_au_niveau_1": "8 + votre modificateur de Constitution",
-        "vie_par_niveau": "1d8 (ou 5) + votre modificateur de Constitution"
+        "hit_dice": "1d8 par niveau de clerc",
+        "health_at_lvl_1": "8 + votre modificateur de Constitution",
+        "health_by_lvl": "1d8 (ou 5) + votre modificateur de Constitution"
       },
       "masteries": {
-        "armures": "armures légères et intermédiaires, boucliers",
-        "armes": "armes courantes",
-        "outils": "aucun",
-        "jet_de_sauvegarde": "Sagesse, Charisme",
-        "compétences": "choisissez deux compétences parmi Histoire, Intuition, Médecine, Persuasion et Religion"
+        "armors": "armures légères et intermédiaires, boucliers",
+        "weapons": "armes courantes",
+        "tools": "aucun",
+        "saving_throws": "Sagesse, Charisme",
+        "skills": "choisissez deux compétences parmi Histoire, Intuition, Médecine, Persuasion et Religion"
       },
       "equipement": {
         "description": "Vous commencez avec l'équipement suivant, en plus de l'équipement accordé par votre historique :",
@@ -583,16 +584,16 @@
     "create_fast": "Vous pouvez créer un druide rapidement en suivant ces quelques suggestions. En premier lieu, la Sagesse devrait être votre plus haute valeur de caractéristique, suivie par la Constitution. Ensuite, choisissez l'historique ermite.",
     "class_abilities": {
       "health": {
-        "dé_de_vie": "1d8 par niveau de druide",
-        "vie_au_niveau_1": "8 + votre modificateur de Constitution",
-        "vie_par_niveau": "1d8 (ou 5) + votre modificateur de Constitution"
+        "hit_dice": "1d8 par niveau de druide",
+        "health_at_lvl_1": "8 + votre modificateur de Constitution",
+        "health_by_lvl": "1d8 (ou 5) + votre modificateur de Constitution"
       },
       "masteries": {
-        "armures": "armures légères et intermédiaires, boucliers (un druide n'utilisera pas d'armure ou de bouclier en métal)",
-        "armes": "gourdin, dague, fléchette, javeline, masse d'armes, bâton, cimeterre, fronde, serpe, lance",
-        "outils": "gourdin, dague, fléchette, javeline, masse d'armes, bâton, cimeterre, fronde, serpe, lance",
-        "jet_de_sauvegarde": "Intelligence, Sagesse",
-        "compétences": "choisissez deux compétences parmi Arcanes, Dressage, Intuition, Médecine, Nature, Perception, Religion et Survie"
+        "armors": "armures légères et intermédiaires, boucliers (un druide n'utilisera pas d'armure ou de bouclier en métal)",
+        "weapons": "gourdin, dague, fléchette, javeline, masse d'armes, bâton, cimeterre, fronde, serpe, lance",
+        "tools": "gourdin, dague, fléchette, javeline, masse d'armes, bâton, cimeterre, fronde, serpe, lance",
+        "saving_throws": "Intelligence, Sagesse",
+        "skills": "choisissez deux compétences parmi Arcanes, Dressage, Intuition, Médecine, Nature, Perception, Religion et Survie"
       },
       "equipement": {
         "description": "Vous commencez avec l'équipement suivant, en plus de l'équipement accordé par votre historique :",
@@ -768,16 +769,16 @@
     "create_fast": "Vous pouvez concevoir rapidement un ensorceleur en suivant ces quelques suggestions. En premier lieu, le Charisme devrait être votre plus haute valeur de caractéristique, suivie par la Constitution. Ensuite, choisissez l'historique ermite. Enfin, choisissez les sorts mineurs lumière, poigne électrique, prestidigitation et rayon de givre en plus des sorts de niveau 1 bouclier et projectile magique.",
     "class_abilities": {
       "health": {
-        "dé_de_vie": "1d6 par niveau d'ensorceleur",
-        "vie_au_niveau_1": "6 + votre modificateur de Constitution",
-        "vie_par_niveau": "1d6 (ou 4) + votre modificateur de Constitution"
+        "hit_dice": "1d6 par niveau d'ensorceleur",
+        "health_at_lvl_1": "6 + votre modificateur de Constitution",
+        "health_by_lvl": "1d6 (ou 4) + votre modificateur de Constitution"
       },
       "masteries": {
-        "armures": "aucune",
-        "armes": "dague, fléchette, fronde, bâton, arbalète légère",
-        "outils": "aucun",
-        "jet_de_sauvegarde": "Constitution, Charisme",
-        "compétences": "choisissez deux compétences parmi Arcanes, Intimidation, Intuition, Persuasion, Religion et Tromperie"
+        "armors": "aucune",
+        "weapons": "dague, fléchette, fronde, bâton, arbalète légère",
+        "tools": "aucun",
+        "saving_throws": "Constitution, Charisme",
+        "skills": "choisissez deux compétences parmi Arcanes, Intimidation, Intuition, Persuasion, Religion et Tromperie"
       },
       "equipement": {
         "description": "Vous commencez avec l'équipement suivant, en plus de l'équipement accordé par votre historique :",
@@ -1158,16 +1159,16 @@
     "create_fast": "Vous pouvez concevoir rapidement un guerrier en suivant ces quelques suggestions. En premier lieu, la Force ou la Dextérité devrait être votre plus haute valeur de caractéristique, suivant que vous souhaitez vous spécialiser avec des armes de corps à corps ou à distance. Votre deuxième plus grande valeur de caractéristique devrait être la Constitution. Ensuite, choisissez l'historique soldat.",
     "class_abilities": {
       "health": {
-        "dé_de_vie": "1d10 par niveau de guerrier",
-        "vie_au_niveau_1": "10 + votre modificateur de Constitution",
-        "vie_par_niveau": "1d10 (ou 6) + votre modificateur de Constitution"
+        "hit_dice": "1d10 par niveau de guerrier",
+        "health_at_lvl_1": "10 + votre modificateur de Constitution",
+        "health_by_lvl": "1d10 (ou 6) + votre modificateur de Constitution"
       },
       "masteries": {
-        "armures": "toutes les armures, boucliers",
-        "armes": "armes courantes, armes de guerre",
-        "outils": "aucun",
-        "jet_de_sauvegarde": "Force, Constitution",
-        "compétences": "choisissez deux compétences parmi Acrobaties, Athlétisme, Dressage, Histoire, Intimidation, Intuition, Perception et Survie"
+        "armors": "toutes les armures, boucliers",
+        "weapons": "armes courantes, armes de guerre",
+        "tools": "aucun",
+        "saving_throws": "Force, Constitution",
+        "skills": "choisissez deux compétences parmi Acrobaties, Athlétisme, Dressage, Histoire, Intimidation, Intuition, Perception et Survie"
       },
       "equipement": {
         "description": "Vous commencez avec l'équipement suivant, en plus de l'équipement accordé par votre historique :",
@@ -1513,16 +1514,16 @@
     "create_fast": "Vous pouvez concevoir rapidement un magicien en suivant ces quelques suggestions. En premier lieu, l'Intelligence devrait être votre plus haute valeur de caractéristique, suivie par la Constitution ou la Dextérité. Ensuite, choisissez l'historique sage. Enfin, choisissez les sorts mineurs lumière, main de mage et rayon de givre en plus des sorts de niveau 1 armure de mage, bouclier, charme-personne, mains brûlantes, projectile magique et sommeil pour votre grimoire.",
     "class_abilities": {
       "health": {
-        "dé_de_vie": "1d6 par niveau de magicien",
-        "vie_au_niveau_1": "6 + votre modificateur de Constitution",
-        "vie_par_niveau": " 1d6 (ou 4) + votre modificateur de Constitution"
+        "hit_dice": "1d6 par niveau de magicien",
+        "health_at_lvl_1": "6 + votre modificateur de Constitution",
+        "health_by_lvl": " 1d6 (ou 4) + votre modificateur de Constitution"
       },
       "masteries": {
-        "armures": "aucune",
-        "armes": "dague, fléchettes, fronde, bâton, arbalète légère",
-        "outils": "aucun",
-        "jet_de_sauvegarde": "Intelligence, Sagesse",
-        "compétences": "choisissez deux compétences parmi Arcanes, Histoire, Intuition, Investigation, Médecine et Religion"
+        "armors": "aucune",
+        "weapons": "dague, fléchettes, fronde, bâton, arbalète légère",
+        "tools": "aucun",
+        "saving_throws": "Intelligence, Sagesse",
+        "skills": "choisissez deux compétences parmi Arcanes, Histoire, Intuition, Investigation, Médecine et Religion"
       },
       "equipement": {
         "description": "Vous commencez avec l'équipement suivant, en plus de l'équipement accordé par votre historique :",
@@ -1819,16 +1820,16 @@
     "create_fast": "Vous pouvez créer un moine rapidement en suivant ces quelques suggestions. En premier lieu, faites de la Dextérité votre plus haute valeur de caractéristique, suivie par la Sagesse. Ensuite, choisissez l'historique ermite.",
     "class_abilities": {
       "health": {
-        "dé_de_vie": "1d8 par niveau de moine",
-        "vie_au_niveau_1": "8 + votre modificateur de Constitution",
-        "vie_par_niveau": "1d8 (ou 5) + votre modificateur de Constitution"
+        "hit_dice": "1d8 par niveau de moine",
+        "health_at_lvl_1": "8 + votre modificateur de Constitution",
+        "health_by_lvl": "1d8 (ou 5) + votre modificateur de Constitution"
       },
       "masteries": {
-        "armures": "aucune",
-        "armes": "armes courantes, épée courte",
-        "outils": "un outil d'artisan ou un instrument de musique de votre choix",
-        "jet_de_sauvegarde": "Force, Dextérité",
-        "compétences": "choisissez deux compétences parmi Acrobaties, Athlétisme, Discrétion, Histoire, Intuition et Religion"
+        "armors": "aucune",
+        "weapons": "armes courantes, épée courte",
+        "tools": "un outil d'artisan ou un instrument de musique de votre choix",
+        "saving_throws": "Force, Dextérité",
+        "skills": "choisissez deux compétences parmi Acrobaties, Athlétisme, Discrétion, Histoire, Intuition et Religion"
       },
       "equipement": {
         "description": "Vous commencez avec l'équipement suivant, en plus de l'équipement accordé par votre historique :",
@@ -2086,16 +2087,16 @@
     "create_fast": "Vous pouvez concevoir rapidement un occultiste en suivant ces quelques suggestions. En premier lieu, le Charisme devrait être votre plus haute valeur de caractéristique, suivie par la Constitution. Ensuite, choisissez l'historique charlatan. Enfin, choisissez les sorts mineurs décharge occulte et contact glacial, en plus des sorts de niveau 1 charme-personne et trait ensorcelé.",
     "class_abilities": {
       "health": {
-        "dé_de_vie": "1d8 par niveau d'occultiste",
-        "vie_au_niveau_1": "8 + votre modificateur de Constitution",
-        "vie_par_niveau": "1d8 (ou 5) + votre modificateur de Constitution"
+        "hit_dice": "1d8 par niveau d'occultiste",
+        "health_at_lvl_1": "8 + votre modificateur de Constitution",
+        "health_by_lvl": "1d8 (ou 5) + votre modificateur de Constitution"
       },
       "masteries": {
-        "armures": "armures légères",
-        "armes": "armes courantes",
-        "outils": "aucun",
-        "jet_de_sauvegarde": "Sagesse, Charisme",
-        "compétences": "choisissez deux compétences parmi Arcanes, Histoire, Intimidation, Investigation, Nature, Religion et Tromperie"
+        "armors": "armures légères",
+        "weapons": "armes courantes",
+        "tools": "aucun",
+        "saving_throws": "Sagesse, Charisme",
+        "skills": "choisissez deux compétences parmi Arcanes, Histoire, Intimidation, Investigation, Nature, Religion et Tromperie"
       },
       "equipement": {
         "description": "Vous commencez avec l'équipement suivant, en plus de l'équipement accordé par votre historique :",
@@ -2340,16 +2341,16 @@
     "create_fast": "Vous pouvez concevoir rapidement un paladin en suivant ces quelques suggestions. En premier lieu, la Force devrait être votre plus haute valeur de caractéristique, suivie par le Charisme. Ensuite, choisissez l'historique noble.",
     "class_abilities": {
       "health": {
-        "dé_de_vie": "1d10 par niveau de paladin",
-        "vie_au_niveau_1": "10 + votre modificateur de Constitution",
-        "vie_par_niveau": "1d10 (ou 6) + votre modificateur de Constitution"
+        "hit_dice": "1d10 par niveau de paladin",
+        "health_at_lvl_1": "10 + votre modificateur de Constitution",
+        "health_by_lvl": "1d10 (ou 6) + votre modificateur de Constitution"
       },
       "masteries": {
-        "armures": "toutes les armures, boucliers",
-        "armes": "armes courantes, armes de guerre",
-        "outils": "aucun",
-        "jet_de_sauvegarde": "Sagesse, Charisme",
-        "compétences": "choisissez deux compétences parmi Athlétisme, Intimidation, Intuition, Médecine, Persuasion et Religion"
+        "armors": "toutes les armures, boucliers",
+        "weapons": "armes courantes, armes de guerre",
+        "tools": "aucun",
+        "saving_throws": "Sagesse, Charisme",
+        "skills": "choisissez deux compétences parmi Athlétisme, Intimidation, Intuition, Médecine, Persuasion et Religion"
       },
       "equipement": {
         "description": "Vous commencez avec l'équipement suivant, en plus de l'équipement accordé par votre historique :",
@@ -2670,16 +2671,16 @@
     "create_fast": "Vous pouvez concevoir rapidement un rôdeur en suivant ces quelques suggestions. En premier lieu, la Dextérité devrait être votre plus haute valeur de caractéristique, suivie par la Sagesse (certain rôdeurs qui se focalisent sur le combat à deux armes font toutefois de la Force leur caractéristique principale). Ensuite, choisissez l'historique sauvageon.",
     "class_abilities": {
       "health": {
-        "dé_de_vie": "1d10 par niveau de rôdeur",
-        "vie_au_niveau_1": "10 + votre modificateur de Constitution",
-        "vie_par_niveau": "1d10 (ou 6) + votre modificateur de Constitution"
+        "hit_dice": "1d10 par niveau de rôdeur",
+        "health_at_lvl_1": "10 + votre modificateur de Constitution",
+        "health_by_lvl": "1d10 (ou 6) + votre modificateur de Constitution"
       },
       "masteries": {
-        "armures": "armures légères et intermédiaires, boucliers",
-        "armes": " armes courantes, armes de guerre",
-        "outils": "aucun",
-        "jet_de_sauvegarde": "Force, Dextérité",
-        "compétences": "choisissez trois compétences parmi Athlétisme, Discrétion, Dressage, Intuition, Investigation, Nature, Perception et Survie"
+        "armors": "armures légères et intermédiaires, boucliers",
+        "weapons": " armes courantes, armes de guerre",
+        "tools": "aucun",
+        "saving_throws": "Force, Dextérité",
+        "skills": "choisissez trois compétences parmi Athlétisme, Discrétion, Dressage, Intuition, Investigation, Nature, Perception et Survie"
       },
       "equipement": {
         "description": "Vous commencez avec l'équipement suivant, en plus de l'équipement accordé par votre historique :",
@@ -2840,16 +2841,16 @@
     "create_fast": "Vous pouvez concevoir rapidement un roublard en suivant ces quelques suggestions. En premier lieu, la Dextérité devrait être votre plus haute valeur de caractéristique. Votre deuxième plus grande valeur de caractéristique devrait être l'Intelligence si vous voulez exceller en Investigation, ou le Charisme si vous préférez vous spécialiser en duperies et interactions sociales. Ensuite, choisissez l'historique criminel.",
     "class_abilities": {
       "health": {
-        "dé_de_vie": "1d8 par niveau de roublard",
-        "vie_au_niveau_1": "8 + votre modificateur de Constitution",
-        "vie_par_niveau": "1d8 (ou 5) + votre modificateur de Constitution"
+        "hit_dice": "1d8 par niveau de roublard",
+        "health_at_lvl_1": "8 + votre modificateur de Constitution",
+        "health_by_lvl": "1d8 (ou 5) + votre modificateur de Constitution"
       },
       "masteries": {
-        "armures": "armures légères",
-        "armes": "armes courantes, arbalète de poing, épée courte, épée longue, rapière",
-        "outils": "outils de voleur",
-        "jet_de_sauvegarde": "Dextérité, Intelligence",
-        "compétences": "choisissez quatre compétences parmi Acrobaties, Athlétisme, Discrétion, Escamotage, Intimidation, Intuition, Investigation, Perception, Persuasion, Représentation et Tromperie"
+        "armors": "armures légères",
+        "weapons": "armes courantes, arbalète de poing, épée courte, épée longue, rapière",
+        "tools": "outils de voleur",
+        "saving_throws": "Dextérité, Intelligence",
+        "skills": "choisissez quatre compétences parmi Acrobaties, Athlétisme, Discrétion, Escamotage, Intimidation, Intuition, Investigation, Perception, Persuasion, Représentation et Tromperie"
       },
       "equipement": {
         "description": "Vous commencez avec l'équipement suivant, en plus de l'équipement accordé par votre historique :",
