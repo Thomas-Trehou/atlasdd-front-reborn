@@ -19,12 +19,21 @@ export class BackgroundDetailComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      const index = Number(params['id']); // Convertit en nombre
+      const backgroundIndex = params['id']; // Utilise l'index textuel directement
       fetch('/assets/data/backgrounds.json')
         .then(response => response.json())
         .then(backgroundsData => {
-          this.content.set(backgroundsData[index]);
+          // Recherche du background par son index textuel
+          const backgroundContent = backgroundsData.find((bg: any) => bg.index === backgroundIndex);
+
+          if (backgroundContent) {
+            this.content.set(backgroundContent);
+          } else {
+            console.error(`Background avec l'index "${backgroundIndex}" non trouvé`);
+            // Option : redirection vers la liste des backgrounds
+          }
         });
     });
   }
 }
+

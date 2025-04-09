@@ -19,12 +19,21 @@ export class ClasseDetailComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      const index = Number(params['id']); // Convertit en nombre
+      const classIndex = params['id']; // Utilise l'index textuel directement
       fetch('/assets/data/classes.json')
         .then(response => response.json())
         .then(classesData => {
-          this.content.set(classesData[index]);
+          // Recherche de la classe par son index textuel
+          const classContent = classesData.find((c: any) => c.index === classIndex);
+
+          if (classContent) {
+            this.content.set(classContent);
+          } else {
+            console.error(`Classe avec l'index "${classIndex}" non trouvée`);
+            // Option : redirection vers la liste des classes
+          }
         });
     });
   }
 }
+

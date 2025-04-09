@@ -1,8 +1,8 @@
 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-  <div *ngFor="let item of items; let i = index"
+  <div *ngFor="let item of items;"
        class="cursor-pointer hover:scale-105 transition-transform">
     <div class="relative max-w-[200px] mx-auto w-full aspect-[3/4] rounded-lg overflow-hidden"
-         (click)="onSelect(i)">  <!-- Utilisez l'index ici -->
+         (click)="onSelect(item)">  <!-- Utilisez l'index ici -->
       <img [src]="item.imageUrl"
            [alt]="item.alt"
            [attr.aria-label]="item.aria"

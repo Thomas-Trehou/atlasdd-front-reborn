@@ -143,7 +143,7 @@
   },
   {
     "contentType": "background",
-    "index": "guild artisan",
+    "index": "guild-artisan",
     "imageUrl": "./assets/images/backgrounds/artisan-de-guilde.webp",
     "name": "Artisan de guilde",
     "alt": "Illustration d'un homme dans une forge.",
@@ -891,7 +891,7 @@
   },
   {
     "contentType": "background",
-    "index": "street child",
+    "index": "street-child",
     "imageUrl": "./assets/images/backgrounds/gosse-des-rues.webp",
     "name": "Enfant des rues",
     "alt": "Illustration d'un enfant qui se trouve dans la rue",
@@ -1208,7 +1208,7 @@
   },
   {
     "contentType": "background",
-    "index": "folk hero",
+    "index": "folk-hero",
     "imageUrl": "./assets/images/backgrounds/heros-du-peuple.webp",
     "name": "Héros du peuple",
     "alt": "Illustration d'un homme vêtu de blanc, enveloppé d'une cape bleue et tenant son bâton.",

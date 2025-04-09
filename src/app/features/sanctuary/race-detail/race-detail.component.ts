@@ -19,15 +19,26 @@ export class RaceDetailComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      const index = Number(params['id']); // Convertit en nombre
+      const raceIndex = params['id']; // Récupère l'index textuel (pas besoin de conversion)
+
       fetch('/assets/data/races.json')
         .then(response => response.json())
         .then(racesData => {
-          this.content.set(racesData[index]);
+          // Trouve la race dont l'index correspond à celui dans l'URL
+          const raceContent = racesData.find((race: any) => race.index === raceIndex);
+
+          if (raceContent) {
+            this.content.set(raceContent);
+          } else {
+            // Gestion d'erreur si la race n'est pas trouvée
+            console.error(`Race avec l'index "${raceIndex}" non trouvée`);
+            // Option: rediriger vers la liste des races ou une page d'erreur
+          }
         });
     });
   }
 }
+
 
 
 
