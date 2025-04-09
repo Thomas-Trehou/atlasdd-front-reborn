@@ -11,14 +11,45 @@ export interface BaseGameContent {
   description: string;
 }
 
+export interface Detail {
+  name: string;
+  content: string;
+}
+
+export interface RaceTrait {
+  name: string;
+  description: string;
+}
+
+export interface Bonus {
+  name: string;
+  description: string;
+}
+
+export interface SubRaceChoice {
+  name: string;
+  description: string;
+  bonuses: Bonus[];
+}
+
+export interface SubRace {
+  title: string;
+  description: string;
+  choices: SubRaceChoice[];
+}
+
+export interface AncestryTableElement {
+  name: string;
+  damage_type: string;
+  breath: string;
+}
+
 export interface RaceContent extends BaseGameContent {
   contentType: 'race';
-  details: {
-    [key: string]: {
-      name: string;
-      content: string;
-    }
-  };
+  details: Detail[];
+  traits: RaceTrait[];
+  sub_races: SubRace;
+  ancestry_table: AncestryTableElement[]
 }
 
 export interface FeatureChoice {

@@ -19,20 +19,92 @@
 
   <div class="p-6 space-y-6">
   <ng-container [ngSwitch]="contentType()">
-      <!-- Pour les races -->
-      <div *ngSwitchCase="'race'" class="space-y-6">
-        <ng-container *ngIf="getRaceDetails()">
-          <div *ngFor="let detail of getRaceDetails()! | keyvalue"
-               class="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors duration-200">
-            <h3 class="text-xl font-semibold mb-3 text-primary-600">
-              {{ detail.value.name }}
-            </h3>
-            <p class="text-gray-700 leading-relaxed">
-              {{ detail.value.content }}
-            </p>
+
+    <!-- Pour les races -->
+    <div *ngSwitchCase="'race'" class="space-y-6">
+      <!-- Détails de base -->
+      <ng-container *ngIf="getRaceContent() as raceContent">
+        <!-- Détails généraux -->
+        <div *ngIf="raceContent.details?.length" class="mb-6">
+          <h3 class="text-xl font-bold text-primary-700 mb-4">Détails</h3>
+          <div class="space-y-4">
+            <div *ngFor="let detail of raceContent.details"
+                 class="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors duration-200">
+              <h4 class="text-lg font-semibold mb-2 text-primary-600">
+                {{ detail.name }}
+              </h4>
+              <p class="text-gray-700 leading-relaxed">
+                {{ detail.content }}
+              </p>
+            </div>
           </div>
-        </ng-container>
-      </div>
+        </div>
+
+        <!-- Traits raciaux -->
+        <div *ngIf="raceContent.traits?.length" class="mb-6">
+          <h3 class="text-xl font-bold text-primary-700 mb-4">Traits raciaux</h3>
+          <div class="space-y-4">
+            <div *ngFor="let trait of raceContent.traits"
+                 class="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors duration-200">
+              <h4 class="text-lg font-semibold mb-2 text-primary-600">
+                {{ trait.name }}
+              </h4>
+              <p class="text-gray-700 leading-relaxed">
+                {{ trait.description }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sous-races -->
+        <div *ngIf="raceContent.sub_races" class="mb-6">
+          <h3 class="text-xl font-bold text-primary-700 mb-4">{{ raceContent.sub_races.title }}</h3>
+          <p class="text-gray-700 mb-4">{{ raceContent.sub_races.description }}</p>
+
+          <div class="space-y-4">
+            <div *ngFor="let choice of raceContent.sub_races.choices"
+                 class="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors duration-200">
+              <h4 class="text-lg font-semibold mb-2 text-primary-600">
+                {{ choice.name }}
+              </h4>
+              <p class="text-gray-700 mb-3">{{ choice.description }}</p>
+
+              <div *ngIf="choice.bonuses?.length" class="pl-4 border-l-4 border-primary-200">
+                <h5 class="text-md font-medium text-primary-600 mb-2">Bonus</h5>
+                <div *ngFor="let bonus of choice.bonuses" class="mb-2">
+                  <p class="font-medium text-gray-800">{{ bonus.name }}</p>
+                  <p class="text-gray-700">{{ bonus.description }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table d'ascendance (pour les races comme les Dragonborn) -->
+        <div *ngIf="raceContent.ancestry_table?.length" class="mb-6">
+          <h3 class="text-xl font-bold text-primary-700 mb-4">Table d'ascendance</h3>
+          <div class="overflow-x-auto">
+            <table class="min-w-full bg-white border border-gray-200">
+              <thead class="bg-gray-50">
+              <tr>
+                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Nom</th>
+                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Type de dégâts</th>
+                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Souffle</th>
+              </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200">
+              <tr *ngFor="let element of raceContent.ancestry_table" class="hover:bg-gray-50">
+                <td class="px-4 py-2 text-sm text-gray-700">{{ element.name }}</td>
+                <td class="px-4 py-2 text-sm text-gray-700">{{ element.damage_type }}</td>
+                <td class="px-4 py-2 text-sm text-gray-700">{{ element.breath }}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
 
     <!-- Pour les backgrounds -->
     <div *ngSwitchCase="'background'" class="space-y-6">

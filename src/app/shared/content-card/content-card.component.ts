@@ -77,55 +77,11 @@ export class ContentCardComponent {
     return 'unknown';
   }
 
-
-  // Helpers pour la partie Race
-  getRaceDetails(): {[key: string]: {name: string, content: string}} | null {
+  getRaceContent(): RaceContent | null {
     const content = this.safeContent();
-    return isRaceContent(content) ? content.details : null;
+    return isRaceContent(content) ? content : null;
   }
 
-  // Helpers pour la partie Background
-  hasPersonalityTraits(): boolean {
-    const content = this.safeContent();
-    return isBackgroundContent(content) && !!content.personality_traits;
-  }
-
-  getPersonalityTraitsChoose(): number {
-    const content = this.safeContent();
-    if (isBackgroundContent(content) && content.personality_traits) {
-      return content.personality_traits.choose;
-    }
-    return 0;
-  }
-
-  getPersonalityTraitsFrom(): Array<{id: number, string: string}> {
-    const content = this.safeContent();
-    if (isBackgroundContent(content) && content.personality_traits?.from) {
-      return content.personality_traits.from;
-    }
-    return [];
-  }
-
-  hasFeature(): boolean {
-    const content = this.safeContent();
-    return isBackgroundContent(content) && !!content.feature;
-  }
-
-  getFeatureName(): string {
-    const content = this.safeContent();
-    if (isBackgroundContent(content) && content.feature) {
-      return content.feature.name;
-    }
-    return '';
-  }
-
-  getFeatureDescription(): string {
-    const content = this.safeContent();
-    if (isBackgroundContent(content) && content.feature) {
-      return content.feature.description;
-    }
-    return '';
-  }
 
   // Helpers pour la partie Class
   getClassContent(): ClassContent | null {
