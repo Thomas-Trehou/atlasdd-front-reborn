@@ -13,6 +13,24 @@
         <!-- Menu items -->
         <div class="flex space-x-4">
           <a href="#" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Accueil</a>
+          <div class="relative group">
+            <a href="/sanctuary" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium flex items-center">
+              Sanctuaire
+              <svg class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </a>
+
+            <!-- Sous-menu qui s'affiche au survol -->
+            <div class="absolute z-10 mt-1 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 transition-all duration-300 opacity-0 invisible group-hover:opacity-100 group-hover:visible">
+            <div class="py-1">
+                <a href="/sanctuary/classes" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Les Classes</a>
+                <a href="/sanctuary/races" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Les Races</a>
+                <a href="/sanctuary/backgrounds" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Les Backgrounds</a>
+              </div>
+            </div>
+          </div>
+
           <!-- Autres liens de navigation -->
         </div>
 
@@ -62,18 +80,41 @@
     </div>
   </div>
 
-  <!-- Menu mobile -->
+  <!-- Dans la section du menu mobile -->
   <div class="sm:hidden" [class.hidden]="!menuOpen">
     <div class="px-2 pt-2 pb-3 space-y-1">
       <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
         Accueil
       </a>
+
+      <!-- Menu Sanctuaire pour mobile -->
+      <div>
+        <a href="/sanctuary" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
+          Sanctuaire
+        </a>
+        <!-- Sous-menus toujours visibles en mobile ou avec toggleSanctuaryMenu() -->
+        <div class="pl-4">
+          <a href="/sanctuary/ancient" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50">
+            Sanctuaires Anciens
+          </a>
+          <a href="/sanctuary/forest" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50">
+            Sanctuaires Forestiers
+          </a>
+          <a href="/sanctuary/mountain" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50">
+            Sanctuaires Montagneux
+          </a>
+          <a href="/sanctuary/all" class="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50">
+            Tous les Sanctuaires
+          </a>
+        </div>
+      </div>
+
       <!-- Autres liens de navigation -->
       <div class="px-3 py-2">
-        <span *ngIf="currentUser?.pseudo" class="text-sm font-medium text-gray-700">
-          Connecté en tant que {{ currentUser?.pseudo }}
-        </span>
+      <span *ngIf="currentUser?.pseudo" class="text-sm font-medium text-gray-700">
+        Connecté en tant que {{ currentUser?.pseudo }}
+      </span>
       </div>
     </div>
   </div>
-</nav>
+
