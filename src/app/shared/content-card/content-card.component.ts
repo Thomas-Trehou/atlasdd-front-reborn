@@ -10,7 +10,6 @@ import {
   isBackgroundContent,
   isClassContent
 } from '../../core/front-models/GameContent';
-import { KeyValuePipe } from '@angular/common';
 
 @Component({
   selector: 'app-content-card',
