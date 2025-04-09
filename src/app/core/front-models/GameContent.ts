@@ -21,24 +21,38 @@ export interface RaceContent extends BaseGameContent {
   };
 }
 
+export interface FeatureChoice {
+  index: number;
+  background_speciality: string;
+}
+
+export interface Feature {
+  name: string;
+  description: string;
+  choices: FeatureChoice[];
+}
+
+export interface GenericTraitIdealBondFlaw {
+  id: number;
+  string: string;
+}
+
+export interface GenericTraitIdealBondFlaws {
+  choose: number;
+  from: GenericTraitIdealBondFlaw[];
+}
+
 export interface BackgroundContent extends BaseGameContent {
   contentType: 'background';
   starting_proficiencies: string;
   mastered_tools: string;
   language_options?: number;
   starting_equipment: string;
-  personality_traits?: {
-    choose: number;
-    from: Array<{
-      id: number;
-      string: string;
-    }>;
-  };
-  feature?: {
-    name: string;
-    description: string;
-    choices?: any[];
-  };
+  feature: Feature;
+  personality_traits: GenericTraitIdealBondFlaws;
+  ideals: GenericTraitIdealBondFlaws;
+  bonds: GenericTraitIdealBondFlaws;
+  flaws: GenericTraitIdealBondFlaws;
 }
 
 export interface TableChoice {
