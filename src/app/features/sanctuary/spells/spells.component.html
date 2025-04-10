@@ -1,0 +1,94 @@
+<!-- src/app/features/sanctuary/spells/spells.component.html -->
+
+<div class="container mx-auto px-4 py-8">
+  <header class="mb-8">
+    <h1 class="text-3xl font-bold mb-2">Grimoire des Sorts</h1>
+    <p class="text-gray-600">Explorez la collection complète de sorts disponibles pour vos personnages.</p>
+  </header>
+
+  <!-- Barre de recherche et filtres -->
+  <div class="bg-gray-100 rounded-lg p-4 mb-6">
+    <div class="flex flex-col md:flex-row gap-4">
+      <!-- Recherche -->
+      <div class="flex-1">
+        <div class="relative">
+          <input
+            type="text"
+            [(ngModel)]="searchQuery"
+            (keyup.enter)="searchSpells()"
+            placeholder="Rechercher un sort..."
+            class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+          <button
+            (click)="searchSpells()"
+            class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+          >
+            🔍
+          </button>
+        </div>
+      </div>
+
+      <!-- Filtres -->
+      <div class="flex flex-wrap gap-2">
+        <!-- Filtre par classe -->
+        <select
+          [(ngModel)]="selectedClass"
+          (change)="filterByClass(selectedClass)"
+          class="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="">Toutes les classes</option>
+          @for (classOption of classes; track classOption) {
+            <option [value]="classOption">{{ classOption }}</option>
+          }
+        </select>
+
+        <!-- Filtre par niveau -->
+        <select
+          [(ngModel)]="selectedLevel"
+          (change)="filterByLevel(selectedLevel)"
+          class="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="">Tous les niveaux</option>
+          @for (level of spellLevels; track level) {
+            <option [value]="level">{{ level === '0' ? 'Sortilège' : 'Niveau ' + level }}</option>
+          }
+        </select>
+
+        <!-- Bouton de réinitialisation -->
+        <button
+          (click)="resetFilters()"
+          class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
+        >
+          Réinitialiser
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Résultats -->
+  @if (isLoading) {
+    <div class="flex justify-center my-12">
+      <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+    </div>
+  } @else if (errorMessage) {
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative my-6" role="alert">
+      <span class="block sm:inline">{{ errorMessage }}</span>
+    </div>
+  } @else if (filteredSpells.length === 0) {
+    <div class="text-center py-12">
+      <p class="text-xl text-gray-600">Aucun sort ne correspond à votre recherche.</p>
+      <button
+        (click)="resetFilters()"
+        class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        Voir tous les sorts
+      </button>
+    </div>
+  } @else {
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (spell of filteredSpells; track spell.id) {
+        <app-spell-card [spell]="spell"></app-spell-card>
+      }
+    </div>
+  }
+</div>

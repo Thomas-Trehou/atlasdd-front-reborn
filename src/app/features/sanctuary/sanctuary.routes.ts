@@ -10,8 +10,11 @@ import {WeaponsComponent} from './weapons/weapons.component';
 import {ArmorsComponent} from './armors/armors.component';
 import {ConditionsComponent} from './conditions/conditions.component';
 import {TalentsComponent} from './talents/talents.component';
+import {SanctuaryComponent} from './sanctuary.component';
+import {SpellsComponent} from './spells/spells.component';
 
 export const SANCTUARY_ROUTES: Routes = [
+  { path: '', component: SanctuaryComponent },
   { path: 'races', component: RacesComponent },
   { path: 'races/:id', component: RaceDetailComponent },
   { path: 'classes', component: ClassesComponent },
@@ -22,7 +25,9 @@ export const SANCTUARY_ROUTES: Routes = [
   { path: 'weapons', component: WeaponsComponent },
   { path: 'armors', component: ArmorsComponent },
   { path: 'conditions', component: ConditionsComponent },
-  { path: 'talents', component: TalentsComponent }
+  { path: 'talents', component: TalentsComponent },
+  { path: 'spells', component: SpellsComponent }
+
 
 
 

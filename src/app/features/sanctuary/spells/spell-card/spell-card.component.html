@@ -1,0 +1,113 @@
+<!-- src/app/features/sanctuary/spells/spell-card/spell-card.component.html -->
+
+<div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-300">
+  <!-- En-tête de la carte -->
+  <div
+    class="bg-gradient-to-r from-indigo-600 to-purple-600 px-4 py-3 text-white cursor-pointer"
+    (click)="toggleExpand()"
+  >
+    <div class="flex justify-between items-center">
+      <h3 class="font-bold text-lg">{{ spell.name }}</h3>
+      <span class="text-sm">{{ getSpellLevelText(spell) }}</span>
+    </div>
+  </div>
+
+  <!-- Contenu condensé (toujours visible) -->
+  <div class="p-4 border-b border-gray-200">
+    <p class="text-sm text-gray-500 mb-2">
+      <span class="font-medium">Temps d'incantation :</span> {{ spell.castingTime }}
+    </p>
+    <p class="text-sm text-gray-500 mb-2">
+      <span class="font-medium">Portée :</span> {{ spell.range }}
+    </p>
+    <p class="text-sm text-gray-500">
+      <span class="font-medium">Classes :</span> {{ spell.classes }}
+    </p>
+  </div>
+
+  <!-- Contenu détaillé (visible uniquement quand développé) -->
+  @if (isExpanded) {
+    <div class="p-4 bg-gray-50">
+      <div class="mb-4">
+        <p class="text-gray-800">{{ spell.description }}</p>
+      </div>
+
+      @if (spell.higherLevel !== 'Aucun') {
+        <div class="mb-4">
+          <h4 class="font-semibold text-sm mb-1">Aux niveaux supérieurs</h4>
+          <p class="text-sm text-gray-700">{{ spell.higherLevel }}</p>
+        </div>
+      }
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <h4 class="font-semibold text-sm mb-1">Composantes</h4>
+          <p class="text-sm text-gray-700">{{ spell.components }}</p>
+
+          @if (spell.material !== 'Aucun') {
+            <p class="text-xs text-gray-600 mt-1">{{ spell.material }}</p>
+          }
+        </div>
+
+        <div>
+          <h4 class="font-semibold text-sm mb-1">Durée</h4>
+          <p class="text-sm text-gray-700">{{ spell.duration }}</p>
+          @if (spell.concentration === 'Oui') {
+            <p class="text-xs text-gray-600 mt-1">(Concentration)</p>
+          }
+        </div>
+
+        <div>
+          <h4 class="font-semibold text-sm mb-1">Rituel</h4>
+          <p class="text-sm text-gray-700">{{ spell.ritual }}</p>
+        </div>
+
+        <div>
+          <h4 class="font-semibold text-sm mb-1">École</h4>
+          <p class="text-sm text-gray-700">{{ spell.school }}</p>
+        </div>
+      </div>
+
+      <!-- Informations supplémentaires (domaines, cercles, etc.) -->
+      @if (spell.domains !== 'Aucun' || spell.circles !== 'Aucun' || spell.oaths !== 'Aucun' || spell.patrons !== 'Aucun') {
+        <div class="mt-4 pt-4 border-t border-gray-200">
+          <h4 class="font-semibold text-sm mb-2">Accessible via</h4>
+
+          @if (spell.domains !== 'Aucun') {
+            <p class="text-xs text-gray-700 mb-1">
+              <span class="font-medium">Domaines :</span> {{ spell.domains }}
+            </p>
+          }
+
+          @if (spell.circles !== 'Aucun') {
+            <p class="text-xs text-gray-700 mb-1">
+              <span class="font-medium">Cercles :</span> {{ spell.circles }}
+            </p>
+          }
+
+          @if (spell.oaths !== 'Aucun') {
+            <p class="text-xs text-gray-700 mb-1">
+              <span class="font-medium">Serments :</span> {{ spell.oaths }}
+            </p>
+          }
+
+          @if (spell.patrons !== 'Aucun') {
+            <p class="text-xs text-gray-700 mb-1">
+              <span class="font-medium">Patrons :</span> {{ spell.patrons }}
+            </p>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Pied de carte -->
+  <div class="px-4 py-2 bg-gray-100 text-center">
+    <button
+      (click)="toggleExpand()"
+      class="text-indigo-600 hover:text-indigo-800 text-sm font-medium focus:outline-none"
+    >
+      {{ isExpanded ? 'Voir moins' : 'Voir plus' }}
+    </button>
+  </div>
+</div>

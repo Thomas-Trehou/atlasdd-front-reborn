@@ -1,0 +1,28 @@
+<div class="container mx-auto p-4">
+  <header class="mb-8 text-center">
+    <h1 class="text-3xl font-bold mb-3">Sanctuaire du Maître</h1>
+    <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+      Bienvenue dans le sanctuaire, votre référence complète pour tout ce qui concerne le jeu de rôle D&D en OGL 5.
+      Explorez les différentes sections pour découvrir races, classes, talents et bien plus encore.
+    </p>
+  </header>
+
+  <section class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+    @for (item of sanctuaryOptions; track item.path) {
+      <div class="cursor-pointer hover:scale-105 transition-transform duration-300">
+        <div class="relative max-w-[200px] mx-auto w-full aspect-[3/4] rounded-lg overflow-hidden shadow-md"
+             (click)="onSelect(item)">
+          <div class="absolute inset-0 bg-gray-800 flex items-center justify-center">
+            <img [src]="item.imageUrl"
+                 [alt]="item.alt"
+                 [attr.aria-label]="item.aria"
+                 class="w-full h-full object-contain">
+          </div>
+          <div class="absolute bottom-0 w-full bg-black bg-opacity-60 p-2">
+            <h3 class="text-white text-center text-sm font-medium">{{ item.name }}</h3>
+          </div>
+        </div>
+      </div>
+    }
+  </section>
+</div>
