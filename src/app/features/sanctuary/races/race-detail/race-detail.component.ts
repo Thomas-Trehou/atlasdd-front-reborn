@@ -1,7 +1,7 @@
 import {Component, OnInit, signal} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ContentCardComponent} from '../../../shared/content-card/content-card.component';
-import {ContentType} from '../../../core/utils/ContentType';
+import {ContentCardComponent} from '../../../../shared/content-card/content-card.component';
+import {ContentType} from '../../../../core/utils/ContentType';
 
 @Component({
   selector: 'app-race-detail',

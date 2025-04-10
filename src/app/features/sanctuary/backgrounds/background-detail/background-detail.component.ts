@@ -1,7 +1,7 @@
 import {Component, OnInit, signal} from '@angular/core';
-import {ContentType} from '../../../core/utils/ContentType';
+import {ContentType} from '../../../../core/utils/ContentType';
 import {ActivatedRoute} from '@angular/router';
-import {ContentCardComponent} from '../../../shared/content-card/content-card.component';
+import {ContentCardComponent} from '../../../../shared/content-card/content-card.component';
 
 @Component({
   selector: 'app-background-detail',

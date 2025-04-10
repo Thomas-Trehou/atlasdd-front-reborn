@@ -1,8 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {HttpClient} from '@angular/common/http';
-import {ContentPreview} from '../../../core/front-models/GameContentLight';
-import {map} from 'rxjs';
 import {Router} from '@angular/router';
 import {ContentPreviewComponent} from '../../../shared/content-preview/content-preview.component';
 
@@ -26,7 +23,7 @@ export class RacesComponent implements OnInit {
       });
   }
 
-  navigateToDetail(index: number) {  // On utilise l'index au lieu d'un id
+  navigateToDetail(index: string) {  // On utilise l'index au lieu d'un id
     this.router.navigate(['/sanctuary/races', index]);
   }
 }
