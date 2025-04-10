@@ -1,0 +1,66 @@
+<!-- src/app/features/sanctuary/conditions/conditions.component.html -->
+
+<div class="container mx-auto p-4">
+  <h1 class="text-2xl font-bold mb-6">Altérations d'État</h1>
+
+  <!-- Barre de recherche -->
+  <div class="mb-6">
+    <div class="relative">
+      <input
+        type="text"
+        class="w-full p-3 pl-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Rechercher une altération d'état..."
+        (input)="searchConditions($event)">
+      <div class="absolute left-3 top-3 text-gray-400">
+        <!-- Icon de recherche (vous pouvez utiliser une icône de votre choix) -->
+        <span>🔍</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-col lg:flex-row gap-6">
+    <!-- Liste des altérations -->
+    <div class="lg:w-1/3">
+      <h2 class="text-lg font-semibold mb-3">Liste des altérations</h2>
+      <div class="bg-white rounded-lg shadow overflow-hidden">
+        <ul class="divide-y divide-gray-200">
+          @for (condition of filteredConditions; track condition.index) {
+            <li
+              class="p-4 hover:bg-blue-50 cursor-pointer transition-colors"
+              [class.bg-blue-100]="selectedCondition?.index === condition.index"
+              (click)="selectCondition(condition)">
+              <h3 class="font-medium">{{ condition.name }}</h3>
+            </li>
+          }
+          @empty {
+            <li class="p-4 text-gray-500 italic">Aucune altération d'état trouvée</li>
+          }
+        </ul>
+      </div>
+    </div>
+
+    <!-- Détails de l'altération sélectionnée -->
+    <div class="lg:w-2/3">
+      <div class="bg-white rounded-lg shadow p-6">
+        @if (selectedCondition) {
+          <div class="flex justify-between items-start mb-4">
+            <h2 class="text-xl font-bold">{{ selectedCondition.name }}</h2>
+            <button
+              class="text-gray-500 hover:text-gray-700"
+              (click)="clearSelection()">
+              ✕
+            </button>
+          </div>
+          <div class="prose max-w-none">
+            <p>{{ selectedCondition.description }}</p>
+          </div>
+        } @else {
+          <div class="text-center py-10 text-gray-500">
+            <p class="text-lg mb-2">Sélectionnez une altération d'état pour voir ses détails</p>
+            <p class="italic">Les altérations d'état déterminent les handicaps spéciaux qui affectent les créatures</p>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

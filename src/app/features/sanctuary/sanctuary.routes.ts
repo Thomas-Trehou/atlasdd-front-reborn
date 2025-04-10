@@ -8,6 +8,7 @@ import {BackgroundDetailComponent} from './backgrounds/background-detail/backgro
 import {AbilitiesComponent} from './abilities/abilities.component';
 import {WeaponsComponent} from './weapons/weapons.component';
 import {ArmorsComponent} from './armors/armors.component';
+import {ConditionsComponent} from './conditions/conditions.component';
 
 export const SANCTUARY_ROUTES: Routes = [
   { path: 'races', component: RacesComponent },
@@ -18,7 +19,9 @@ export const SANCTUARY_ROUTES: Routes = [
   { path: 'backgrounds/:id', component: BackgroundDetailComponent },
   { path: 'abilities', component: AbilitiesComponent },
   { path: 'weapons', component: WeaponsComponent },
-  { path: 'armors', component: ArmorsComponent, title: 'Armures' }
+  { path: 'armors', component: ArmorsComponent, title: 'Armures' },
+  { path: 'conditions', component: ConditionsComponent }
+
 
 
 ];

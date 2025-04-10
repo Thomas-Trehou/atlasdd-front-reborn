@@ -74,11 +74,11 @@ export class WeaponsComponent implements OnInit {
   getWeaponPropertiesList(propertiesString: string): string[] {
     if (!propertiesString) return [];
 
-    // Extraire les noms des propriétés (avant les parenthèses)
+    // Conserver la chaîne complète avec les parenthèses
     return propertiesString
       .split(', ')
-      .map(prop => prop.split(' (')[0])
       .filter(prop => prop !== '');
   }
+
 }
 
