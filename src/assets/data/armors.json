@@ -159,7 +159,7 @@
     "id": 13,
     "index": "shield",
     "name": "Bouclier",
-    "armor_category": null,
+    "armor_category": "bouclier",
     "base": 2,
     "dex_bonus": null,
     "str_minimum": 0,
