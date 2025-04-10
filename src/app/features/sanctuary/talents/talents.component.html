@@ -1,0 +1,95 @@
+<!-- src/app/features/sanctuary/talents/talents.component.html -->
+
+<div class="container mx-auto p-4">
+  <h1 class="text-2xl font-bold mb-6">Talents</h1>
+
+  <!-- Barre de recherche -->
+  <div class="mb-6">
+    <div class="relative">
+      <input
+        type="text"
+        class="w-full p-3 pl-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Rechercher un talent..."
+        (input)="searchTalents($event)">
+      <div class="absolute left-3 top-3 text-gray-400">
+        <span>🔍</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Liste des talents (première colonne) -->
+    <div class="lg:col-span-1">
+      <h2 class="text-lg font-semibold mb-3">Liste des talents</h2>
+      <div class="bg-white rounded-lg shadow overflow-hidden max-h-[70vh] overflow-y-auto">
+        <ul class="divide-y divide-gray-200">
+          @for (talent of filteredTalents; track talent.name) {
+            <li
+              class="p-4 hover:bg-blue-50 cursor-pointer transition-colors"
+              [class.bg-blue-100]="selectedTalent?.name === talent.name"
+              (click)="selectTalent(talent)">
+              <div class="flex justify-between items-center">
+                <h3 class="font-medium">{{ talent.name }}</h3>
+                @if (countSelectedChoices(talent.name) > 0) {
+                  <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
+                    {{ countSelectedChoices(talent.name) }} choix
+                  </span>
+                }
+              </div>
+            </li>
+          }
+          @empty {
+            <li class="p-4 text-gray-500 italic">Aucun talent trouvé</li>
+          }
+        </ul>
+      </div>
+    </div>
+
+    <!-- Détails du talent sélectionné (deux dernières colonnes) -->
+    <div class="lg:col-span-2">
+      @if (selectedTalent) {
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex justify-between items-start mb-4">
+            <h2 class="text-xl font-bold">{{ selectedTalent.name }}</h2>
+            <button
+              class="text-gray-500 hover:text-gray-700"
+              (click)="clearSelection()">
+              ✕
+            </button>
+          </div>
+
+          <div class="prose max-w-none mb-6">
+            <p>{{ selectedTalent.description }}</p>
+          </div>
+
+          <h3 class="font-semibold mb-3">Choix disponibles:</h3>
+          <div class="space-y-3">
+            @for (choice of selectedTalent.choices; track choice) {
+              <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+                   [class.bg-green-50]="isChoiceSelected(selectedTalent.name, choice)"
+                   (click)="toggleChoiceSelection(selectedTalent.name, choice)">
+                <div class="flex-shrink-0 mt-0.5">
+                  <div class="w-5 h-5 border border-gray-300 rounded-sm flex items-center justify-center"
+                       [class.bg-green-500]="isChoiceSelected(selectedTalent.name, choice)"
+                       [class.border-green-500]="isChoiceSelected(selectedTalent.name, choice)">
+                    @if (isChoiceSelected(selectedTalent.name, choice)) {
+                      <span class="text-white text-sm">✓</span>
+                    }
+                  </div>
+                </div>
+                <p>{{ choice }}</p>
+              </div>
+            }
+          </div>
+        </div>
+      } @else {
+        <div class="bg-white rounded-lg shadow p-6 h-full flex flex-col justify-center items-center">
+          <div class="text-center py-10 text-gray-500">
+            <p class="text-lg mb-2">Sélectionnez un talent pour voir ses détails</p>
+            <p class="italic">Les talents représentent des aptitudes particulières qui permettent à votre personnage de se démarquer</p>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>
