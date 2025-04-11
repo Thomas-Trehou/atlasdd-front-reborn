@@ -42,22 +42,48 @@
 
         <!-- Profil utilisateur -->
         <div class="ml-4 flex items-center">
-          <div class="flex items-center space-x-2">
-            <!-- Avatar/Icon -->
-            <div class="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
-              <svg class="h-5 w-5 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-              </svg>
+          <div class="flex items-center space-x-2 relative">
+            <!-- Avatar/Icon cliquable avec menu déroulant -->
+            <div
+              class="h-8 w-8 rounded-full flex items-center justify-center cursor-pointer overflow-hidden"
+              (click)="toggleProfileMenu()"
+            >
+              <img
+                *ngIf="currentUser?.pseudo"
+                src="assets/images/UserIcon.webp"
+                alt="Profil utilisateur"
+                class="h-full w-full object-cover"
+              />
+              <img
+                *ngIf="!currentUser?.pseudo"
+                src="assets/images/UserIcon-disconnected1.webp"
+                alt="Non connecté"
+                class="h-full w-full object-cover"
+              />
             </div>
-            <!-- Pseudo -->
+
+
             <span *ngIf="currentUser?.pseudo" class="text-sm font-medium text-gray-700">
-              {{ currentUser?.pseudo }}
-            </span>
+      {{ currentUser?.pseudo }}
+    </span>
+
+            <div *ngIf="profileMenuOpen"
+                 class="absolute right-0 top-10 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+              <div class="py-1">
+                <a (click)="goToProfile()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  Mon profil
+                </a>
+                <button (click)="logout()" class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  Déconnexion
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Bouton menu mobile -->
+
+
+            <!-- Bouton menu mobile -->
       <div class="sm:hidden flex items-center">
         <button
           (click)="toggleMenu()"
@@ -138,5 +164,5 @@
       </div>
     </div>
   </div>
-
+  </div>
 </nav>

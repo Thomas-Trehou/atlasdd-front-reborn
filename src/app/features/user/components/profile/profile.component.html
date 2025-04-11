@@ -1,1 +1,67 @@
-<p>profile works!</p>
+<!-- profile.component.html -->
+<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md mt-8" *ngIf="user">
+  <div class="text-center mb-8">
+    <h1 class="text-2xl font-bold text-gray-800">Profil utilisateur</h1>
+  </div>
+
+  <div class="bg-gray-50 rounded-lg p-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="mb-4">
+        <p class="text-sm text-gray-500 mb-1">Pseudo</p>
+        <p class="text-lg font-medium">{{ user.pseudo }}</p>
+      </div>
+
+      <div class="mb-4">
+        <p class="text-sm text-gray-500 mb-1">Slug</p>
+        <p class="text-lg font-medium">{{ user.slug }}</p>
+      </div>
+
+      <div class="mb-4">
+        <p class="text-sm text-gray-500 mb-1">Email</p>
+        <p class="text-lg font-medium">{{ user.email }}</p>
+      </div>
+
+      <div class="mb-4">
+        <p class="text-sm text-gray-500 mb-1">Date de création</p>
+        <p class="text-lg font-medium">{{ user.createdAt | customDate }}</p>
+      </div>
+
+      <!-- Ajoutez d'autres champs selon la structure de UserLight -->
+    </div>
+  </div>
+  <div class="bg-gray-50 rounded-lg p-6">
+    <h2 class="text-xl font-bold text-gray-800 mb-4">Ami(e)s</h2>
+
+    <!-- Message lorsqu'il n'y a pas d'amis -->
+    <div *ngIf="userFriends.length === 0" class="text-center py-4">
+      <p class="text-gray-500">Aucun(e) ami(e) à afficher</p>
+    </div>
+
+    <div *ngIf="userFriends.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <div *ngFor="let friend of userFriends"
+           class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+        <div class="flex items-center space-x-3">
+          <div class="h-10 w-10 rounded-full overflow-hidden">
+            <img
+              src="assets/images/UserIcon-disconnected1.webp"
+              alt="{{ friend.pseudo }}"
+              class="h-full w-full object-cover"
+            />
+          </div>
+          <div>
+            <p class="font-medium text-gray-800">{{ friend.pseudo }}</p>
+            <p class="text-sm text-gray-500">Membre depuis {{ friend.createdAt | customDate }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div *ngIf="!user" class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md mt-8 text-center">
+  <p class="text-lg text-gray-600">Vous n'êtes pas connecté</p>
+  <a routerLink="/signin" class="mt-4 inline-block px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+    Se connecter
+  </a>
+</div>

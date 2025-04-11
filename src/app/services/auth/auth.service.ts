@@ -70,7 +70,7 @@ export class AuthService {
   logout(): void {
     this.token = undefined;
     this.userService.currentUser = undefined;
-    this.localStorageService.removeItem(environment.LOCAL_STORAGE.TOKEN);
+    this.localStorageService.clear();
   }
 }
 
