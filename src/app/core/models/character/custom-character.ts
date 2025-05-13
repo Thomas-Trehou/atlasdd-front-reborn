@@ -38,6 +38,7 @@ interface CustomCharacterDto extends BaseDto {
   wisdom: number;
   charisma: number;
 
+  status: string;
   owner: UserLight;
   userId: number;
 
@@ -68,3 +69,5 @@ export type CustomCharacterCreateRequest = Omit<CustomCharacterDto, 'id' | 'crea
 export type CustomCharacterUpdateRequest = Omit<CustomCharacterDto, 'createdAt' | 'updatedAt' | 'owner' | 'raceId' | 'backgroundId' | 'classId' | 'skills' | 'preparedSpells' | 'weaponIds' | 'armorId'>;
 
 export type CustomCharacter = Omit<CustomCharacterDto, 'userId' | 'raceId' | 'backgroundId' | 'classId' | 'skillIds' | 'preparedSpellIds' | 'weaponIds' | 'armorId'>;
+
+export type CustomCharacterCard = Pick<CustomCharacterDto, 'id' | 'name' | 'level' | 'classe' | 'race' |'status'>
