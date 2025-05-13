@@ -1,0 +1,21 @@
+export const SKILL_ABILITY_MAPPINGS_BY_ID: Record<number, string> = {
+  // Format : skill-id: 'ability-key'
+  1 : 'dexterity',
+  2 : 'intelligence',
+  3 : 'strength',
+  4 : 'dexterity',
+  5 : 'wisdom',
+  6 : 'dexterity',
+  7 : 'intelligence',
+  8 : 'charisma',
+  9 : 'intelligence',
+  10 : 'wisdom',
+  11 : 'intelligence',
+  12 : 'wisdom',
+  13 : 'wisdom',
+  14 : 'charisma',
+  15 : 'intelligence',
+  16 : 'charisma',
+  17 : 'wisdom',
+  18 : 'charisma',
+};

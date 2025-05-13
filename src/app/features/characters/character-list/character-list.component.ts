@@ -50,7 +50,7 @@ export class CharacterListComponent implements OnInit {
   }
 
   navigateToDetail(id: number, type: 'ogl5' | 'custom'): void {
-    this.router.navigate(['/characters', type, id]);
+    this.router.navigate(['/characters/detail', type, id]);
   }
 
   navigateToCreateOgl5(): void {

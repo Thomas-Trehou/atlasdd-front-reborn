@@ -5,8 +5,13 @@ import { environment } from '../../../environments/environment.development';
 import { AuthService } from '../auth/auth.service';
 import { UserService } from '../user/user.service';
 import {CharacterCardModel} from '../../core/models/character/character-card';
-import {Ogl5CharacterCard} from '../../core/models/character/ogl5-character';
-import {CustomCharacterCard} from '../../core/models/character/custom-character';
+import {Ogl5Character, Ogl5CharacterCard, Ogl5CharacterUpdateRequest} from '../../core/models/character/ogl5-character';
+import {
+  CustomCharacter,
+  CustomCharacterCard,
+  CustomCharacterUpdateRequest
+} from '../../core/models/character/custom-character';
+import {Skill} from '../../core/models/option/skill';
 
 
 @Injectable({
@@ -95,9 +100,9 @@ export class CharacterService {
    * @param characterId ID du personnage
    * @returns Observable avec les détails du personnage OGL5
    */
-  getOgl5CharacterById(characterId: number): Observable<any> {
+  getOgl5CharacterById(characterId: number): Observable<Ogl5Character> {
     const url = `${environment.API_URL}${environment.API_RESOURCES.OGL5_CHARACTER}/${characterId}`;
-    return this.http.get<any>(url);
+    return this.http.get<Ogl5Character>(url);
   }
 
   /**
@@ -105,9 +110,24 @@ export class CharacterService {
    * @param characterId ID du personnage
    * @returns Observable avec les détails du personnage Custom
    */
-  getCustomCharacterById(characterId: number): Observable<any> {
+  getCustomCharacterById(characterId: number): Observable<CustomCharacter> {
     const url = `${environment.API_URL}${environment.API_RESOURCES.CUSTOMS_CHARACTER}/${characterId}`;
-    return this.http.get<any>(url);
+    return this.http.get<CustomCharacter>(url);
+  }
+
+  updateOgl5Character(characterId: number, character: Ogl5CharacterUpdateRequest): Observable<Ogl5Character> {
+    const url = `${environment.API_URL}${environment.API_RESOURCES.OGL5_CHARACTER}/${characterId}`;
+    return this.http.patch<Ogl5Character>(url, character);
+  }
+
+  updateCustomCharacter(characterId: number, character: CustomCharacterUpdateRequest): Observable<CustomCharacter> {
+    const url = `${environment.API_URL}${environment.API_RESOURCES.CUSTOMS_CHARACTER}/${characterId}`;
+    return this.http.patch<CustomCharacter>(url, character);
+  }
+
+  getAllSkills(): Observable<Skill[]> {
+    const url = `${environment.API_URL}${environment.API_RESOURCES.CHARACTER_OPTIONS}/skills`;
+    return this.http.get<Skill[]>(url);
   }
 
   /**
