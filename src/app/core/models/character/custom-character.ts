@@ -18,7 +18,7 @@ interface CustomCharacterDto extends BaseDto {
   experience: number;
   armorClass: number;
   initiative: number;
-  inscription: number;
+  inspiration: number;
   hitPoints: number;
   maxHitPoints: number;
   bonusHitPoints: number;

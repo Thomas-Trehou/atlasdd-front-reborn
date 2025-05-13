@@ -49,7 +49,7 @@ export class Ogl5CharacterSheetComponent implements OnInit {
       experience: [this.character.experience],
       armorClass: [this.character.armorClass],
       initiative: [this.character.initiative],
-      inscription: [this.character.inscription],
+      inspiration: [this.character.inspiration],
       hitPoints: [this.character.hitPoints],
       maxHitPoints: [this.character.maxHitPoints],
       bonusHitPoints: [this.character.bonusHitPoints],
