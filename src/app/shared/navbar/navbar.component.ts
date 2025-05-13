@@ -3,11 +3,11 @@ import {UserService} from '../../services/user/user.service';
 import {UserLight} from '../../core/models/user/user';
 import {CommonModule} from '@angular/common';
 import {AuthService} from '../../services/auth/auth.service';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   standalone: true,
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'

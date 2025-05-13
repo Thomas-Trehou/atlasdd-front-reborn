@@ -1,14 +1,10 @@
 import { Injectable } from '@angular/core';
-import {LocalStorageService} from '../local-storage/local-storage.service';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {UserService} from '../user/user.service';
-import {environment} from '../../../environments/environment.development';
-import {SignInRequest, UserLight, UserLightAuth} from '../../core/models/user/user';
-import {lastValueFrom, map, tap} from 'rxjs';
-
-interface LoginHttp {
-  token: string;
-}
+import { LocalStorageService } from '../local-storage/local-storage.service';
+import { HttpClient } from '@angular/common/http';
+import { UserService } from '../user/user.service';
+import { environment } from '../../../environments/environment.development';
+import { SignInRequest, UserLight, UserLightAuth } from '../../core/models/user/user';
+import { lastValueFrom, map, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +12,6 @@ interface LoginHttp {
 export class AuthService {
 
   token?: string;
-
   private url: string;
 
   constructor(
@@ -52,12 +47,9 @@ export class AuthService {
   async refreshUserProfile(): Promise<void> {
     if (!this.token) throw new Error('Aucun jeton de connexion');
 
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.token}`
-    });
-
+    // Suppression des headers manuels car l'intercepteur les ajoute automatiquement
     const obs = this.http
-      .get<UserLight>(this.url + '/profile', { headers })
+      .get<UserLight>(this.url + '/me')
       .pipe(
         tap(response => {
           this.userService.currentUser = response;
@@ -72,5 +64,8 @@ export class AuthService {
     this.userService.currentUser = undefined;
     this.localStorageService.clear();
   }
-}
 
+  isAuthenticated(): boolean {
+    return !!this.token;
+  }
+}

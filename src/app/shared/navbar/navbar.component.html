@@ -13,7 +13,13 @@
         <!-- Menu items -->
         <div class="flex space-x-4">
           <a href="#" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Accueil</a>
+          <a *ngIf="currentUser?.id"
+             routerLink="/characters/list"
+             class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium cursor-pointer">
+            Mes Personnages
+          </a>
           <div class="relative group">
+
             <a href="/sanctuary" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium flex items-center">
               Sanctuaire
               <svg class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -117,6 +123,12 @@
     <div class="px-2 pt-2 pb-3 space-y-1">
       <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
         Accueil
+      </a>
+
+      <a *ngIf="currentUser?.id"
+         routerLink="/characters/list"
+         class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
+        Mes Personnages
       </a>
 
       <!-- Menu Sanctuaire pour mobile -->

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {NavbarComponent} from './shared/navbar/navbar.component';
 import {FooterComponent} from './shared/footer/footer.component';
+import {AuthService} from './services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -13,4 +14,11 @@ import {FooterComponent} from './shared/footer/footer.component';
 
 export class AppComponent {
   title = 'atlasdd-app';
+
+  constructor(private authService: AuthService) {}
+
+  async ngOnInit() {
+    await this.authService.checkLocalStorageToken();
+  }
+
 }

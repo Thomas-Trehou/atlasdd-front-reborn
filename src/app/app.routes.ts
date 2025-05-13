@@ -17,6 +17,10 @@ export const routes: Routes = [
   {
     path: 'sanctuary',
     loadChildren: () => import('./features/sanctuary/sanctuary.routes').then(m => m.SANCTUARY_ROUTES)
+  },
+  {
+    path: 'characters',
+    loadChildren: () => import('./features/characters/character.routes').then(m => m.CHARACTER_ROUTES)
   }
 ];
 
