@@ -393,6 +393,14 @@
                 <span *ngIf="!character.armor">Aucune</span>
               </div>
             </div>
+            <div *ngIf="character.armor.stealthDisadvantage" class="flex justify-between">
+              <span class="text-gray-600">Discrétion:</span>
+              <div class="text-right">
+                <div *ngIf="character.armor">
+                  <span>Désavantage</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -402,13 +410,24 @@
           <h4 class="font-medium text-gray-700 mb-2">Armes</h4>
           <div class="bg-white p-3 rounded-md">
             <div *ngIf="character.weapons?.length">
-              <div *ngFor="let weapon of character.weapons" class="flex justify-between items-center mb-2 last:mb-0">
-                <span>{{ weapon.name }}</span>
-                <div class="text-sm text-gray-600">
-                  {{ weapon.damageDice }} {{ weapon.damageType }}
+              <div *ngFor="let weapon of character.weapons" class="mb-4 last:mb-0">
+                <div class="flex justify-between items-center">
+                  <span class="font-medium">{{ weapon.name }}</span>
+                  <div class="text-sm text-gray-600">
+                    {{ weapon.damageDice }} {{ weapon.damageType }}
+                  </div>
+                </div>
+                <!-- Nouvelle ligne pour la portée -->
+                <div class="text-xs text-gray-600 mt-1">
+                  Portée : {{ weapon.weaponRange }}
+                </div>
+                <!-- Nouvelle ligne pour les propriétés -->
+                <div *ngIf="weapon.properties" class="text-xs text-gray-500 mt-1">
+                  {{ weapon.properties }}
                 </div>
               </div>
             </div>
+
 
             <div *ngIf="!character.weapons || character.weapons.length === 0" class="text-gray-500">
               Aucune arme équipée
