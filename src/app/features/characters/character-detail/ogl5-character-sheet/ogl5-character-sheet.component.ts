@@ -25,6 +25,7 @@ export class Ogl5CharacterSheetComponent implements OnInit {
   allSkills: any[] = [];
   private skillAbilityMappings = SKILL_ABILITY_MAPPINGS_BY_ID;
   activeTab: 'general' | 'spells' = 'general';
+  originalCharacterData: any = null;
 
   constructor(
     private fb: FormBuilder,
@@ -84,14 +85,28 @@ export class Ogl5CharacterSheetComponent implements OnInit {
     });
   }
 
-  toggleEditMode(): void {
-    this.isEditMode = !this.isEditMode;
+  enterEditMode(): void {
+    // Sauvegarder une copie des données actuelles avant de passer en mode édition
+    this.originalCharacterData = JSON.parse(JSON.stringify(this.character));
 
-    if (!this.isEditMode) {
-      // Si on quitte le mode édition, on sauvegarde les changements
-      this.saveChanges();
-    }
+    // Initialiser le formulaire avec les valeurs actuelles
+    this.initForm();
+
+    // Passer en mode édition
+    this.isEditMode = true;
   }
+
+  cancelEdit(): void {
+    // Restaurer les données originales
+    if (this.originalCharacterData) {
+      this.character = this.originalCharacterData;
+      this.originalCharacterData = null;
+    }
+
+    // Quitter le mode édition
+    this.isEditMode = false;
+  }
+
 
   saveChanges(): void {
     if (this.characterForm.valid) {
@@ -103,9 +118,16 @@ export class Ogl5CharacterSheetComponent implements OnInit {
         next: (updatedCharacter) => {
           this.character = updatedCharacter;
           this.characterUpdated.emit(updatedCharacter);
+
+          // Effacer la sauvegarde temporaire
+          this.originalCharacterData = null;
+
+          // Sortir du mode édition
+          this.isEditMode = false;
         },
         error: (err) => {
           console.error('Erreur lors de la mise à jour du personnage', err);
+          // Optionnel : vous pourriez choisir de rester en mode édition en cas d'erreur
         }
       });
     }

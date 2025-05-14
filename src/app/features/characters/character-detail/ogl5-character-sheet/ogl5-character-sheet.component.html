@@ -29,11 +29,27 @@
       </div>
     </div>
 
-    <button
-      (click)="toggleEditMode()"
-      class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
-      {{ isEditMode ? 'Enregistrer' : 'Modifier' }}
-    </button>
+    <div class="flex space-x-2">
+      <button
+        *ngIf="!isEditMode"
+        (click)="enterEditMode()"
+        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+        Modifier
+      </button>
+
+      <ng-container *ngIf="isEditMode">
+        <button
+          (click)="cancelEdit()"
+          class="px-4 py-2 bg-gray-400 text-white rounded-md hover:bg-gray-500 transition-colors">
+          Annuler
+        </button>
+        <button
+          (click)="saveChanges()"
+          class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+          Enregistrer
+        </button>
+      </ng-container>
+    </div>
   </div>
 
 
