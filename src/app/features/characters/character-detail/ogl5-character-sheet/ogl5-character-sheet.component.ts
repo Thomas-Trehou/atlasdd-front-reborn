@@ -27,6 +27,8 @@ export class Ogl5CharacterSheetComponent implements OnInit {
   activeTab: 'general' | 'spells' = 'general';
   activeSpellTab: 'prepared' | 'class' = 'prepared';
   originalCharacterData: any = null;
+  selectedSpellLevel: number = 0;
+  expandedSpellIds: string[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -379,17 +381,25 @@ export class Ogl5CharacterSheetComponent implements OnInit {
 
     // Vérifier si le sort n'est pas déjà préparé
     if (!this.isSpellPrepared(spell)) {
+      // Ajouter le sort à la liste des sorts préparés (pour l'affichage)
       this.character.preparedSpells.push({...spell});
 
-      // Si vous utilisez un formulaire réactif, mettez à jour le contrôle correspondant
+      // Mise à jour du contrôle preparedSpellIds du formulaire
       if (this.characterForm) {
-        const preparedSpells = this.characterForm.get('preparedSpells')?.value || [];
+        const currentIds = this.characterForm.get('preparedSpellIds')?.value || [];
+        const updatedIds = [...currentIds, spell.id];
+
+        // Mettre à jour le contrôle avec le nouvel ID
         this.characterForm.patchValue({
-          preparedSpells: [...preparedSpells, spell]
+          preparedSpellIds: updatedIds
         });
+
+        // Pour s'assurer que le formulaire est marqué comme modifié
+        this.characterForm.markAsDirty();
       }
     }
   }
+
 
 // Retirer un sort des sorts préparés
   removeFromPrepared(spell: any): void {
@@ -397,15 +407,21 @@ export class Ogl5CharacterSheetComponent implements OnInit {
       return;
     }
 
-    // Filtrer le sort à retirer
+    // Filtrer le sort à retirer de l'affichage
     this.character.preparedSpells = this.character.preparedSpells.filter(s => s.id !== spell.id);
 
-    // Si vous utilisez un formulaire réactif, mettez à jour le contrôle correspondant
+    // Mettre à jour le contrôle preparedSpellIds du formulaire
     if (this.characterForm) {
-      const preparedSpells = this.characterForm.get('preparedSpells')?.value || [];
+      const currentIds = this.characterForm.get('preparedSpellIds')?.value || [];
+      const updatedIds = currentIds.filter((id: string) => id !== spell.id);
+
+      // Mettre à jour le contrôle avec la liste filtrée d'IDs
       this.characterForm.patchValue({
-        preparedSpells: preparedSpells.filter((s: any) => s.id !== spell.id)
+        preparedSpellIds: updatedIds
       });
+
+      // Marquer le formulaire comme modifié
+      this.characterForm.markAsDirty();
     }
   }
 
@@ -418,4 +434,22 @@ export class Ogl5CharacterSheetComponent implements OnInit {
     // this.dialog.open(AddSpellComponent, { data: { level } });
   }
 
+  toggleSpellDetails(spell: any): void {
+    const index = this.expandedSpellIds.indexOf(spell.id);
+    if (index === -1) {
+      this.expandedSpellIds.push(spell.id);
+    } else {
+      this.expandedSpellIds.splice(index, 1);
+    }
+  }
+
+  hasAdditionalAttributes(spell: any): boolean {
+    return !!(
+      spell.archetype ||
+      (spell.domains && spell.domains.length) ||
+      (spell.oaths && spell.oaths.length) ||
+      (spell.circles && spell.circles.length) ||
+      (spell.patrons && spell.patrons.length)
+    );
+  }
 }
