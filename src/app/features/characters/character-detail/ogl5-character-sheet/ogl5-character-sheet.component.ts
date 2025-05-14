@@ -5,6 +5,7 @@ import {Ogl5Character, Ogl5CharacterUpdateRequest} from '../../../../core/models
 import {CharacterService} from '../../../../services/character/character.service';
 import {SKILL_ABILITY_MAPPINGS_BY_ID} from '../../../../core/utils/SkillAbilityMapping';
 import {ShieldType} from '../../../../core/enums/shield-type';
+import { Alignment } from '../../../../core/enums/alignment';
 
 @Component({
   selector: 'app-ogl5-character-sheet',
@@ -31,6 +32,7 @@ export class Ogl5CharacterSheetComponent implements OnInit {
   selectedSpellLevel: number = 0;
   expandedSpellIds: string[] = [];
   ShieldType = ShieldType;
+  Alignment = Alignment;
 
   constructor(
     private fb: FormBuilder,
@@ -49,6 +51,9 @@ export class Ogl5CharacterSheetComponent implements OnInit {
   }
 
   private initForm(): void {
+
+    const alignmentKey = this.getAlignmentKeyFromValue(this.character.alignment);
+
     this.characterForm = this.fb.group({
       id: [this.character.id],
       name: [{value: this.character.name, disabled: !this.isEditMode}],
@@ -64,7 +69,7 @@ export class Ogl5CharacterSheetComponent implements OnInit {
       passivePerception: [{value: this.character.passivePerception, disabled: !this.isEditMode}],
       shield: [{value: this.character.shield || ShieldType.NONE, disabled: !this.isEditMode}],
       twoWeaponsFighting: [{value: this.character.twoWeaponsFighting, disabled: !this.isEditMode}],
-      alignment: [{value: this.character.alignment, disabled: !this.isEditMode}],
+      alignment: [{value: alignmentKey, disabled: !this.isEditMode}],
       strength: [{value: this.character.strength, disabled: !this.isEditMode}],
       dexterity: [{value: this.character.dexterity, disabled: !this.isEditMode}],
       constitution: [{value: this.character.constitution, disabled: !this.isEditMode}],
@@ -494,4 +499,33 @@ export class Ogl5CharacterSheetComponent implements OnInit {
         return 'Inconnu';
     }
   }
+
+  getAlignmentOptions(): Array<keyof typeof Alignment> {
+    return Object.keys(Alignment).filter(key =>
+      isNaN(Number(key))
+    ) as Array<keyof typeof Alignment>;
+  }
+
+  private getAlignmentKeyFromValue(value: string): string {
+    const entries = Object.entries(Alignment);
+    const found = entries.find(([_, val]) => val === value);
+    return found ? found[0] : 'NEUTRE_PUR'; // Valeur par défaut
+  }
+
+  getAlignmentDisplayValue(alignmentKey: string | null): string {
+    if (!alignmentKey) return '';
+
+    // Vérifier si la clé existe dans l'enum
+    if (Object.prototype.hasOwnProperty.call(Alignment, alignmentKey)) {
+      return Alignment[alignmentKey as keyof typeof Alignment];
+    }
+
+    // Si la valeur est déjà la valeur d'affichage (ex: "Loyal Bon")
+    // Tentative de retrouver la clé correspondante
+    const entries = Object.entries(Alignment);
+    const found = entries.find(([_, val]) => val === alignmentKey);
+
+    return found ? found[1] : alignmentKey;
+  }
+
 }

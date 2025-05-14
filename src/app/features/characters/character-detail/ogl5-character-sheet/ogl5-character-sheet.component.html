@@ -99,15 +99,23 @@
             <span class="text-gray-600">Historique:</span>
             <span>{{ character.background.name }}</span>
           </div>
-          <div class="flex justify-between">
-            <span class="text-gray-600">Alignement:</span>
-            <span *ngIf="!isEditMode">{{ character.alignment }}</span>
-            <input
-              *ngIf="isEditMode"
-              type="text"
-              formControlName="alignment"
-              class="w-24 px-2 py-1 border rounded text-right">
-          </div>
+            <div class="flex justify-between">
+              <span class="text-gray-600">Alignement:</span>
+
+              <!-- Mode lecture -->
+              <span *ngIf="!isEditMode">{{ getAlignmentDisplayValue(character.alignment) }}</span>
+
+              <!-- Mode édition -->
+              <select
+                *ngIf="isEditMode"
+                formControlName="alignment"
+                class="px-2 py-1 border border-gray-300 rounded">
+                <option *ngFor="let align of getAlignmentOptions()" [value]="align">
+                  {{ getAlignmentDisplayValue(align) }}
+                </option>
+              </select>
+            </div>
+
           </div>
 
           <div class="space-y-2">
