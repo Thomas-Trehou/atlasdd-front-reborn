@@ -25,6 +25,7 @@ export class Ogl5CharacterSheetComponent implements OnInit {
   allSkills: any[] = [];
   private skillAbilityMappings = SKILL_ABILITY_MAPPINGS_BY_ID;
   activeTab: 'general' | 'spells' = 'general';
+  activeSpellTab: 'prepared' | 'class' = 'prepared';
   originalCharacterData: any = null;
 
   constructor(
@@ -340,16 +341,81 @@ export class Ogl5CharacterSheetComponent implements OnInit {
     return 5;
   }
 
-  getSpellsByLevel(level: string) {
-    // Filtrer la liste des sorts par niveau
-    return this.character.classe.classSpells?.filter(spell => spell.level === level) || [];
+  getPreparedSpellsByLevel(level: number): any[] {
+    if (!this.character.preparedSpells) {
+      return [];
+    }
+
+    return this.character.preparedSpells.filter(spell =>
+      spell.level === level.toString() || (level === 0 && spell.level === "0")
+    );
   }
 
-  addSpell(level: number) {
-    // Logique pour ajouter un sort du niveau spécifié
-    console.log(`Ajouter un sort de niveau ${level}`);
-    // À implémenter
+// Récupérer les sorts de classe par niveau
+  getClassSpellsByLevel(level: number): any[] {
+    if (!this.character.classe || !this.character.classe.classSpells) {
+      return [];
+    }
+
+    return this.character.classe.classSpells.filter(spell =>
+      spell.level === level.toString() || (level === 0 && spell.level === "0")
+    );
   }
 
+// Vérifier si un sort est déjà préparé
+  isSpellPrepared(spell: any): boolean {
+    if (!this.character.preparedSpells) {
+      return false;
+    }
+
+    return this.character.preparedSpells.some(s => s.id === spell.id);
+  }
+
+// Ajouter un sort aux sorts préparés
+  addToPrepared(spell: any): void {
+    if (!this.character.preparedSpells) {
+      this.character.preparedSpells = [];
+    }
+
+    // Vérifier si le sort n'est pas déjà préparé
+    if (!this.isSpellPrepared(spell)) {
+      this.character.preparedSpells.push({...spell});
+
+      // Si vous utilisez un formulaire réactif, mettez à jour le contrôle correspondant
+      if (this.characterForm) {
+        const preparedSpells = this.characterForm.get('preparedSpells')?.value || [];
+        this.characterForm.patchValue({
+          preparedSpells: [...preparedSpells, spell]
+        });
+      }
+    }
+  }
+
+// Retirer un sort des sorts préparés
+  removeFromPrepared(spell: any): void {
+    if (!this.character.preparedSpells) {
+      return;
+    }
+
+    // Filtrer le sort à retirer
+    this.character.preparedSpells = this.character.preparedSpells.filter(s => s.id !== spell.id);
+
+    // Si vous utilisez un formulaire réactif, mettez à jour le contrôle correspondant
+    if (this.characterForm) {
+      const preparedSpells = this.characterForm.get('preparedSpells')?.value || [];
+      this.characterForm.patchValue({
+        preparedSpells: preparedSpells.filter((s: any) => s.id !== spell.id)
+      });
+    }
+  }
+
+// Ajouter un nouveau sort de classe
+  addClassSpell(level: number): void {
+    // Implémentez selon vos besoins, par exemple ouvrir un dialogue pour créer/sélectionner un sort
+    console.log(`Ajouter un sort de niveau ${level} à la liste des sorts de classe`);
+
+    // Exemple d'ouverture d'un dialogue
+    // this.dialog.open(AddSpellComponent, { data: { level } });
+  }
 
 }
