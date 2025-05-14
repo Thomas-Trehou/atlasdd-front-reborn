@@ -24,6 +24,7 @@ export class Ogl5CharacterSheetComponent implements OnInit {
   isEditMode: boolean = false;
   allSkills: any[] = [];
   private skillAbilityMappings = SKILL_ABILITY_MAPPINGS_BY_ID;
+  activeTab: 'general' | 'spells' = 'general';
 
   constructor(
     private fb: FormBuilder,
@@ -268,5 +269,65 @@ export class Ogl5CharacterSheetComponent implements OnInit {
     // Met à jour le formulaire
     this.characterForm.patchValue({ skillIds: currentSkillIds });
   }
+
+  getSpellcastingAbility(): string {
+    // Définition du type avec un index signature
+    type SpellcastingAbilities = {
+      [key: string]: string;
+    };
+
+    // Dictionnaire des attributs d'incantation par classe
+    const spellcastingAbilities: SpellcastingAbilities = {
+      'Magicien': 'Intelligence',
+      'Clerc': 'Sagesse',
+      'Paladin': 'Charisme',
+      'Druide': 'Sagesse',
+      'Barde': 'Charisme',
+      'Ensorceleur': 'Charisme',
+      'Sorcier': 'Charisme',
+      'Rôdeur': 'Sagesse'
+      // Ajouter d'autres classes selon besoin
+    };
+
+    // Récupérer le nom de la classe du personnage
+    const className = this.character.classe.name;
+
+    // Vérifier si la classe existe dans notre dictionnaire et retourner l'attribut correspondant
+    return spellcastingAbilities[className] || 'Aucun';
+  }
+
+
+  calculateSpellSaveDC() {
+    // Exemple de calcul: 8 + bonus de maîtrise + modificateur d'incantation
+    // Logique à adapter selon vos règles
+    return 'À implémenter';
+  }
+
+  calculateSpellAttackBonus() {
+    // Exemple: modificateur d'incantation + bonus de maîtrise
+    return 'À implémenter';
+  }
+
+  getSpellSlots(level: number) {
+    // Récupérer les emplacements de sorts actuels par niveau
+    return 5;
+  }
+
+  getMaxSpellSlots(level: number) {
+    // Calculer le nombre max d'emplacements de sorts selon le niveau et la classe
+    return 5;
+  }
+
+  getSpellsByLevel(level: string) {
+    // Filtrer la liste des sorts par niveau
+    return this.character.classe.classSpells?.filter(spell => spell.level === level) || [];
+  }
+
+  addSpell(level: number) {
+    // Logique pour ajouter un sort du niveau spécifié
+    console.log(`Ajouter un sort de niveau ${level}`);
+    // À implémenter
+  }
+
 
 }
