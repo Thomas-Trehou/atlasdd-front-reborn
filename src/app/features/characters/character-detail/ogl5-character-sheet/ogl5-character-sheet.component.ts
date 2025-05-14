@@ -52,7 +52,48 @@ export class Ogl5CharacterSheetComponent implements OnInit {
 
   private initForm(): void {
 
-    const alignmentKey = this.getAlignmentKeyFromValue(this.character.alignment);
+    // Pour le bouclier : convertir en ShieldType
+    let currentShield: ShieldType;
+
+    if (typeof this.character.shield === 'number') {
+      // Si c'est un nombre, le convertir vers l'enum
+      switch (this.character.shield) {
+        case 0: currentShield = ShieldType.NONE; break;
+        case 2: currentShield = ShieldType.NORMAL; break;
+        case 3: currentShield = ShieldType.MAGIC_1; break;
+        case 4: currentShield = ShieldType.MAGIC_2; break;
+        case 5: currentShield = ShieldType.MAGIC_3; break;
+        default: currentShield = ShieldType.NONE;
+      }
+    } else if (this.character.shield === null || this.character.shield === undefined) {
+      currentShield = ShieldType.NONE;
+    } else {
+      // Si c'est déjà un ShieldType ou autre valeur
+      currentShield = ShieldType.NONE;
+    }
+
+
+
+
+
+    // Pour l'alignement : s'assurer que nous avons la clé de l'enum, pas la valeur d'affichage
+    let alignmentKey = this.character.alignment;
+
+    // Si nous avons déjà la clé d'enum (ex: "LOYAL_BON")
+    if (typeof alignmentKey === 'string' && Object.keys(Alignment).includes(alignmentKey)) {
+      // C'est déjà une clé, on la garde telle quelle
+    }
+    // Si nous avons la valeur d'affichage (ex: "Loyal Bon")
+    else if (alignmentKey) {
+      // Trouver la clé correspondante
+      const entries = Object.entries(Alignment);
+      const found = entries.find(([_, val]) => val === alignmentKey);
+      if (found) {
+        // Convertir la chaîne de caractères en valeur de l'enum Alignment
+        alignmentKey = Alignment[found[0] as keyof typeof Alignment];
+      }
+    }
+
 
     this.characterForm = this.fb.group({
       id: [this.character.id],
@@ -67,7 +108,7 @@ export class Ogl5CharacterSheetComponent implements OnInit {
       bonusHitPoints: [{value: this.character.bonusHitPoints, disabled: !this.isEditMode}],
       speed: [{value: this.character.speed, disabled: !this.isEditMode}],
       passivePerception: [{value: this.character.passivePerception, disabled: !this.isEditMode}],
-      shield: [{value: this.character.shield || ShieldType.NONE, disabled: !this.isEditMode}],
+      shield: [{value: currentShield, disabled: !this.isEditMode}],
       twoWeaponsFighting: [{value: this.character.twoWeaponsFighting, disabled: !this.isEditMode}],
       alignment: [{value: alignmentKey, disabled: !this.isEditMode}],
       strength: [{value: this.character.strength, disabled: !this.isEditMode}],
@@ -96,20 +137,91 @@ export class Ogl5CharacterSheetComponent implements OnInit {
   }
 
   enterEditMode(): void {
-    this.originalCharacterData = JSON.parse(JSON.stringify(this.character));
     this.isEditMode = true;
-    this.initForm();
 
-    // Activer explicitement tous les contrôles (sauf ceux qui doivent rester désactivés)
-    const excludedControls = ['raceId', 'backgroundId', 'classId', 'skillIds', 'preparedSpellIds', 'weaponIds', 'armorId'];
+    // Sauvegarde des données originales
+    this.originalCharacterData = { ...this.character };
 
-    Object.keys(this.characterForm.controls).forEach(controlName => {
-      if (!excludedControls.includes(controlName)) {
-        this.characterForm.get(controlName)?.enable();
-        console.log(`Activation du contrôle ${controlName}: ${!this.characterForm.get(controlName)?.disabled}`);
+    // Activer tous les contrôles
+    Object.keys(this.characterForm.controls).forEach(key => {
+      const control = this.characterForm.get(key);
+      control?.enable();
+
+      // Réinitialiser les valeurs pour s'assurer qu'elles correspondent aux données actuelles
+      if (key === 'shield' || key === 'alignment') {
+        const characterValue = this.character[key];
+        console.log(`Original ${key} value:`, characterValue, typeof characterValue);
+
+        // Valeur à mettre dans le formulaire
+        let formValue: any = characterValue;
+
+        if (key === 'shield' && characterValue !== null) {
+          // SHIELD: Traitement selon le type de donnée reçue
+          if (typeof characterValue === 'number') {
+            // Si c'est un nombre (ex: 4), le convertir en valeur d'enum
+            // Vérifier que la valeur numérique existe dans l'enum
+            const isValidValue = Object.values(ShieldType).includes(characterValue);
+            formValue = isValidValue ? characterValue : ShieldType.NONE;
+          }
+          else if (typeof characterValue === 'string') {
+            // Si c'est une chaîne, traiter comme une chaîne générique sans supposer de type
+            const strValue = String(characterValue); // Conversion explicite en string
+
+            if (Object.keys(ShieldType).includes(strValue)) {
+              // Vérifier si la chaîne correspond à une clé d'enum
+              switch (strValue) {
+                case 'NONE': formValue = ShieldType.NONE; break;
+                case 'NORMAL': formValue = ShieldType.NORMAL; break;
+                case 'MAGIC_1': formValue = ShieldType.MAGIC_1; break;
+                case 'MAGIC_2': formValue = ShieldType.MAGIC_2; break;
+                case 'MAGIC_3': formValue = ShieldType.MAGIC_3; break;
+                default: formValue = ShieldType.NONE;
+              }
+            }
+
+            else if (!isNaN(Number(characterValue))) {
+              // Si c'est un nombre sous forme de chaîne (ex: "4")
+              const numValue = Number(characterValue);
+              // Vérifier que cette valeur existe dans l'enum
+              formValue = Object.values(ShieldType).includes(numValue) ? numValue : ShieldType.NONE;
+            }
+            else {
+              // Dernière tentative avec une approche sécurisée au niveau du type
+              const entries = Object.entries(ShieldType);
+              for (const [key, val] of entries) {
+                if (val === characterValue) {
+                  // Utiliser le cast seulement après avoir vérifié que c'est une clé valide
+                  const safeKey = key as keyof typeof ShieldType;
+                  formValue = ShieldType[safeKey];
+                  break;
+                }
+              }
+
+              // Si aucune correspondance n'est trouvée
+              if (formValue === characterValue) {
+                formValue = ShieldType.NONE;
+              }
+            }
+          }
+        }
+
+
+        if (key === 'alignment' && characterValue) {
+          // Code inchangé pour l'alignement
+          if (typeof characterValue === 'string' && !Object.keys(Alignment).includes(characterValue)) {
+            const entries = Object.entries(Alignment);
+            const found = entries.find(([_, val]) => val === characterValue);
+            if (found) formValue = Alignment[found[0] as keyof typeof Alignment];
+          }
+        }
+
+        // Mettre à jour la valeur du contrôle
+        control?.setValue(formValue);
+        console.log(`Set ${key} to:`, formValue, typeof formValue);
       }
     });
   }
+
 
 
   cancelEdit(): void {
