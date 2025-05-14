@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angul
 import {Ogl5Character, Ogl5CharacterUpdateRequest} from '../../../../core/models/character/ogl5-character';
 import {CharacterService} from '../../../../services/character/character.service';
 import {SKILL_ABILITY_MAPPINGS_BY_ID} from '../../../../core/utils/SkillAbilityMapping';
+import {ShieldType} from '../../../../core/enums/shield-type';
 
 @Component({
   selector: 'app-ogl5-character-sheet',
@@ -29,6 +30,7 @@ export class Ogl5CharacterSheetComponent implements OnInit {
   originalCharacterData: any = null;
   selectedSpellLevel: number = 0;
   expandedSpellIds: string[] = [];
+  ShieldType = ShieldType;
 
   constructor(
     private fb: FormBuilder,
@@ -49,33 +51,33 @@ export class Ogl5CharacterSheetComponent implements OnInit {
   private initForm(): void {
     this.characterForm = this.fb.group({
       id: [this.character.id],
-      name: [this.character.name],
-      level: [this.character.level],
-      experience: [this.character.experience],
-      armorClass: [this.character.armorClass],
-      initiative: [this.character.initiative],
-      inspiration: [this.character.inspiration],
-      hitPoints: [this.character.hitPoints],
-      maxHitPoints: [this.character.maxHitPoints],
-      bonusHitPoints: [this.character.bonusHitPoints],
-      speed: [this.character.speed],
-      passivePerception: [this.character.passivePerception],
-      shield: [this.character.shield],
-      twoWeaponsFighting: [this.character.twoWeaponsFighting],
-      alignment: [this.character.alignment],
-      strength: [this.character.strength],
-      dexterity: [this.character.dexterity],
-      constitution: [this.character.constitution],
-      intelligence: [this.character.intelligence],
-      wisdom: [this.character.wisdom],
-      charisma: [this.character.charisma],
-      strengthSavingThrowBonus: [this.character.strengthSavingThrowBonus],
-      dexteritySavingThrowBonus:[this.character.dexteritySavingThrowBonus],
-      constitutionSavingThrowBonus: [this.character.constitutionSavingThrowBonus],
-      intelligenceSavingThrowBonus: [this.character.intelligenceSavingThrowBonus],
-      wisdomSavingThrowBonus: [this.character.wisdomSavingThrowBonus],
-      charismaSavingThrowBonus: [this.character.charismaSavingThrowBonus],
-      status: [this.character.status],
+      name: [{value: this.character.name, disabled: !this.isEditMode}],
+      level: [{value: this.character.level, disabled: !this.isEditMode}],
+      experience: [{value: this.character.experience, disabled: !this.isEditMode}],
+      armorClass: [{value: this.character.armorClass, disabled: !this.isEditMode}],
+      initiative: [{value: this.character.initiative, disabled: !this.isEditMode}],
+      inspiration: [{value: this.character.inspiration, disabled: !this.isEditMode}],
+      hitPoints: [{value: this.character.hitPoints, disabled: !this.isEditMode}],
+      maxHitPoints: [{value: this.character.maxHitPoints, disabled: !this.isEditMode}],
+      bonusHitPoints: [{value: this.character.bonusHitPoints, disabled: !this.isEditMode}],
+      speed: [{value: this.character.speed, disabled: !this.isEditMode}],
+      passivePerception: [{value: this.character.passivePerception, disabled: !this.isEditMode}],
+      shield: [{value: this.character.shield || ShieldType.NONE, disabled: !this.isEditMode}],
+      twoWeaponsFighting: [{value: this.character.twoWeaponsFighting, disabled: !this.isEditMode}],
+      alignment: [{value: this.character.alignment, disabled: !this.isEditMode}],
+      strength: [{value: this.character.strength, disabled: !this.isEditMode}],
+      dexterity: [{value: this.character.dexterity, disabled: !this.isEditMode}],
+      constitution: [{value: this.character.constitution, disabled: !this.isEditMode}],
+      intelligence: [{value: this.character.intelligence, disabled: !this.isEditMode}],
+      wisdom: [{value: this.character.wisdom, disabled: !this.isEditMode}],
+      charisma: [{value: this.character.charisma, disabled: !this.isEditMode}],
+      strengthSavingThrowBonus: [{value: this.character.strengthSavingThrowBonus, disabled: !this.isEditMode}],
+      dexteritySavingThrowBonus:[{value: this.character.dexteritySavingThrowBonus, disabled: !this.isEditMode}],
+      constitutionSavingThrowBonus: [{value: this.character.constitutionSavingThrowBonus, disabled: !this.isEditMode}],
+      intelligenceSavingThrowBonus: [{value: this.character.intelligenceSavingThrowBonus, disabled: !this.isEditMode}],
+      wisdomSavingThrowBonus: [{value: this.character.wisdomSavingThrowBonus, disabled: !this.isEditMode}],
+      charismaSavingThrowBonus: [{value: this.character.charismaSavingThrowBonus, disabled: !this.isEditMode}],
+      status: [{value: this.character.status, disabled: !this.isEditMode}],
       // IDs des relations (ces champs ne seront pas édités directement)
       raceId: [this.character.race.id],
       backgroundId: [this.character.background.id],
@@ -89,15 +91,21 @@ export class Ogl5CharacterSheetComponent implements OnInit {
   }
 
   enterEditMode(): void {
-    // Sauvegarder une copie des données actuelles avant de passer en mode édition
     this.originalCharacterData = JSON.parse(JSON.stringify(this.character));
-
-    // Initialiser le formulaire avec les valeurs actuelles
+    this.isEditMode = true;
     this.initForm();
 
-    // Passer en mode édition
-    this.isEditMode = true;
+    // Activer explicitement tous les contrôles (sauf ceux qui doivent rester désactivés)
+    const excludedControls = ['raceId', 'backgroundId', 'classId', 'skillIds', 'preparedSpellIds', 'weaponIds', 'armorId'];
+
+    Object.keys(this.characterForm.controls).forEach(controlName => {
+      if (!excludedControls.includes(controlName)) {
+        this.characterForm.get(controlName)?.enable();
+        console.log(`Activation du contrôle ${controlName}: ${!this.characterForm.get(controlName)?.disabled}`);
+      }
+    });
   }
+
 
   cancelEdit(): void {
     // Restaurer les données originales
@@ -113,9 +121,18 @@ export class Ogl5CharacterSheetComponent implements OnInit {
 
   saveChanges(): void {
     if (this.characterForm.valid) {
+      // Récupérer toutes les valeurs du formulaire
+      const formValues = this.characterForm.getRawValue();
+
+      // Créer l'objet de requête
       const updateRequest: Ogl5CharacterUpdateRequest = {
-        ...this.characterForm.value
+        ...formValues
       };
+
+      // Convertir la valeur numérique du shield en chaîne de caractères correspondante
+      if (updateRequest.shield !== undefined) {
+        updateRequest.shield = ShieldType[updateRequest.shield] as any;
+      }
 
       this.characterService.updateOgl5Character(updateRequest.id, updateRequest).subscribe({
         next: (updatedCharacter) => {
@@ -451,5 +468,30 @@ export class Ogl5CharacterSheetComponent implements OnInit {
       (spell.circles && spell.circles.length) ||
       (spell.patrons && spell.patrons.length)
     );
+  }
+
+  getShieldDisplayName(shieldValue: ShieldType | string | null): string {
+    // Si on reçoit un string (ex: "NORMAL")
+    if (typeof shieldValue === 'string') {
+      // Convertir en valeur numérique
+      shieldValue = ShieldType[shieldValue as keyof typeof ShieldType];
+    }
+
+    // Maintenant utiliser la valeur numérique
+    switch (shieldValue as ShieldType) {
+      case ShieldType.NONE:
+        return 'Aucun';
+      case ShieldType.NORMAL:
+        return 'Normal (+2)';
+      case ShieldType.MAGIC_1:
+        return 'Magique +1 (+3)';
+      case ShieldType.MAGIC_2:
+        return 'Magique +2 (+4)';
+      case ShieldType.MAGIC_3:
+        return 'Magique +3 (+5)';
+      default:
+        console.warn('Type de bouclier inconnu:', shieldValue);
+        return 'Inconnu';
+    }
   }
 }
