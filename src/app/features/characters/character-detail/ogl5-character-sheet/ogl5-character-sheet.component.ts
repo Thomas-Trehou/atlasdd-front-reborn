@@ -64,6 +64,12 @@ export class Ogl5CharacterSheetComponent implements OnInit {
       intelligence: [this.character.intelligence],
       wisdom: [this.character.wisdom],
       charisma: [this.character.charisma],
+      strengthSavingThrowBonus: [this.character.strengthSavingThrowBonus],
+      dexteritySavingThrowBonus:[this.character.dexteritySavingThrowBonus],
+      constitutionSavingThrowBonus: [this.character.constitutionSavingThrowBonus],
+      intelligenceSavingThrowBonus: [this.character.intelligenceSavingThrowBonus],
+      wisdomSavingThrowBonus: [this.character.wisdomSavingThrowBonus],
+      charismaSavingThrowBonus: [this.character.charismaSavingThrowBonus],
       status: [this.character.status],
       // IDs des relations (ces champs ne seront pas édités directement)
       raceId: [this.character.race.id],
@@ -112,6 +118,10 @@ export class Ogl5CharacterSheetComponent implements OnInit {
   getAbilityModifierText(score: number): string {
     const modifier = this.getAbilityModifier(score);
     return modifier >= 0 ? `+${modifier}` : `${modifier}`;
+  }
+
+  getModifierText(value: number): string {
+    return value >= 0 ? `+${value}` : `${value}`;
   }
 
   // Récupérer toutes les compétences disponibles

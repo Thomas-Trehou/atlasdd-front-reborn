@@ -56,68 +56,122 @@
         <div class="grid grid-cols-2 gap-2">
           <div class="text-center p-2 bg-white rounded-md">
             <div class="text-gray-500 text-sm">FORCE</div>
-            <div class="text-xl font-bold" *ngIf="!isEditMode">{{ character.strength }}</div>
+            <div class="text-xl font-bold">{{ getAbilityModifierText(character.strength) }}</div>
+            <div class="text-sm" *ngIf="!isEditMode">{{ character.strength }}</div>
             <input
               *ngIf="isEditMode"
               type="number"
               formControlName="strength"
               class="w-16 px-2 py-1 border rounded text-center">
-            <div class="text-sm">{{ getAbilityModifierText(character.strength) }}</div>
+            <div class="mt-2 text-xs">
+              <span class="text-gray-500">JDS:</span>
+              <span *ngIf="!isEditMode">{{ getModifierText(character.strengthSavingThrowBonus) }}</span>
+              <input
+                *ngIf="isEditMode"
+                type="number"
+                formControlName="strengthSavingThrowBonus"
+                class="w-12 px-1 py-0.5 border rounded text-center">
+            </div>
           </div>
 
           <div class="text-center p-2 bg-white rounded-md">
             <div class="text-gray-500 text-sm">DEXTÉRITÉ</div>
-            <div class="text-xl font-bold" *ngIf="!isEditMode">{{ character.dexterity }}</div>
+            <div class="text-xl font-bold">{{ getAbilityModifierText(character.dexterity) }}</div>
+            <div class="text-sm" *ngIf="!isEditMode">{{ character.dexterity }}</div>
             <input
               *ngIf="isEditMode"
               type="number"
               formControlName="dexterity"
               class="w-16 px-2 py-1 border rounded text-center">
-            <div class="text-sm">{{ getAbilityModifierText(character.dexterity) }}</div>
+            <div class="mt-2 text-xs">
+              <span class="text-gray-500">JDS:</span>
+              <span *ngIf="!isEditMode">{{ getModifierText(character.dexteritySavingThrowBonus) }}</span>
+              <input
+                *ngIf="isEditMode"
+                type="number"
+                formControlName="dexteritySavingThrowBonus"
+                class="w-12 px-1 py-0.5 border rounded text-center">
+            </div>
           </div>
 
           <div class="text-center p-2 bg-white rounded-md">
             <div class="text-gray-500 text-sm">CONSTITUTION</div>
-            <div class="text-xl font-bold" *ngIf="!isEditMode">{{ character.constitution }}</div>
+            <div class="text-xl font-bold">{{ getAbilityModifierText(character.constitution) }}</div>
+            <div class="text-sm" *ngIf="!isEditMode">{{ character.constitution }}</div>
             <input
               *ngIf="isEditMode"
               type="number"
               formControlName="constitution"
               class="w-16 px-2 py-1 border rounded text-center">
-            <div class="text-sm">{{ getAbilityModifierText(character.constitution) }}</div>
+            <div class="mt-2 text-xs">
+              <span class="text-gray-500">JDS:</span>
+              <span *ngIf="!isEditMode">{{ getModifierText(character.constitutionSavingThrowBonus) }}</span>
+              <input
+                *ngIf="isEditMode"
+                type="number"
+                formControlName="constitutionSavingThrowBonus"
+                class="w-12 px-1 py-0.5 border rounded text-center">
+            </div>
           </div>
 
           <div class="text-center p-2 bg-white rounded-md">
             <div class="text-gray-500 text-sm">INTELLIGENCE</div>
-            <div class="text-xl font-bold" *ngIf="!isEditMode">{{ character.intelligence }}</div>
+            <div class="text-xl font-bold">{{ getAbilityModifierText(character.intelligence) }}</div>
+            <div class="text-sm" *ngIf="!isEditMode">{{ character.intelligence }}</div>
             <input
               *ngIf="isEditMode"
               type="number"
               formControlName="intelligence"
               class="w-16 px-2 py-1 border rounded text-center">
-            <div class="text-sm">{{ getAbilityModifierText(character.intelligence) }}</div>
+            <div class="mt-2 text-xs">
+              <span class="text-gray-500">JDS:</span>
+              <span *ngIf="!isEditMode">{{ getModifierText(character.intelligenceSavingThrowBonus) }}</span>
+              <input
+                *ngIf="isEditMode"
+                type="number"
+                formControlName="intelligenceSavingThrowBonus"
+                class="w-12 px-1 py-0.5 border rounded text-center">
+            </div>
           </div>
 
           <div class="text-center p-2 bg-white rounded-md">
             <div class="text-gray-500 text-sm">SAGESSE</div>
-            <div class="text-xl font-bold" *ngIf="!isEditMode">{{ character.wisdom }}</div>
+            <div class="text-xl font-bold">{{ getAbilityModifierText(character.wisdom) }}</div>
+            <div class="text-sm" *ngIf="!isEditMode">{{ character.wisdom }}</div>
             <input
               *ngIf="isEditMode"
               type="number"
               formControlName="wisdom"
               class="w-16 px-2 py-1 border rounded text-center">
-            <div class="text-sm">{{ getAbilityModifierText(character.wisdom) }}</div>
+            <div class="mt-2 text-xs">
+              <span class="text-gray-500">JDS:</span>
+              <span *ngIf="!isEditMode">{{ getModifierText(character.wisdomSavingThrowBonus) }}</span>
+              <input
+                *ngIf="isEditMode"
+                type="number"
+                formControlName="wisdomSavingThrowBonus"
+                class="w-12 px-1 py-0.5 border rounded text-center">
+            </div>
           </div>
 
           <div class="text-center p-2 bg-white rounded-md">
             <div class="text-gray-500 text-sm">CHARISME</div>
-            <div class="text-xl font-bold" *ngIf="!isEditMode">{{ character.charisma }}</div>
+            <div class="text-xl font-bold">{{ getAbilityModifierText(character.charisma) }}</div>
+            <div class="text-sm" *ngIf="!isEditMode">{{ character.charisma }}</div>
             <input
               *ngIf="isEditMode"
               type="number"
               formControlName="charisma"
               class="w-16 px-2 py-1 border rounded text-center">
-            <div class="text-sm">{{ getAbilityModifierText(character.charisma) }}</div>
+            <div class="mt-2 text-xs">
+              <span class="text-gray-500">JDS:</span>
+              <span *ngIf="!isEditMode">{{ getModifierText(character.charismaSavingThrowBonus) }}</span>
+              <input
+                *ngIf="isEditMode"
+                type="number"
+                formControlName="charismaSavingThrowBonus"
+                class="w-12 px-1 py-0.5 border rounded text-center">
+            </div>
           </div>
         </div>
       </div>

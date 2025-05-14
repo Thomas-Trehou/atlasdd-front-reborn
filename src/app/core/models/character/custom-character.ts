@@ -38,6 +38,13 @@ interface CustomCharacterDto extends BaseDto {
   wisdom: number;
   charisma: number;
 
+  strengthSavingThrowBonus: number;
+  dexteritySavingThrowBonus: number;
+  constitutionSavingThrowBonus: number;
+  intelligenceSavingThrowBonus: number;
+  wisdomSavingThrowBonus: number;
+  charismaSavingThrowBonus: number;
+
   status: string;
   owner: UserLight;
   userId: number;
