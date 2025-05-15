@@ -9,6 +9,7 @@ import {Skill} from '../option/skill';
 import {Spell} from '../option/spell';
 import {Weapon} from '../option/weapon';
 import {Armor} from '../option/armor';
+import {SpellSlots} from './spell-slots';
 
 interface Ogl5CharacterDto extends BaseDto {
 
@@ -45,6 +46,9 @@ interface Ogl5CharacterDto extends BaseDto {
   charismaSavingThrowBonus: number;
 
   status: string;
+
+  spellSlots: SpellSlots;
+
   owner: UserLight;
   userId: number;
 

@@ -6,6 +6,8 @@ import {CharacterService} from '../../../../services/character/character.service
 import {SKILL_ABILITY_MAPPINGS_BY_ID} from '../../../../core/utils/SkillAbilityMapping';
 import {ShieldType} from '../../../../core/enums/shield-type';
 import { Alignment } from '../../../../core/enums/alignment';
+import {SpellcasterType} from '../../../../core/enums/SpellcasterType';
+import {SpellSlotsService} from '../../../../services/character/spell-slots.service';
 
 @Component({
   selector: 'app-ogl5-character-sheet',
@@ -33,13 +35,16 @@ export class Ogl5CharacterSheetComponent implements OnInit {
   expandedSpellIds: string[] = [];
   ShieldType = ShieldType;
   Alignment = Alignment;
+  spellcasterType: SpellcasterType;
+  spellSlotsService = new SpellSlotsService();
 
-  constructor(
+    constructor(
     private fb: FormBuilder,
     private characterService: CharacterService
   ) {}
 
   ngOnInit(): void {
+    this.spellcasterType = this.determineSpellcasterType();
     this.initForm();
     this.loadAllSkills();
   }
@@ -94,6 +99,7 @@ export class Ogl5CharacterSheetComponent implements OnInit {
       }
     }
 
+    this.character.spellSlots = this.spellSlotsService.createSpellSlots(this.spellcasterType, this.character.level);
 
     this.characterForm = this.fb.group({
       id: [this.character.id],
@@ -124,6 +130,7 @@ export class Ogl5CharacterSheetComponent implements OnInit {
       wisdomSavingThrowBonus: [{value: this.character.wisdomSavingThrowBonus, disabled: !this.isEditMode}],
       charismaSavingThrowBonus: [{value: this.character.charismaSavingThrowBonus, disabled: !this.isEditMode}],
       status: [{value: this.character.status, disabled: !this.isEditMode}],
+      spellSlots: [{value: this.character.spellSlots, disabled: !this.isEditMode}],
       // IDs des relations (ces champs ne seront pas édités directement)
       raceId: [this.character.race.id],
       backgroundId: [this.character.background.id],
@@ -646,6 +653,52 @@ export class Ogl5CharacterSheetComponent implements OnInit {
     const found = entries.find(([_, val]) => val === alignmentKey);
 
     return found ? found[1] : alignmentKey;
+  }
+
+  private determineSpellcasterType(): SpellcasterType {
+    if (!this.character.classe) return SpellcasterType.NON_CASTER;
+
+    // Logique pour déterminer le type de lanceur en fonction de la classe
+    switch (this.character.classe.name) {
+      case 'Magicien':
+      case 'Ensorceleur':
+      case 'Barde':
+      case 'Druide':
+      case 'Clerc':
+      case 'Occultiste':
+        return SpellcasterType.FULL_CASTER;
+
+      case 'Paladin':
+      case 'Rôdeur':
+      case 'Artificier':
+        return SpellcasterType.HALF_CASTER;
+
+      case 'Roublard arcanique':
+      case 'Guerrier eldritch knight':
+        return SpellcasterType.THIRD_CASTER;
+
+      default:
+        return SpellcasterType.NON_CASTER;
+    }
+  }
+
+  getLevelKey(level: number): string {
+    return level.toString() as any;
+  }
+// Dans ogl5-character-sheet.component.ts
+  getUsedSlots(level: string): number {
+    // Cette assertion est sécurisée car nous savons que level est toujours '1'-'9'
+    return this.character.spellSlots.slotsUsed[level as keyof typeof this.character.spellSlots.slotsUsed];
+  }
+
+  setUsedSlots(level: string, value: number): void {
+    // Cette assertion est sécurisée car nous savons que level est toujours '1'-'9'
+    this.character.spellSlots.slotsUsed[level as keyof typeof this.character.spellSlots.slotsUsed] = value;
+  }
+
+  getTotalSlots(level: string): number {
+    // Cette assertion est sécurisée car nous savons que level est toujours '1'-'9'
+    return this.character.spellSlots.slots[level as keyof typeof this.character.spellSlots.slots];
   }
 
 }

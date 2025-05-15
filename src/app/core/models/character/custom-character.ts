@@ -9,6 +9,7 @@ import {Skill} from '../option/skill';
 import {Spell} from '../option/spell';
 import {Weapon} from '../option/weapon';
 import {Armor} from '../option/armor';
+import {SpellSlots} from './spell-slots';
 
 interface CustomCharacterDto extends BaseDto {
 
@@ -46,6 +47,9 @@ interface CustomCharacterDto extends BaseDto {
   charismaSavingThrowBonus: number;
 
   status: string;
+
+  spellSlots: SpellSlots;
+
   owner: UserLight;
   userId: number;
 
