@@ -457,14 +457,22 @@ export class Ogl5CharacterSheetComponent implements OnInit {
 
 
   calculateSpellSaveDC() {
-    // Exemple de calcul: 8 + bonus de maîtrise + modificateur d'incantation
-    // Logique à adapter selon vos règles
-    return 'À implémenter';
+
+    const spellcastingAbility = this.getSpellcastingAbility().toString();
+
+    switch (spellcastingAbility) {
+      case 'Intelligence': return 8 + this.getAbilityModifier(this.character.intelligence) + this.getProficiencyBonus();
+      case 'Sagesse': return 8 + this.getAbilityModifier(this.character.wisdom) + this.getProficiencyBonus();
+      case 'Charisme': return 8 + this.getAbilityModifier(this.character.charisma) + this.getProficiencyBonus();
+      case 'Aucun': return 8;
+      default: return 8;
+    }
+
   }
 
   calculateSpellAttackBonus() {
     // Exemple: modificateur d'incantation + bonus de maîtrise
-    return 'À implémenter';
+    return this.calculateSpellSaveDC() - 8;
   }
 
   getSpellSlots(level: number) {
