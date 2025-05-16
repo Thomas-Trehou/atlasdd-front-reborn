@@ -802,4 +802,33 @@ export class Ogl5CharacterSheetComponent implements OnInit {
     return 0;
   }
 
+  getSlotArray(level: string): number[] {
+    const maxSlots = this.getTotalSlots(level);
+    return Array.from({ length: maxSlots }, (_, i) => i);
+  }
+
+// Récupérer la valeur actuelle du formulaire pour un niveau de sort
+  getSpellSlotsFormValue(level: string): number {
+    return this.characterForm.get('spellSlots' + level)?.value || 0;
+  }
+
+// Basculer l'état d'un emplacement de sort (coché/décoché)
+  toggleSpellSlot(level: string, clickedPosition: number): void {
+    const control = this.characterForm.get('spellSlots' + level);
+    if (!control) return;
+
+    const currentValue = control.value || 0;
+
+    // Si on clique sur une position déjà cochée ou la première position non cochée,
+    // on met à jour la valeur en conséquence
+    if (clickedPosition <= currentValue) {
+      // Décocher jusqu'à cette position
+      control.setValue(clickedPosition - 1);
+    } else {
+      // Cocher jusqu'à cette position
+      control.setValue(clickedPosition);
+    }
+  }
+
+
 }

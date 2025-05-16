@@ -493,18 +493,31 @@
       </div>
 
       <!-- Emplacements de sorts -->
-      <div *ngFor="let levelInfo of spellLevels" class="flex items-center justify-between">
+      <div *ngFor="let levelInfo of spellLevels" class="flex items-center justify-between mb-2">
         <span>Niveau {{ levelInfo.num }}:</span>
         <div class="flex items-center gap-1">
-          <span *ngIf="!isEditMode">{{ getUsedSlots(levelInfo.key) }}</span>
-          <input
-            *ngIf="isEditMode"
-            type="number"
-            [formControlName]="'spellSlots' + levelInfo.key"
-            class="w-12 px-2 py-1 border rounded text-center"
-            min="0"
-            [max]="getTotalSlots(levelInfo.key)">
-          <span class="text-gray-500">/ {{ getTotalSlots(levelInfo.key) }}</span>
+          <!-- En mode lecture, afficher les cases à cocher en lecture seule -->
+          <div *ngIf="!isEditMode" class="flex items-center gap-1">
+            <div *ngFor="let i of getSlotArray(levelInfo.key)"
+                 class="w-5 h-5 border border-gray-300 rounded flex items-center justify-center"
+                 [class.bg-blue-500]="i < getUsedSlots(levelInfo.key)"
+                 [class.text-white]="i < getUsedSlots(levelInfo.key)">
+              <span *ngIf="i < getUsedSlots(levelInfo.key)">✓</span>
+            </div>
+          </div>
+
+          <!-- En mode édition, afficher des cases à cocher interactives -->
+          <div *ngIf="isEditMode" class="flex items-center gap-1">
+            <div *ngFor="let i of getSlotArray(levelInfo.key)"
+                 class="w-5 h-5 border border-gray-300 rounded cursor-pointer flex items-center justify-center"
+                 [class.bg-blue-500]="i < getSpellSlotsFormValue(levelInfo.key)"
+                 [class.text-white]="i < getSpellSlotsFormValue(levelInfo.key)"
+                 (click)="toggleSpellSlot(levelInfo.key, i + 1)">
+              <span *ngIf="i < getSpellSlotsFormValue(levelInfo.key)">✓</span>
+            </div>
+          </div>
+
+          <span class="text-gray-500 ml-2">/ {{ getTotalSlots(levelInfo.key) }}</span>
         </div>
       </div>
 
