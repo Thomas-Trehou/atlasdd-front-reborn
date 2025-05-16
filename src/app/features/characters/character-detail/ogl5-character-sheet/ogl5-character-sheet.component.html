@@ -493,31 +493,21 @@
       </div>
 
       <!-- Emplacements de sorts -->
-      <div *ngFor="let levelInfo of [
-  {num: 1, key: '1'},
-  {num: 2, key: '2'},
-  {num: 3, key: '3'},
-  {num: 4, key: '4'},
-  {num: 5, key: '5'},
-  {num: 6, key: '6'},
-  {num: 7, key: '7'},
-  {num: 8, key: '8'},
-  {num: 9, key: '9'}
-]" class="flex items-center justify-between">
+      <div *ngFor="let levelInfo of spellLevels" class="flex items-center justify-between">
         <span>Niveau {{ levelInfo.num }}:</span>
         <div class="flex items-center gap-1">
           <span *ngIf="!isEditMode">{{ getUsedSlots(levelInfo.key) }}</span>
           <input
             *ngIf="isEditMode"
             type="number"
-            [ngModel]="getUsedSlots(levelInfo.key)"
-            (ngModelChange)="setUsedSlots(levelInfo.key, $event)"
+            [formControlName]="'spellSlots' + levelInfo.key"
             class="w-12 px-2 py-1 border rounded text-center"
             min="0"
             [max]="getTotalSlots(levelInfo.key)">
           <span class="text-gray-500">/ {{ getTotalSlots(levelInfo.key) }}</span>
         </div>
       </div>
+
 
       <!-- Onglets pour Sorts préparés / Sorts de classe -->
       <div class="mb-4">

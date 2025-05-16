@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Ogl5Character, Ogl5CharacterUpdateRequest} from '../../../../core/models/character/ogl5-character';
 import {CharacterService} from '../../../../services/character/character.service';
 import {SKILL_ABILITY_MAPPINGS_BY_ID} from '../../../../core/utils/SkillAbilityMapping';
@@ -8,6 +8,8 @@ import {ShieldType} from '../../../../core/enums/shield-type';
 import { Alignment } from '../../../../core/enums/alignment';
 import {SpellcasterType} from '../../../../core/enums/SpellcasterType';
 import {SpellSlotsService} from '../../../../services/character/spell-slots.service';
+import {Subscription} from 'rxjs';
+import {SpellSlotLevels} from '../../../../core/models/character/spell-slots'
 
 @Component({
   selector: 'app-ogl5-character-sheet',
@@ -36,17 +38,36 @@ export class Ogl5CharacterSheetComponent implements OnInit {
   ShieldType = ShieldType;
   Alignment = Alignment;
   spellcasterType: SpellcasterType;
-  spellSlotsService = new SpellSlotsService();
+  private subscriptions: Subscription[] = [];
 
-    constructor(
+
+  spellLevels = [
+    {num: 1, key: '1'},
+    {num: 2, key: '2'},
+    {num: 3, key: '3'},
+    {num: 4, key: '4'},
+    {num: 5, key: '5'},
+    {num: 6, key: '6'},
+    {num: 7, key: '7'},
+    {num: 8, key: '8'},
+    {num: 9, key: '9'}
+  ];
+
+
+  constructor(
     private fb: FormBuilder,
-    private characterService: CharacterService
-  ) {}
+    private characterService: CharacterService,
+    private spellSlotsService: SpellSlotsService
+) {}
 
   ngOnInit(): void {
     this.spellcasterType = this.determineSpellcasterType();
     this.initForm();
     this.loadAllSkills();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   ngOnChanges(): void {
@@ -99,12 +120,17 @@ export class Ogl5CharacterSheetComponent implements OnInit {
       }
     }
 
-    this.character.spellSlots = this.spellSlotsService.createSpellSlots(this.spellcasterType, this.character.level);
-
     this.characterForm = this.fb.group({
       id: [this.character.id],
       name: [{value: this.character.name, disabled: !this.isEditMode}],
-      level: [{value: this.character.level, disabled: !this.isEditMode}],
+      level: [{
+        value: this.character.level,
+        disabled: !this.isEditMode
+      }, [
+        Validators.required,
+        Validators.min(1),
+        Validators.max(20)
+      ]],
       experience: [{value: this.character.experience, disabled: !this.isEditMode}],
       armorClass: [{value: this.character.armorClass, disabled: !this.isEditMode}],
       initiative: [{value: this.character.initiative, disabled: !this.isEditMode}],
@@ -141,10 +167,66 @@ export class Ogl5CharacterSheetComponent implements OnInit {
       weaponIds: [this.character.weapons.map(weapon => weapon.id)],
       armorId: [this.character.armor ? this.character.armor.id : null]
     });
+
+    this.spellLevels.forEach(level => {
+      this.characterForm.addControl(
+        'spellSlots' + level.key,
+        this.fb.control(this.getUsedSlots(level.key))
+      );
+    });
+
+    this.spellLevels.forEach(level => {
+      this.characterForm.get('spellSlots' + level.key)?.valueChanges
+        .subscribe(value => {
+          this.setUsedSlots(level.key, value);
+        });
+    });
+
+    const levelSub = this.characterForm.get('level')?.valueChanges.subscribe(level => {
+      this.updateSpellSlotValidators();
+    });
+
+    if (levelSub) {
+      this.subscriptions.push(levelSub);
+    }
+
   }
+
+  updateSpellSlotValidators(): void {
+    this.spellLevels.forEach(level => {
+      const control = this.characterForm.get('spellSlots' + level.key);
+      if (control) {
+        const maxSlots = this.getTotalSlots(level.key);
+
+        // Mettre à jour uniquement le validateur maximum
+        control.setValidators([
+          Validators.min(0),
+          Validators.max(maxSlots)
+        ]);
+
+        // Appliquer les nouveaux validateurs
+        control.updateValueAndValidity();
+      }
+    });
+  }
+
 
   enterEditMode(): void {
     this.isEditMode = true;
+
+    this.characterForm.get('level')?.enable();
+
+    // Activer les emplacements de sorts
+    this.spellLevels.forEach(level => {
+      const control = this.characterForm.get('spellSlots' + level.key);
+      if (control) {
+        control.enable();
+      }
+    });
+
+    // S'assurer que les validateurs sont corrects
+    this.updateSpellSlotValidators();
+
 
     // Sauvegarde des données originales
     this.originalCharacterData = { ...this.character };
@@ -247,6 +329,8 @@ export class Ogl5CharacterSheetComponent implements OnInit {
     if (this.characterForm.valid) {
       // Récupérer toutes les valeurs du formulaire
       const formValues = this.characterForm.getRawValue();
+
+      this.character.level = formValues.level;
 
       // Créer l'objet de requête
       const updateRequest: Ogl5CharacterUpdateRequest = {
@@ -696,9 +780,26 @@ export class Ogl5CharacterSheetComponent implements OnInit {
     this.character.spellSlots.slotsUsed[level as keyof typeof this.character.spellSlots.slotsUsed] = value;
   }
 
-  getTotalSlots(level: string): number {
-    // Cette assertion est sécurisée car nous savons que level est toujours '1'-'9'
-    return this.character.spellSlots.slots[level as keyof typeof this.character.spellSlots.slots];
+  getTotalSlots(spellLevel: string): number {
+    // Récupérer le niveau du personnage
+    const levelControl = this.characterForm?.get('level');
+    const charLevel = levelControl ?
+      (levelControl.enabled ? levelControl.value : this.character?.level) :
+      this.character?.level || 1;
+
+    // Récupérer le type de lanceur de sorts
+    const spellcasterType = this.determineSpellcasterType();
+
+    // Utiliser le service pour calculer les emplacements
+    const spellSlots = this.spellSlotsService.calculateSpellSlots(spellcasterType, charLevel);
+
+    // Vérifier que spellLevel est une clé valide (1-9)
+    if (spellLevel in spellSlots) {
+      // Utiliser l'assertion de type pour indiquer à TypeScript que c'est une clé valide
+      return spellSlots[spellLevel as keyof SpellSlotLevels];
+    }
+
+    return 0;
   }
 
 }
