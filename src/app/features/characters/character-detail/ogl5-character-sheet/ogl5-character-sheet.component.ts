@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Ogl5Character, Ogl5CharacterUpdateRequest} from '../../../../core/models/character/ogl5-character';
@@ -10,6 +10,7 @@ import {SpellcasterType} from '../../../../core/enums/SpellcasterType';
 import {SpellSlotsService} from '../../../../services/character/spell-slots.service';
 import {Subscription} from 'rxjs';
 import {SpellSlotLevels} from '../../../../core/models/character/spell-slots'
+import {CharacterSheetSpellsTabComponent} from '../character-sheet-spells-tab/character-sheet-spells-tab.component';
 
 @Component({
   selector: 'app-ogl5-character-sheet',
@@ -17,7 +18,8 @@ import {SpellSlotLevels} from '../../../../core/models/character/spell-slots'
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CharacterSheetSpellsTabComponent
   ],
   templateUrl: './ogl5-character-sheet.component.html',
   styleUrls: ['./ogl5-character-sheet.component.scss']
@@ -25,6 +27,7 @@ import {SpellSlotLevels} from '../../../../core/models/character/spell-slots'
 export class Ogl5CharacterSheetComponent implements OnInit {
   @Input() character!: Ogl5Character;
   @Output() characterUpdated = new EventEmitter<Ogl5Character>();
+  @ViewChild(CharacterSheetSpellsTabComponent) private spellsTabComponent!: CharacterSheetSpellsTabComponent;
 
   characterForm!: FormGroup;
   isEditMode: boolean = false;
@@ -61,9 +64,18 @@ export class Ogl5CharacterSheetComponent implements OnInit {
 ) {}
 
   ngOnInit(): void {
-    this.spellcasterType = this.determineSpellcasterType();
     this.initForm();
     this.loadAllSkills();
+
+    const levelControl = this.characterForm.get('level');
+    if (levelControl) {
+      levelControl.valueChanges.subscribe(() => {
+        // On demande au composant enfant de mettre à jour ses validateurs
+        // Il faut parfois mettre un léger délai pour s'assurer que l'enfant a bien reçu le nouveau "character"
+        setTimeout(() => this.spellsTabComponent?.updateSpellSlotValidators(), 0);
+      });
+    }
+
   }
 
   ngOnDestroy(): void {
@@ -171,44 +183,18 @@ export class Ogl5CharacterSheetComponent implements OnInit {
     this.spellLevels.forEach(level => {
       this.characterForm.addControl(
         'spellSlots' + level.key,
-        this.fb.control(this.getUsedSlots(level.key))
+        // On lit directement la valeur initiale depuis l'objet character
+        this.fb.control(this.character.spellSlots.slotsUsed[level.key as keyof typeof this.character.spellSlots.slotsUsed])
       );
     });
 
-    this.spellLevels.forEach(level => {
-      this.characterForm.get('spellSlots' + level.key)?.valueChanges
-        .subscribe(value => {
-          this.setUsedSlots(level.key, value);
-        });
-    });
 
-    const levelSub = this.characterForm.get('level')?.valueChanges.subscribe(level => {
-      this.updateSpellSlotValidators();
-    });
 
-    if (levelSub) {
-      this.subscriptions.push(levelSub);
-    }
+
 
   }
 
-  updateSpellSlotValidators(): void {
-    this.spellLevels.forEach(level => {
-      const control = this.characterForm.get('spellSlots' + level.key);
-      if (control) {
-        const maxSlots = this.getTotalSlots(level.key);
 
-        // Mettre à jour uniquement le validateur maximum
-        control.setValidators([
-          Validators.min(0),
-          Validators.max(maxSlots)
-        ]);
-
-        // Appliquer les nouveaux validateurs
-        control.updateValueAndValidity();
-      }
-    });
-  }
 
 
   enterEditMode(): void {
@@ -225,7 +211,6 @@ export class Ogl5CharacterSheetComponent implements OnInit {
     });
 
     // S'assurer que les validateurs sont corrects
-    this.updateSpellSlotValidators();
 
 
     // Sauvegarde des données originales
@@ -330,17 +315,32 @@ export class Ogl5CharacterSheetComponent implements OnInit {
       // Récupérer toutes les valeurs du formulaire
       const formValues = this.characterForm.getRawValue();
 
-      this.character.level = formValues.level;
+      // --- DÉBUT DE LA MODIFICATION ---
 
-      // Créer l'objet de requête
+      // 1. On construit l'objet "slotsUsed" à partir des contrôles plats
+      const updatedSlotsUsed: { [key: string]: number } = {};
+      this.spellLevels.forEach(level => {
+        const controlName = 'spellSlots' + level.key;
+        if (formValues[controlName] !== undefined && formValues[controlName] !== null) {
+          updatedSlotsUsed[level.key] = formValues[controlName];
+        }
+      });
+
+      // 2. On crée l'objet de requête final avec la structure imbriquée correcte
       const updateRequest: Ogl5CharacterUpdateRequest = {
-        ...formValues
+        ...formValues, // On copie toutes les autres valeurs
+        spellSlots: {
+          ...this.character.spellSlots, // On garde les propriétés existantes de spellSlots (comme l'id)
+          slotsUsed: updatedSlotsUsed   // On met à jour juste la partie qui a changé
+        }
       };
 
-      // Convertir la valeur numérique du shield en chaîne de caractères correspondante
-      if (updateRequest.shield !== undefined) {
-        updateRequest.shield = ShieldType[updateRequest.shield] as any;
-      }
+      // 3. (Optionnel mais propre) On supprime les champs plats de la requête finale
+      this.spellLevels.forEach(level => {
+        delete (updateRequest as any)['spellSlots' + level.key];
+      });
+
+      // --- FIN DE LA MODIFICATION ---
 
       this.characterService.updateOgl5Character(updateRequest.id, updateRequest).subscribe({
         next: (updatedCharacter) => {
@@ -498,7 +498,6 @@ export class Ogl5CharacterSheetComponent implements OnInit {
   getProficiencyBonus(): number {
     return Math.floor((this.character.level - 1) / 4) + 2;
   }
-
   // Gérer la coche/décoche d'une compétence
   toggleSkillProficiency(skillId: number, event: Event): void {
     const checkbox = event.target as HTMLInputElement;
@@ -518,172 +517,6 @@ export class Ogl5CharacterSheetComponent implements OnInit {
 
     // Met à jour le formulaire
     this.characterForm.patchValue({ skillIds: currentSkillIds });
-  }
-
-  getSpellcastingAbility(): string {
-    // Définition du type avec un index signature
-    type SpellcastingAbilities = {
-      [key: string]: string;
-    };
-
-    // Dictionnaire des attributs d'incantation par classe
-    const spellcastingAbilities: SpellcastingAbilities = {
-      'Magicien': 'Intelligence',
-      'Clerc': 'Sagesse',
-      'Paladin': 'Charisme',
-      'Druide': 'Sagesse',
-      'Barde': 'Charisme',
-      'Ensorceleur': 'Charisme',
-      'Sorcier': 'Charisme',
-      'Rôdeur': 'Sagesse'
-      // Ajouter d'autres classes selon besoin
-    };
-
-    // Récupérer le nom de la classe du personnage
-    const className = this.character.classe.name;
-
-    // Vérifier si la classe existe dans notre dictionnaire et retourner l'attribut correspondant
-    return spellcastingAbilities[className] || 'Aucun';
-  }
-
-
-  calculateSpellSaveDC() {
-
-    const spellcastingAbility = this.getSpellcastingAbility().toString();
-
-    switch (spellcastingAbility) {
-      case 'Intelligence': return 8 + this.getAbilityModifier(this.character.intelligence) + this.getProficiencyBonus();
-      case 'Sagesse': return 8 + this.getAbilityModifier(this.character.wisdom) + this.getProficiencyBonus();
-      case 'Charisme': return 8 + this.getAbilityModifier(this.character.charisma) + this.getProficiencyBonus();
-      case 'Aucun': return 8;
-      default: return 8;
-    }
-
-  }
-
-  calculateSpellAttackBonus() {
-    // Exemple: modificateur d'incantation + bonus de maîtrise
-    return this.calculateSpellSaveDC() - 8;
-  }
-
-  getSpellSlots(level: number) {
-    // Récupérer les emplacements de sorts actuels par niveau
-    return 5;
-  }
-
-  getMaxSpellSlots(level: number) {
-    // Calculer le nombre max d'emplacements de sorts selon le niveau et la classe
-    return 5;
-  }
-
-  getPreparedSpellsByLevel(level: number): any[] {
-    if (!this.character.preparedSpells) {
-      return [];
-    }
-
-    return this.character.preparedSpells.filter(spell =>
-      spell.level === level.toString() || (level === 0 && spell.level === "0")
-    );
-  }
-
-// Récupérer les sorts de classe par niveau
-  getClassSpellsByLevel(level: number): any[] {
-    if (!this.character.classe || !this.character.classe.classSpells) {
-      return [];
-    }
-
-    return this.character.classe.classSpells.filter(spell =>
-      spell.level === level.toString() || (level === 0 && spell.level === "0")
-    );
-  }
-
-// Vérifier si un sort est déjà préparé
-  isSpellPrepared(spell: any): boolean {
-    if (!this.character.preparedSpells) {
-      return false;
-    }
-
-    return this.character.preparedSpells.some(s => s.id === spell.id);
-  }
-
-// Ajouter un sort aux sorts préparés
-  addToPrepared(spell: any): void {
-    if (!this.character.preparedSpells) {
-      this.character.preparedSpells = [];
-    }
-
-    // Vérifier si le sort n'est pas déjà préparé
-    if (!this.isSpellPrepared(spell)) {
-      // Ajouter le sort à la liste des sorts préparés (pour l'affichage)
-      this.character.preparedSpells.push({...spell});
-
-      // Mise à jour du contrôle preparedSpellIds du formulaire
-      if (this.characterForm) {
-        const currentIds = this.characterForm.get('preparedSpellIds')?.value || [];
-        const updatedIds = [...currentIds, spell.id];
-
-        // Mettre à jour le contrôle avec le nouvel ID
-        this.characterForm.patchValue({
-          preparedSpellIds: updatedIds
-        });
-
-        // Pour s'assurer que le formulaire est marqué comme modifié
-        this.characterForm.markAsDirty();
-      }
-    }
-  }
-
-
-// Retirer un sort des sorts préparés
-  removeFromPrepared(spell: any): void {
-    if (!this.character.preparedSpells) {
-      return;
-    }
-
-    // Filtrer le sort à retirer de l'affichage
-    this.character.preparedSpells = this.character.preparedSpells.filter(s => s.id !== spell.id);
-
-    // Mettre à jour le contrôle preparedSpellIds du formulaire
-    if (this.characterForm) {
-      const currentIds = this.characterForm.get('preparedSpellIds')?.value || [];
-      const updatedIds = currentIds.filter((id: string) => id !== spell.id);
-
-      // Mettre à jour le contrôle avec la liste filtrée d'IDs
-      this.characterForm.patchValue({
-        preparedSpellIds: updatedIds
-      });
-
-      // Marquer le formulaire comme modifié
-      this.characterForm.markAsDirty();
-    }
-  }
-
-// Ajouter un nouveau sort de classe
-  addClassSpell(level: number): void {
-    // Implémentez selon vos besoins, par exemple ouvrir un dialogue pour créer/sélectionner un sort
-    console.log(`Ajouter un sort de niveau ${level} à la liste des sorts de classe`);
-
-    // Exemple d'ouverture d'un dialogue
-    // this.dialog.open(AddSpellComponent, { data: { level } });
-  }
-
-  toggleSpellDetails(spell: any): void {
-    const index = this.expandedSpellIds.indexOf(spell.id);
-    if (index === -1) {
-      this.expandedSpellIds.push(spell.id);
-    } else {
-      this.expandedSpellIds.splice(index, 1);
-    }
-  }
-
-  hasAdditionalAttributes(spell: any): boolean {
-    return !!(
-      spell.archetype ||
-      (spell.domains && spell.domains.length) ||
-      (spell.oaths && spell.oaths.length) ||
-      (spell.circles && spell.circles.length) ||
-      (spell.patrons && spell.patrons.length)
-    );
   }
 
   getShieldDisplayName(shieldValue: ShieldType | string | null): string {
@@ -739,96 +572,7 @@ export class Ogl5CharacterSheetComponent implements OnInit {
     return found ? found[1] : alignmentKey;
   }
 
-  private determineSpellcasterType(): SpellcasterType {
-    if (!this.character.classe) return SpellcasterType.NON_CASTER;
-
-    // Logique pour déterminer le type de lanceur en fonction de la classe
-    switch (this.character.classe.name) {
-      case 'Magicien':
-      case 'Ensorceleur':
-      case 'Barde':
-      case 'Druide':
-      case 'Clerc':
-      case 'Occultiste':
-        return SpellcasterType.FULL_CASTER;
-
-      case 'Paladin':
-      case 'Rôdeur':
-      case 'Artificier':
-        return SpellcasterType.HALF_CASTER;
-
-      case 'Roublard arcanique':
-      case 'Guerrier eldritch knight':
-        return SpellcasterType.THIRD_CASTER;
-
-      default:
-        return SpellcasterType.NON_CASTER;
-    }
-  }
-
   getLevelKey(level: number): string {
     return level.toString() as any;
   }
-// Dans ogl5-character-sheet.component.ts
-  getUsedSlots(level: string): number {
-    // Cette assertion est sécurisée car nous savons que level est toujours '1'-'9'
-    return this.character.spellSlots.slotsUsed[level as keyof typeof this.character.spellSlots.slotsUsed];
-  }
-
-  setUsedSlots(level: string, value: number): void {
-    // Cette assertion est sécurisée car nous savons que level est toujours '1'-'9'
-    this.character.spellSlots.slotsUsed[level as keyof typeof this.character.spellSlots.slotsUsed] = value;
-  }
-
-  getTotalSlots(spellLevel: string): number {
-    // Récupérer le niveau du personnage
-    const levelControl = this.characterForm?.get('level');
-    const charLevel = levelControl ?
-      (levelControl.enabled ? levelControl.value : this.character?.level) :
-      this.character?.level || 1;
-
-    // Récupérer le type de lanceur de sorts
-    const spellcasterType = this.determineSpellcasterType();
-
-    // Utiliser le service pour calculer les emplacements
-    const spellSlots = this.spellSlotsService.calculateSpellSlots(spellcasterType, charLevel);
-
-    // Vérifier que spellLevel est une clé valide (1-9)
-    if (spellLevel in spellSlots) {
-      // Utiliser l'assertion de type pour indiquer à TypeScript que c'est une clé valide
-      return spellSlots[spellLevel as keyof SpellSlotLevels];
-    }
-
-    return 0;
-  }
-
-  getSlotArray(level: string): number[] {
-    const maxSlots = this.getTotalSlots(level);
-    return Array.from({ length: maxSlots }, (_, i) => i);
-  }
-
-// Récupérer la valeur actuelle du formulaire pour un niveau de sort
-  getSpellSlotsFormValue(level: string): number {
-    return this.characterForm.get('spellSlots' + level)?.value || 0;
-  }
-
-// Basculer l'état d'un emplacement de sort (coché/décoché)
-  toggleSpellSlot(level: string, clickedPosition: number): void {
-    const control = this.characterForm.get('spellSlots' + level);
-    if (!control) return;
-
-    const currentValue = control.value || 0;
-
-    // Si on clique sur une position déjà cochée ou la première position non cochée,
-    // on met à jour la valeur en conséquence
-    if (clickedPosition <= currentValue) {
-      // Décocher jusqu'à cette position
-      control.setValue(clickedPosition - 1);
-    } else {
-      // Cocher jusqu'à cette position
-      control.setValue(clickedPosition);
-    }
-  }
-
-
 }
