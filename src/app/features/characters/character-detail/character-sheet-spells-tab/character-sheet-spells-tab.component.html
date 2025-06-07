@@ -131,8 +131,8 @@
           <div>
             <div class="flex items-center">
               <span class="font-medium">{{ spell.name }}</span>
-              <span *ngIf="spell.ritual" class="ml-2 text-xs bg-purple-100 text-purple-800 px-1.5 py-0.5 rounded-full">Rituel</span>
-              <span *ngIf="spell.concentration" class="ml-2 text-xs bg-yellow-100 text-yellow-800 px-1.5 py-0.5 rounded-full">Concentration</span>
+              <span *ngIf="spell.ritual == 'Oui'" class="ml-2 text-xs bg-purple-100 text-purple-800 px-1.5 py-0.5 rounded-full">Rituel</span>
+              <span *ngIf="spell.concentration == 'Oui'" class="ml-2 text-xs bg-yellow-100 text-yellow-800 px-1.5 py-0.5 rounded-full">Concentration</span>
             </div>
             <div class="text-xs text-gray-500 mt-1">
               {{ spell.school }}
@@ -255,8 +255,8 @@
           <div>
             <div class="flex items-center">
               <span class="font-medium">{{ spell.name }}</span>
-              <span *ngIf="spell.ritual" class="ml-2 text-xs bg-purple-100 text-purple-800 px-1.5 py-0.5 rounded-full">Rituel</span>
-              <span *ngIf="spell.concentration" class="ml-2 text-xs bg-yellow-100 text-yellow-800 px-1.5 py-0.5 rounded-full">Concentration</span>
+              <span *ngIf="spell.ritual == 'Oui'" class="ml-2 text-xs bg-purple-100 text-purple-800 px-1.5 py-0.5 rounded-full">Rituel</span>
+              <span *ngIf="spell.concentration == 'Oui'" class="ml-2 text-xs bg-yellow-100 text-yellow-800 px-1.5 py-0.5 rounded-full">Concentration</span>
             </div>
             <div class="text-xs text-gray-500 mt-1">
               {{ spell.school }}
