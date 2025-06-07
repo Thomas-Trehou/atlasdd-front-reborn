@@ -342,6 +342,10 @@ export class Ogl5CharacterSheetComponent implements OnInit {
 
       // --- FIN DE LA MODIFICATION ---
 
+      if (updateRequest.shield !== undefined) {
+        updateRequest.shield = ShieldType[updateRequest.shield] as any;
+      }
+
       this.characterService.updateOgl5Character(updateRequest.id, updateRequest).subscribe({
         next: (updatedCharacter) => {
           this.character = updatedCharacter;
