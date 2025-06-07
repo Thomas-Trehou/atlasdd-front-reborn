@@ -6,10 +6,7 @@ import {CharacterService} from '../../../../services/character/character.service
 import {SKILL_ABILITY_MAPPINGS_BY_ID} from '../../../../core/utils/SkillAbilityMapping';
 import {ShieldType} from '../../../../core/enums/shield-type';
 import { Alignment } from '../../../../core/enums/alignment';
-import {SpellcasterType} from '../../../../core/enums/SpellcasterType';
-import {SpellSlotsService} from '../../../../services/character/spell-slots.service';
 import {Subscription} from 'rxjs';
-import {SpellSlotLevels} from '../../../../core/models/character/spell-slots'
 import {CharacterSheetSpellsTabComponent} from '../character-sheet-spells-tab/character-sheet-spells-tab.component';
 
 @Component({
@@ -34,13 +31,8 @@ export class Ogl5CharacterSheetComponent implements OnInit {
   allSkills: any[] = [];
   private skillAbilityMappings = SKILL_ABILITY_MAPPINGS_BY_ID;
   activeTab: 'general' | 'spells' = 'general';
-  activeSpellTab: 'prepared' | 'class' = 'prepared';
   originalCharacterData: any = null;
-  selectedSpellLevel: number = 0;
-  expandedSpellIds: string[] = [];
   ShieldType = ShieldType;
-  Alignment = Alignment;
-  spellcasterType: SpellcasterType;
   private subscriptions: Subscription[] = [];
 
 
@@ -59,8 +51,7 @@ export class Ogl5CharacterSheetComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private characterService: CharacterService,
-    private spellSlotsService: SpellSlotsService
+    private characterService: CharacterService
 ) {}
 
   ngOnInit(): void {
@@ -75,7 +66,6 @@ export class Ogl5CharacterSheetComponent implements OnInit {
         setTimeout(() => this.spellsTabComponent?.updateSpellSlotValidators(), 0);
       });
     }
-
   }
 
   ngOnDestroy(): void {
@@ -109,11 +99,6 @@ export class Ogl5CharacterSheetComponent implements OnInit {
       // Si c'est déjà un ShieldType ou autre valeur
       currentShield = ShieldType.NONE;
     }
-
-
-
-
-
     // Pour l'alignement : s'assurer que nous avons la clé de l'enum, pas la valeur d'affichage
     let alignmentKey = this.character.alignment;
 
@@ -187,15 +172,7 @@ export class Ogl5CharacterSheetComponent implements OnInit {
         this.fb.control(this.character.spellSlots.slotsUsed[level.key as keyof typeof this.character.spellSlots.slotsUsed])
       );
     });
-
-
-
-
-
   }
-
-
-
 
   enterEditMode(): void {
     this.isEditMode = true;
@@ -296,8 +273,6 @@ export class Ogl5CharacterSheetComponent implements OnInit {
     });
   }
 
-
-
   cancelEdit(): void {
     // Restaurer les données originales
     if (this.originalCharacterData) {
@@ -308,7 +283,6 @@ export class Ogl5CharacterSheetComponent implements OnInit {
     // Quitter le mode édition
     this.isEditMode = false;
   }
-
 
   saveChanges(): void {
     if (this.characterForm.valid) {
@@ -364,7 +338,6 @@ export class Ogl5CharacterSheetComponent implements OnInit {
       });
     }
   }
-
   // Méthodes utilitaires pour manipuler les caractéristiques
   getAbilityModifier(score: number): number {
     return Math.floor((score - 10) / 2);
@@ -395,11 +368,7 @@ export class Ogl5CharacterSheetComponent implements OnInit {
   }
 
   // Calculer le bonus de maîtrise en fonction du niveau
-  get proficiencyBonus(): number {
-    return Math.floor(2 + (this.character.level - 1) / 4);
-  }
-
-  // Vérifier si une compétence est maîtrisée
+// Vérifier si une compétence est maîtrisée
   isSkillProficient(skillId: number): boolean {
     return this.character.skills.some(skill => skill.id === skillId);
   }
@@ -423,69 +392,6 @@ export class Ogl5CharacterSheetComponent implements OnInit {
     return abbreviations[abilityType] || abilityType;
   }
 
-  // Obtenir le nom complet de la caractéristique associée
-  getAbilityNameForSkill(skillId: number): string {
-    const abilityKey = this.getAbilityKeyForSkill(skillId);
-    const abilityNames: { [key: string]: string } = {
-      'strength': 'Force',
-      'dexterity': 'Dextérité',
-      'constitution': 'Constitution',
-      'intelligence': 'Intelligence',
-      'wisdom': 'Sagesse',
-      'charisma': 'Charisme'
-    };
-
-    return abilityNames[abilityKey] || abilityKey;
-  }
-
-  // Obtenir le score de caractéristique associé à une compétence
-  getAbilityScoreForSkill(abilityType: string): number {
-    switch (abilityType) {
-      case 'strength': return this.character.strength;
-      case 'dexterity': return this.character.dexterity;
-      case 'constitution': return this.character.constitution;
-      case 'intelligence': return this.character.intelligence;
-      case 'wisdom': return this.character.wisdom;
-      case 'charisma': return this.character.charisma;
-      default: return 10; // Valeur par défaut
-    }
-  }
-
-  // Calculer le modificateur total d'une compétence
-  getSkillModifier(skill: any): number {
-    // Calculer le modificateur de caractéristique de base
-    const abilityScore = this.getAbilityScoreForSkill(skill.abilityType);
-    const abilityModifier = this.getAbilityModifier(abilityScore);
-
-    // Ajouter le bonus de maîtrise si compétent
-    if (this.isSkillProficient(skill.id)) {
-      return abilityModifier + this.proficiencyBonus;
-    }
-
-    return abilityModifier;
-  }
-
-  // Méthode alternative qui prend directement l'ID de la compétence
-  calculateSkillModifier(skillId: number): number {
-    const abilityKey = this.getAbilityKeyForSkill(skillId);
-    const abilityScore = this.getAbilityScoreForSkill(abilityKey);
-    const abilityModifier = this.getAbilityModifier(abilityScore);
-
-    // Ajouter le bonus de maîtrise si compétent
-    if (this.isSkillProficient(skillId)) {
-      return abilityModifier + this.proficiencyBonus;
-    }
-
-    return abilityModifier;
-  }
-
-  // Formater le texte du modificateur de compétence
-  getSkillModifierText(skill: any): string {
-    const modifier = this.getSkillModifier(skill);
-    return modifier >= 0 ? `+${modifier}` : `${modifier}`;
-  }
-
-  // Version alternative qui prend directement l'ID de compétence
   getSkillModifierTextById(skillId: number): string {
     const abilityKey = this.getAbilityKeyForSkill(skillId);
     const abilityScore = this.character[abilityKey as keyof Ogl5Character] as number;
@@ -553,13 +459,6 @@ export class Ogl5CharacterSheetComponent implements OnInit {
       isNaN(Number(key))
     ) as Array<keyof typeof Alignment>;
   }
-
-  private getAlignmentKeyFromValue(value: string): string {
-    const entries = Object.entries(Alignment);
-    const found = entries.find(([_, val]) => val === value);
-    return found ? found[0] : 'NEUTRE_PUR'; // Valeur par défaut
-  }
-
   getAlignmentDisplayValue(alignmentKey: string | null): string {
     if (!alignmentKey) return '';
 
@@ -574,9 +473,5 @@ export class Ogl5CharacterSheetComponent implements OnInit {
     const found = entries.find(([_, val]) => val === alignmentKey);
 
     return found ? found[1] : alignmentKey;
-  }
-
-  getLevelKey(level: number): string {
-    return level.toString() as any;
   }
 }

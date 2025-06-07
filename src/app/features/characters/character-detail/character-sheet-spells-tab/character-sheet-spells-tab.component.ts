@@ -172,22 +172,12 @@ export class CharacterSheetSpellsTabComponent implements OnInit{
     );
   }
 
-
-  setUsedSlots(level: string, value: number): void {
-    // Cette assertion est sécurisée car nous savons que level est toujours '1'-'9'
-    this.character.spellSlots.slotsUsed[level as keyof typeof this.character.spellSlots.slotsUsed] = value;
-  }
-
   addClassSpell(level: number): void {
     // Implémentez selon vos besoins, par exemple ouvrir un dialogue pour créer/sélectionner un sort
     console.log(`Ajouter un sort de niveau ${level} à la liste des sorts de classe`);
 
     // Exemple d'ouverture d'un dialogue
     // this.dialog.open(AddSpellComponent, { data: { level } });
-  }
-
-  getLevelKey(level: number): string {
-    return level.toString() as any;
   }
 
   updateSpellSlotValidators(): void {
