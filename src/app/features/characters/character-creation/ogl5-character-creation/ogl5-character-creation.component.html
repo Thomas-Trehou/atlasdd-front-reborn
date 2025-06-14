@@ -1,0 +1,141 @@
+<div class="container mx-auto p-6">
+  <h1 class="text-3xl font-bold mb-6">Création de Personnage</h1>
+
+  <div *ngIf="isLoading" class="text-center">Chargement des options...</div>
+
+  <form [formGroup]="creationForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <div>
+        <label>Nom:</label>
+        <input formControlName="name" class="w-full border p-2 rounded">
+      </div>
+      <div>
+        <label>Race:</label>
+        <select formControlName="raceId" class="w-full border p-2 rounded">
+          <option [ngValue]="null" disabled>Choisissez une race</option>
+          <option *ngFor="let race of options.races" [value]="race.id">{{ race.name }}</option>
+        </select>
+      </div>
+      <div>
+        <label>Classe:</label>
+        <select formControlName="classId" class="w-full border p-2 rounded">
+          <option [ngValue]="null" disabled>Choisissez une classe</option>
+          <option *ngFor="let classe of options.classes" [value]="classe.id">{{ classe.name }}</option>
+        </select>
+      </div>
+      <div>
+        <label>Historique:</label>
+        <select formControlName="backgroundId" class="w-full border p-2 rounded">
+          <option [ngValue]="null" disabled>Choisissez un historique</option>
+          <option *ngFor="let bg of options.backgrounds" [value]="bg.id">{{ bg.name }}</option>
+        </select>
+      </div>
+    </div>
+
+    <h2 class="text-2xl font-bold mb-4">Caractéristiques</h2>
+    <div class="grid grid-cols-2 md:grid-cols-6 gap-4 mb-6">
+
+      <div class="text-center">
+        <label class="font-medium">Force</label>
+        <input type="number" formControlName="strength" class="w-full border p-2 rounded text-center">
+        <span class="text-xl font-bold">{{ getAbilityModifierText(creationForm.get('strength')!.value) }}</span>
+      </div>
+
+      <div class="text-center">
+        <label class="font-medium">Dextérité</label>
+        <input type="number" formControlName="dexterity" class="w-full border p-2 rounded text-center">
+        <span class="text-xl font-bold">{{ getAbilityModifierText(creationForm.get('dexterity')!.value) }}</span>
+      </div>
+
+      <div class="text-center">
+        <label class="font-medium">Constitution</label>
+        <input type="number" formControlName="constitution" class="w-full border p-2 rounded text-center">
+        <span class="text-xl font-bold">{{ getAbilityModifierText(creationForm.get('constitution')!.value) }}</span>
+      </div>
+
+      <div class="text-center">
+        <label class="font-medium">Intelligence</label>
+        <input type="number" formControlName="intelligence" class="w-full border p-2 rounded text-center">
+        <span class="text-xl font-bold">{{ getAbilityModifierText(creationForm.get('intelligence')!.value) }}</span>
+      </div>
+
+      <div class="text-center">
+        <label class="font-medium">Sagesse</label>
+        <input type="number" formControlName="wisdom" class="w-full border p-2 rounded text-center">
+        <span class="text-xl font-bold">{{ getAbilityModifierText(creationForm.get('wisdom')!.value) }}</span>
+      </div>
+
+      <div class="text-center">
+        <label class="font-medium">Charisme</label>
+        <input type="number" formControlName="charisma" class="w-full border p-2 rounded text-center">
+        <span class="text-xl font-bold">{{ getAbilityModifierText(creationForm.get('charisma')!.value) }}</span>
+      </div>
+
+    </div>
+
+    <h2 class="text-2xl font-bold mb-4">Équipement</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <div>
+        <label>Armure:</label>
+        <select formControlName="armorId" class="w-full border p-2 rounded">
+          <option [ngValue]="null" disabled>Choisissez une armure</option>
+          <option *ngFor="let armor of options.armors" [value]="armor.id">{{ armor.name }}</option>
+        </select>
+      </div>
+      <div class="space-y-4">
+        <div>
+          <label class="block font-medium">Arme 1:</label>
+          <select formControlName="weapon1Id" class="w-full border p-2 rounded">
+            <option [ngValue]="null" disabled>Choisissez une arme</option>
+            <option *ngFor="let weapon of options.weapons" [value]="weapon.id">{{ weapon.name }}</option>
+          </select>
+        </div>
+        <div>
+          <label class="block font-medium">Arme 2:</label>
+          <select formControlName="weapon2Id" class="w-full border p-2 rounded">
+            <option [ngValue]="null" disabled>Choisissez une arme</option>
+            <option *ngFor="let weapon of options.weapons" [value]="weapon.id">{{ weapon.name }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="text-2xl font-bold mb-4">Compétences</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-2 mb-6">
+
+      <div *ngFor="let skill of creationForm.get('skills')?.value"
+           (click)="toggleSkillProficiency(skill.id)"
+           class="flex items-center justify-between p-2 hover:bg-gray-100 rounded cursor-pointer">
+
+        <div class="flex items-center">
+          <div class="mr-2 w-4 h-4 flex items-center justify-center">
+            <div *ngIf="isSkillProficient(skill.id)" class="w-3 h-3 bg-blue-600 rounded"></div>
+            <div *ngIf="!isSkillProficient(skill.id)" class="w-3 h-3 border-2 border-gray-300 rounded"></div>
+          </div>
+
+          <label class="text-gray-700 cursor-pointer">
+            {{ skill.name }}
+          </label>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="mt-4 text-xs text-gray-500 flex gap-4">
+      <div class="flex items-center gap-1">
+        <div class="w-3 h-3 border-2 border-gray-300 rounded"></div>
+        <span>Non maîtrisé</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <div class="w-3 h-3 bg-blue-600 rounded"></div>
+        <span>Maîtrisé</span>
+      </div>
+      <span class="ml-auto">Cliquez pour changer l'état</span>
+    </div>
+
+    <button type="submit" [disabled]="creationForm.invalid" class="px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-gray-400">
+      Créer le personnage
+    </button>
+  </form>
+</div>

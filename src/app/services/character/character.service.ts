@@ -5,7 +5,12 @@ import { environment } from '../../../environments/environment.development';
 import { AuthService } from '../auth/auth.service';
 import { UserService } from '../user/user.service';
 import {CharacterCardModel} from '../../core/models/character/character-card';
-import {Ogl5Character, Ogl5CharacterCard, Ogl5CharacterUpdateRequest} from '../../core/models/character/ogl5-character';
+import {
+  Ogl5Character,
+  Ogl5CharacterCard,
+  Ogl5CharacterCreateRequest,
+  Ogl5CharacterUpdateRequest
+} from '../../core/models/character/ogl5-character';
 import {
   CustomCharacter,
   CustomCharacterCard,
@@ -140,6 +145,13 @@ export class CharacterService {
   getAllWeapons(): Observable<Weapon[]> {
     const url = `${environment.API_URL}${environment.API_RESOURCES.CHARACTER_OPTIONS}/weapons`;
     return this.http.get<Weapon[]>(url)
+  }
+
+  /**
+   * Crée une nouvelle fiche de personnage OGL5.
+   */
+  createOgl5Character(characterData: Ogl5CharacterCreateRequest): Observable<Ogl5Character> {
+    return this.http.post<Ogl5Character>(`${environment.API_URL}${environment.API_RESOURCES.OGL5_CHARACTER}`, characterData); // Adaptez l'endpoint de création
   }
 
 
