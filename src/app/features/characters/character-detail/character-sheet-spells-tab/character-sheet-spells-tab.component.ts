@@ -26,7 +26,6 @@ export class CharacterSheetSpellsTabComponent implements OnInit{
 
   public parentForm!: FormGroup;
 
-  // TOUTES les propriétés liées aux sorts sont déplacées ici
   activeSpellTab: 'prepared' | 'class' = 'prepared';
   selectedSpellLevel: number = 0;
   expandedSpellIds: string[] = [];
@@ -47,9 +46,6 @@ export class CharacterSheetSpellsTabComponent implements OnInit{
     this.parentForm = this.parentContainer.control as FormGroup;
     this.spellcasterType = this.determineSpellcasterType();
   }
-
-  // --- TOUTES LES MÉTHODES DE GESTION DES SORTS SONT DÉPLACÉES ICI ---
-  // Source: ogl5-character-sheet.component.ts
 
   getSpellcastingAbility(): string {
     const spellcastingAbilities: { [key: string]: string } = {

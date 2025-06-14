@@ -8,6 +8,8 @@ import {ShieldType} from '../../../../core/enums/shield-type';
 import { Alignment } from '../../../../core/enums/alignment';
 import {Subscription} from 'rxjs';
 import {CharacterSheetSpellsTabComponent} from '../character-sheet-spells-tab/character-sheet-spells-tab.component';
+import {SkillProficiencyLevel} from '../../../../core/enums/skill-proficiency-level';
+import {Skill} from '../../../../core/models/option/skill';
 
 @Component({
   selector: 'app-ogl5-character-sheet',
@@ -28,7 +30,7 @@ export class Ogl5CharacterSheetComponent implements OnInit {
 
   characterForm!: FormGroup;
   isEditMode: boolean = false;
-  allSkills: any[] = [];
+  allSkills: Skill[] = [];
   private skillAbilityMappings = SKILL_ABILITY_MAPPINGS_BY_ID;
   activeTab: 'general' | 'spells' = 'general';
   originalCharacterData: any = null;
@@ -61,8 +63,6 @@ export class Ogl5CharacterSheetComponent implements OnInit {
     const levelControl = this.characterForm.get('level');
     if (levelControl) {
       levelControl.valueChanges.subscribe(() => {
-        // On demande au composant enfant de mettre à jour ses validateurs
-        // Il faut parfois mettre un léger délai pour s'assurer que l'enfant a bien reçu le nouveau "character"
         setTimeout(() => this.spellsTabComponent?.updateSpellSlotValidators(), 0);
       });
     }
@@ -80,11 +80,9 @@ export class Ogl5CharacterSheetComponent implements OnInit {
 
   private initForm(): void {
 
-    // Pour le bouclier : convertir en ShieldType
     let currentShield: ShieldType;
 
     if (typeof this.character.shield === 'number') {
-      // Si c'est un nombre, le convertir vers l'enum
       switch (this.character.shield) {
         case 0: currentShield = ShieldType.NONE; break;
         case 2: currentShield = ShieldType.NORMAL; break;
@@ -96,23 +94,16 @@ export class Ogl5CharacterSheetComponent implements OnInit {
     } else if (this.character.shield === null || this.character.shield === undefined) {
       currentShield = ShieldType.NONE;
     } else {
-      // Si c'est déjà un ShieldType ou autre valeur
       currentShield = ShieldType.NONE;
     }
-    // Pour l'alignement : s'assurer que nous avons la clé de l'enum, pas la valeur d'affichage
     let alignmentKey = this.character.alignment;
 
-    // Si nous avons déjà la clé d'enum (ex: "LOYAL_BON")
     if (typeof alignmentKey === 'string' && Object.keys(Alignment).includes(alignmentKey)) {
-      // C'est déjà une clé, on la garde telle quelle
     }
-    // Si nous avons la valeur d'affichage (ex: "Loyal Bon")
     else if (alignmentKey) {
-      // Trouver la clé correspondante
       const entries = Object.entries(Alignment);
       const found = entries.find(([_, val]) => val === alignmentKey);
       if (found) {
-        // Convertir la chaîne de caractères en valeur de l'enum Alignment
         alignmentKey = Alignment[found[0] as keyof typeof Alignment];
       }
     }
@@ -154,12 +145,10 @@ export class Ogl5CharacterSheetComponent implements OnInit {
       charismaSavingThrowBonus: [{value: this.character.charismaSavingThrowBonus, disabled: !this.isEditMode}],
       status: [{value: this.character.status, disabled: !this.isEditMode}],
       spellSlots: [{value: this.character.spellSlots, disabled: !this.isEditMode}],
-      // IDs des relations (ces champs ne seront pas édités directement)
       raceId: [this.character.race.id],
       backgroundId: [this.character.background.id],
       classId: [this.character.classe.id],
-      // Pour les tableaux d'IDs, nous gérerons cela séparément
-      skillIds: [this.character.skills.map(skill => skill.id)],
+      skills: [this.character.skills],
       preparedSpellIds: [this.character.preparedSpells.map(spell => spell.id)],
       weaponIds: [this.character.weapons.map(weapon => weapon.id)],
       armorId: [this.character.armor ? this.character.armor.id : null]
@@ -168,7 +157,6 @@ export class Ogl5CharacterSheetComponent implements OnInit {
     this.spellLevels.forEach(level => {
       this.characterForm.addControl(
         'spellSlots' + level.key,
-        // On lit directement la valeur initiale depuis l'objet character
         this.fb.control(this.character.spellSlots.slotsUsed[level.key as keyof typeof this.character.spellSlots.slotsUsed])
       );
     });
@@ -179,7 +167,6 @@ export class Ogl5CharacterSheetComponent implements OnInit {
 
     this.characterForm.get('level')?.enable();
 
-    // Activer les emplacements de sorts
     this.spellLevels.forEach(level => {
       const control = this.characterForm.get('spellSlots' + level.key);
       if (control) {
@@ -187,39 +174,27 @@ export class Ogl5CharacterSheetComponent implements OnInit {
       }
     });
 
-    // S'assurer que les validateurs sont corrects
-
-
-    // Sauvegarde des données originales
     this.originalCharacterData = { ...this.character };
 
-    // Activer tous les contrôles
     Object.keys(this.characterForm.controls).forEach(key => {
       const control = this.characterForm.get(key);
       control?.enable();
 
-      // Réinitialiser les valeurs pour s'assurer qu'elles correspondent aux données actuelles
       if (key === 'shield' || key === 'alignment') {
         const characterValue = this.character[key];
         console.log(`Original ${key} value:`, characterValue, typeof characterValue);
 
-        // Valeur à mettre dans le formulaire
         let formValue: any = characterValue;
 
         if (key === 'shield' && characterValue !== null) {
-          // SHIELD: Traitement selon le type de donnée reçue
           if (typeof characterValue === 'number') {
-            // Si c'est un nombre (ex: 4), le convertir en valeur d'enum
-            // Vérifier que la valeur numérique existe dans l'enum
             const isValidValue = Object.values(ShieldType).includes(characterValue);
             formValue = isValidValue ? characterValue : ShieldType.NONE;
           }
           else if (typeof characterValue === 'string') {
-            // Si c'est une chaîne, traiter comme une chaîne générique sans supposer de type
-            const strValue = String(characterValue); // Conversion explicite en string
+            const strValue = String(characterValue);
 
             if (Object.keys(ShieldType).includes(strValue)) {
-              // Vérifier si la chaîne correspond à une clé d'enum
               switch (strValue) {
                 case 'NONE': formValue = ShieldType.NONE; break;
                 case 'NORMAL': formValue = ShieldType.NORMAL; break;
@@ -231,24 +206,19 @@ export class Ogl5CharacterSheetComponent implements OnInit {
             }
 
             else if (!isNaN(Number(characterValue))) {
-              // Si c'est un nombre sous forme de chaîne (ex: "4")
               const numValue = Number(characterValue);
-              // Vérifier que cette valeur existe dans l'enum
               formValue = Object.values(ShieldType).includes(numValue) ? numValue : ShieldType.NONE;
             }
             else {
-              // Dernière tentative avec une approche sécurisée au niveau du type
               const entries = Object.entries(ShieldType);
               for (const [key, val] of entries) {
                 if (val === characterValue) {
-                  // Utiliser le cast seulement après avoir vérifié que c'est une clé valide
                   const safeKey = key as keyof typeof ShieldType;
                   formValue = ShieldType[safeKey];
                   break;
                 }
               }
 
-              // Si aucune correspondance n'est trouvée
               if (formValue === characterValue) {
                 formValue = ShieldType.NONE;
               }
@@ -258,7 +228,6 @@ export class Ogl5CharacterSheetComponent implements OnInit {
 
 
         if (key === 'alignment' && characterValue) {
-          // Code inchangé pour l'alignement
           if (typeof characterValue === 'string' && !Object.keys(Alignment).includes(characterValue)) {
             const entries = Object.entries(Alignment);
             const found = entries.find(([_, val]) => val === characterValue);
@@ -266,7 +235,6 @@ export class Ogl5CharacterSheetComponent implements OnInit {
           }
         }
 
-        // Mettre à jour la valeur du contrôle
         control?.setValue(formValue);
         console.log(`Set ${key} to:`, formValue, typeof formValue);
       }
@@ -274,24 +242,18 @@ export class Ogl5CharacterSheetComponent implements OnInit {
   }
 
   cancelEdit(): void {
-    // Restaurer les données originales
     if (this.originalCharacterData) {
       this.character = this.originalCharacterData;
       this.originalCharacterData = null;
     }
 
-    // Quitter le mode édition
     this.isEditMode = false;
   }
 
   saveChanges(): void {
     if (this.characterForm.valid) {
-      // Récupérer toutes les valeurs du formulaire
       const formValues = this.characterForm.getRawValue();
 
-      // --- DÉBUT DE LA MODIFICATION ---
-
-      // 1. On construit l'objet "slotsUsed" à partir des contrôles plats
       const updatedSlotsUsed: { [key: string]: number } = {};
       this.spellLevels.forEach(level => {
         const controlName = 'spellSlots' + level.key;
@@ -300,21 +262,18 @@ export class Ogl5CharacterSheetComponent implements OnInit {
         }
       });
 
-      // 2. On crée l'objet de requête final avec la structure imbriquée correcte
       const updateRequest: Ogl5CharacterUpdateRequest = {
-        ...formValues, // On copie toutes les autres valeurs
+        ...formValues,
         spellSlots: {
-          ...this.character.spellSlots, // On garde les propriétés existantes de spellSlots (comme l'id)
-          slotsUsed: updatedSlotsUsed   // On met à jour juste la partie qui a changé
-        }
+          ...this.character.spellSlots,
+          slotsUsed: updatedSlotsUsed
+        },
+        skills: formValues.skills
       };
 
-      // 3. (Optionnel mais propre) On supprime les champs plats de la requête finale
       this.spellLevels.forEach(level => {
         delete (updateRequest as any)['spellSlots' + level.key];
       });
-
-      // --- FIN DE LA MODIFICATION ---
 
       if (updateRequest.shield !== undefined) {
         updateRequest.shield = ShieldType[updateRequest.shield] as any;
@@ -324,21 +283,16 @@ export class Ogl5CharacterSheetComponent implements OnInit {
         next: (updatedCharacter) => {
           this.character = updatedCharacter;
           this.characterUpdated.emit(updatedCharacter);
-
-          // Effacer la sauvegarde temporaire
           this.originalCharacterData = null;
-
-          // Sortir du mode édition
           this.isEditMode = false;
         },
         error: (err) => {
           console.error('Erreur lors de la mise à jour du personnage', err);
-          // Optionnel : vous pourriez choisir de rester en mode édition en cas d'erreur
         }
       });
     }
   }
-  // Méthodes utilitaires pour manipuler les caractéristiques
+
   getAbilityModifier(score: number): number {
     return Math.floor((score - 10) / 2);
   }
@@ -352,14 +306,13 @@ export class Ogl5CharacterSheetComponent implements OnInit {
     return value >= 0 ? `+${value}` : `${value}`;
   }
 
-  // Récupérer toutes les compétences disponibles
   loadAllSkills(): void {
     this.characterService.getAllSkills().subscribe({
       next: (skills) => {
         this.allSkills = skills.map(skill => ({
           ...skill,
           abilityType: this.getAbilityKeyForSkill(skill.id)
-        }));
+        })) as Skill[];
       },
       error: (err) => {
         console.error('Erreur lors du chargement des compétences', err);
@@ -367,16 +320,12 @@ export class Ogl5CharacterSheetComponent implements OnInit {
     });
   }
 
-  // Calculer le bonus de maîtrise en fonction du niveau
-// Vérifier si une compétence est maîtrisée
-  isSkillProficient(skillId: number): boolean {
-    return this.character.skills.some(skill => skill.id === skillId);
+  // Obtenir la caractéristique associée à une compétence à partir du mapping
+  getAbilityKeyForSkill(skillId: number): 'strength' | 'dexterity' | 'constitution' | 'intelligence' | 'wisdom' | 'charisma' {
+    const abilityType = this.skillAbilityMappings[skillId] || 'dexterity';
+    return abilityType as 'strength' | 'dexterity' | 'constitution' | 'intelligence' | 'wisdom' | 'charisma';
   }
 
-  // Obtenir la caractéristique associée à une compétence à partir du mapping
-  getAbilityKeyForSkill(skillId: number): string {
-    return this.skillAbilityMappings[skillId] || 'dexterity'; // Valeur par défaut si non trouvée
-  }
 
   // Obtenir l'abréviation de la caractéristique associée
   getAbilityAbbreviation(abilityType: string): string {
@@ -398,8 +347,15 @@ export class Ogl5CharacterSheetComponent implements OnInit {
     const abilityModifier = this.getAbilityModifier(abilityScore);
 
     let modifier = abilityModifier;
-    if (this.isSkillProficient(skillId)) {
-      modifier += this.getProficiencyBonus();
+    const level = this.getSkillProficiencyLevel(skillId);
+
+    if (level !== SkillProficiencyLevel.NONE) {
+      const proficiencyBonus = this.getProficiencyBonus();
+      if (level === SkillProficiencyLevel.EXPERT) {
+        modifier += proficiencyBonus * 2;
+      } else {
+        modifier += proficiencyBonus;
+      }
     }
 
     return modifier >= 0 ? `+${modifier}` : `${modifier}`;
@@ -408,35 +364,12 @@ export class Ogl5CharacterSheetComponent implements OnInit {
   getProficiencyBonus(): number {
     return Math.floor((this.character.level - 1) / 4) + 2;
   }
-  // Gérer la coche/décoche d'une compétence
-  toggleSkillProficiency(skillId: number, event: Event): void {
-    const checkbox = event.target as HTMLInputElement;
-    const isChecked = checkbox.checked;
-
-    // Récupère les IDs de compétences actuels du formulaire
-    const currentSkillIds = [...this.characterForm.get('skillIds')?.value || []];
-
-    if (isChecked && !currentSkillIds.includes(skillId)) {
-      // Ajoute l'ID de compétence
-      currentSkillIds.push(skillId);
-    } else if (!isChecked && currentSkillIds.includes(skillId)) {
-      // Supprime l'ID de compétence
-      const index = currentSkillIds.indexOf(skillId);
-      currentSkillIds.splice(index, 1);
-    }
-
-    // Met à jour le formulaire
-    this.characterForm.patchValue({ skillIds: currentSkillIds });
-  }
 
   getShieldDisplayName(shieldValue: ShieldType | string | null): string {
-    // Si on reçoit un string (ex: "NORMAL")
     if (typeof shieldValue === 'string') {
-      // Convertir en valeur numérique
       shieldValue = ShieldType[shieldValue as keyof typeof ShieldType];
     }
 
-    // Maintenant utiliser la valeur numérique
     switch (shieldValue as ShieldType) {
       case ShieldType.NONE:
         return 'Aucun';
@@ -462,16 +395,97 @@ export class Ogl5CharacterSheetComponent implements OnInit {
   getAlignmentDisplayValue(alignmentKey: string | null): string {
     if (!alignmentKey) return '';
 
-    // Vérifier si la clé existe dans l'enum
     if (Object.prototype.hasOwnProperty.call(Alignment, alignmentKey)) {
       return Alignment[alignmentKey as keyof typeof Alignment];
     }
 
-    // Si la valeur est déjà la valeur d'affichage (ex: "Loyal Bon")
-    // Tentative de retrouver la clé correspondante
     const entries = Object.entries(Alignment);
     const found = entries.find(([_, val]) => val === alignmentKey);
 
     return found ? found[1] : alignmentKey;
   }
+
+  getSkillProficiencyLevel(skillId: number): SkillProficiencyLevel {
+    const skill = this.character.skills.find(s => s.id === skillId);
+    if (!skill) return SkillProficiencyLevel.NONE;
+
+    if (skill.expert) return SkillProficiencyLevel.EXPERT;
+    return SkillProficiencyLevel.PROFICIENT;
+  }
+
+  cycleSkillProficiency(skillId: number): void {
+    if (!this.isEditMode) return;
+
+    const currentLevel = this.getSkillProficiencyLevel(skillId);
+    let newLevel: SkillProficiencyLevel;
+
+    switch (currentLevel) {
+      case SkillProficiencyLevel.NONE:
+        newLevel = SkillProficiencyLevel.PROFICIENT;
+        break;
+      case SkillProficiencyLevel.PROFICIENT:
+        newLevel = SkillProficiencyLevel.EXPERT;
+        break;
+      case SkillProficiencyLevel.EXPERT:
+        newLevel = SkillProficiencyLevel.NONE;
+        break;
+      default:
+        newLevel = SkillProficiencyLevel.NONE;
+    }
+
+    this.updateSkillProficiency(skillId, newLevel);
+  }
+
+  private updateSkillProficiency(skillId: number, level: SkillProficiencyLevel): void {
+    let updatedSkills = [...this.character.skills];
+
+    if (level === SkillProficiencyLevel.NONE) {
+      updatedSkills = updatedSkills.filter(skill => skill.id !== skillId);
+    } else {
+      const existingSkillIndex = updatedSkills.findIndex(skill => skill.id === skillId);
+
+      if (existingSkillIndex > -1) {
+        updatedSkills[existingSkillIndex] = {
+          ...updatedSkills[existingSkillIndex],
+          expert: level === SkillProficiencyLevel.EXPERT
+        };
+      } else {
+        const skillData = this.allSkills.find(s => s.id === skillId);
+        if (skillData) {
+          updatedSkills.push({
+            ...skillData,
+            expert: level === SkillProficiencyLevel.EXPERT
+          });
+        }
+      }
+    }
+
+    this.character = { ...this.character, skills: updatedSkills };
+    this.characterForm.patchValue({ skills: updatedSkills });
+  }
+
+  getSkillStatusText(skillId: number): string {
+    const level = this.getSkillProficiencyLevel(skillId);
+    switch (level) {
+      case SkillProficiencyLevel.EXPERT:
+        return 'Expert';
+      case SkillProficiencyLevel.PROFICIENT:
+        return 'Maîtrisé';
+      default:
+        return '';
+    }
+  }
+
+  getSkillStatusClass(skillId: number): string {
+    const level = this.getSkillProficiencyLevel(skillId);
+    switch (level) {
+      case SkillProficiencyLevel.EXPERT:
+        return 'text-purple-600 font-bold';
+      case SkillProficiencyLevel.PROFICIENT:
+        return 'text-blue-600';
+      default:
+        return 'text-gray-500';
+    }
+  }
+
 }

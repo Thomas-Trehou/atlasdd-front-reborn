@@ -438,29 +438,70 @@
     </div>
 
     <!-- Section compétences -->
-    <div class="mt-6 bg-gray-50 p-4 rounded-lg">
-      <h3 class="font-semibold text-lg mb-2">Compétences</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-        <div *ngFor="let skill of allSkills" class="flex items-center justify-between p-2 hover:bg-gray-100 rounded">
-          <div class="flex items-center">
-            <input
-              type="checkbox"
-              [id]="'skill-' + skill.id"
-              [checked]="isSkillProficient(skill.id)"
-              [disabled]="!isEditMode"
-              (change)="toggleSkillProficiency(skill.id, $event)"
-              class="mr-2 h-4 w-4 text-blue-600">
-            <label [for]="'skill-' + skill.id" class="text-gray-700">
-              {{ skill.name }}
-              <span class="text-xs text-gray-500">({{ getAbilityAbbreviation(getAbilityKeyForSkill(skill.id)) }})</span>
-            </label>
+      <!-- Section compétences -->
+      <div class="mt-6 bg-gray-50 p-4 rounded-lg">
+        <h3 class="font-semibold text-lg mb-2">Compétences</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+          <div *ngFor="let skill of allSkills"
+               class="flex items-center justify-between p-2 hover:bg-gray-100 rounded"
+               [class.cursor-pointer]="isEditMode"
+               (click)="cycleSkillProficiency(skill.id)">
+
+            <div class="flex items-center">
+              <!-- Indicateur visuel de l'état -->
+              <div class="mr-2 w-4 h-4 flex items-center justify-center">
+                <ng-container [ngSwitch]="getSkillProficiencyLevel(skill.id)">
+                  <!-- Aucune maîtrise -->
+                  <div *ngSwitchCase="0" class="w-3 h-3 border-2 border-gray-300 rounded"></div>
+                  <!-- Maîtrisé -->
+                  <div *ngSwitchCase="1" class="w-3 h-3 bg-blue-600 rounded"></div>
+                  <!-- Expert -->
+                  <div *ngSwitchCase="2" class="w-3 h-3 bg-purple-600 rounded flex items-center justify-center">
+                    <span class="text-white text-xs font-bold">★</span>
+                  </div>
+                </ng-container>
+              </div>
+
+              <label class="text-gray-700" [class.cursor-pointer]="isEditMode">
+                {{ skill.name }}
+                <span class="text-xs text-gray-500">({{ getAbilityAbbreviation(skill.abilityType) }})</span>
+              </label>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <!-- Texte d'état -->
+              <span class="text-xs" [ngClass]="getSkillStatusClass(skill.id)">
+          {{ getSkillStatusText(skill.id) }}
+        </span>
+
+              <!-- Modificateur -->
+              <span class="font-medium" [ngClass]="getSkillStatusClass(skill.id)">
+          {{ getSkillModifierTextById(skill.id) }}
+        </span>
+            </div>
           </div>
-          <span class="font-medium" [class.text-blue-600]="isSkillProficient(skill.id)">
-            {{ getSkillModifierTextById(skill.id) }}
-          </span>
+        </div>
+
+        <!-- Légende (optionnelle) -->
+        <div *ngIf="isEditMode" class="mt-4 text-xs text-gray-500 flex gap-4">
+          <div class="flex items-center gap-1">
+            <div class="w-3 h-3 border-2 border-gray-300 rounded"></div>
+            <span>Non maîtrisé</span>
+          </div>
+          <div class="flex items-center gap-1">
+            <div class="w-3 h-3 bg-blue-600 rounded"></div>
+            <span>Maîtrisé (+bonus)</span>
+          </div>
+          <div class="flex items-center gap-1">
+            <div class="w-3 h-3 bg-purple-600 rounded flex items-center justify-center">
+              <span class="text-white text-xs font-bold">★</span>
+            </div>
+            <span>Expert (×2 bonus)</span>
+          </div>
+          <span class="ml-auto">Cliquez pour changer l'état</span>
         </div>
       </div>
-    </div>
+
     </div>
 
     <div *ngIf="activeTab === 'spells'">
