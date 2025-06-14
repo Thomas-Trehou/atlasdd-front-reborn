@@ -76,7 +76,7 @@ interface Ogl5CharacterDto extends BaseDto {
 
 export type Ogl5CharacterCreateRequest = Omit<Ogl5CharacterDto, 'id' | 'createdAt' | 'updatedAt' | 'owner' | 'race' | 'background' | 'classe' | 'skills' | 'preparedSpells' | 'weapons' | 'armor'>;
 
-export type Ogl5CharacterUpdateRequest = Omit<Ogl5CharacterDto, 'createdAt' | 'updatedAt' | 'owner' | 'race' | 'background' | 'classe' | 'skills' | 'preparedSpells' | 'weapons' | 'armor'>;
+export type Ogl5CharacterUpdateRequest = Omit<Ogl5CharacterDto, 'createdAt' | 'updatedAt' | 'owner' | 'race' | 'background' | 'classe' | 'skillIds' | 'preparedSpells' | 'weapons' | 'armor'>;
 
 export type Ogl5Character = Omit<Ogl5CharacterDto, 'userId' | 'raceId' | 'backgroundId' | 'classId' | 'skillIds' | 'preparedSpellIds' | 'weaponIds' | 'armorId'>;
 

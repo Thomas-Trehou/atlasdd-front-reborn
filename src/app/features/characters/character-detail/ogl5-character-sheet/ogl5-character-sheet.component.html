@@ -381,9 +381,11 @@
                 </select>
               </div>
             </div>
+
             <div class="flex justify-between">
               <span class="text-gray-600">Armure:</span>
-              <div class="text-right">
+
+              <div *ngIf="!isEditMode" class="text-right">
                 <div *ngIf="character.armor">
                   <span>{{ character.armor.name }}</span>
                   <div class="text-sm text-gray-500">
@@ -391,6 +393,15 @@
                   </div>
                 </div>
                 <span *ngIf="!character.armor">Aucune</span>
+              </div>
+
+              <div *ngIf="isEditMode">
+                <select formControlName="armorId" class="px-2 py-1 border border-gray-300 rounded text-sm">
+                  <option [ngValue]="null">Aucune</option>
+                  <option *ngFor="let armor of allArmors" [value]="armor.id">
+                    {{ armor.name }}
+                  </option>
+                </select>
               </div>
             </div>
             <div *ngIf="character.armor.stealthDisadvantage" class="flex justify-between">
@@ -409,436 +420,124 @@
         <div>
           <h4 class="font-medium text-gray-700 mb-2">Armes</h4>
           <div class="bg-white p-3 rounded-md">
-            <div *ngIf="character.weapons?.length">
-              <div *ngFor="let weapon of character.weapons" class="mb-4 last:mb-0">
-                <div class="flex justify-between items-center">
-                  <span class="font-medium">{{ weapon.name }}</span>
-                  <div class="text-sm text-gray-600">
-                    {{ weapon.damageDice }} {{ weapon.damageType }}
-                  </div>
+
+            <div *ngIf="!isEditMode">
+              <div *ngIf="character!.weapons!.length > 0">
+                <div *ngFor="let weapon of character.weapons" class="mb-4 last:mb-0"> <div class="flex justify-between items-center">
+                  <span class="font-medium">{{ weapon.name }}</span> <div class="text-sm text-gray-600">
+                  {{ weapon.damageDice }} {{ weapon.damageType }} </div>
                 </div>
-                <!-- Nouvelle ligne pour la portée -->
-                <div class="text-xs text-gray-600 mt-1">
-                  Portée : {{ weapon.weaponRange }}
+                  <div class="text-xs text-gray-600 mt-1">
+                    Portée : {{ weapon.weaponRange }} </div>
+                  <div *ngIf="weapon.properties" class="text-xs text-gray-500 mt-1">
+                    {{ weapon.properties }} </div>
                 </div>
-                <!-- Nouvelle ligne pour les propriétés -->
-                <div *ngIf="weapon.properties" class="text-xs text-gray-500 mt-1">
-                  {{ weapon.properties }}
-                </div>
+              </div>
+              <div *ngIf="!character.weapons || character.weapons.length === 0" class="text-gray-500">
+                Aucune arme équipée </div>
+            </div>
+
+            <div *ngIf="isEditMode" class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Arme 1</label>
+                <select formControlName="weapon1Id" class="w-full px-2 py-1 border border-gray-300 rounded">
+                  <option [ngValue]="null">Aucune</option>
+                  <option *ngFor="let weapon of allWeapons" [value]="weapon.id">
+                    {{ weapon.name }}
+                  </option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Arme 2</label>
+                <select formControlName="weapon2Id" class="w-full px-2 py-1 border border-gray-300 rounded">
+                  <option [ngValue]="null">Aucune</option>
+                  <option *ngFor="let weapon of allWeapons" [value]="weapon.id">
+                    {{ weapon.name }}
+                  </option>
+                </select>
               </div>
             </div>
 
-
-            <div *ngIf="!character.weapons || character.weapons.length === 0" class="text-gray-500">
-              Aucune arme équipée
-            </div>
           </div>
         </div>
+
       </div>
     </div>
 
     <!-- Section compétences -->
-    <div class="mt-6 bg-gray-50 p-4 rounded-lg">
-      <h3 class="font-semibold text-lg mb-2">Compétences</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-        <div *ngFor="let skill of allSkills" class="flex items-center justify-between p-2 hover:bg-gray-100 rounded">
-          <div class="flex items-center">
-            <input
-              type="checkbox"
-              [id]="'skill-' + skill.id"
-              [checked]="isSkillProficient(skill.id)"
-              [disabled]="!isEditMode"
-              (change)="toggleSkillProficiency(skill.id, $event)"
-              class="mr-2 h-4 w-4 text-blue-600">
-            <label [for]="'skill-' + skill.id" class="text-gray-700">
-              {{ skill.name }}
-              <span class="text-xs text-gray-500">({{ getAbilityAbbreviation(getAbilityKeyForSkill(skill.id)) }})</span>
-            </label>
+      <!-- Section compétences -->
+      <div class="mt-6 bg-gray-50 p-4 rounded-lg">
+        <h3 class="font-semibold text-lg mb-2">Compétences</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+          <div *ngFor="let skill of allSkills"
+               class="flex items-center justify-between p-2 hover:bg-gray-100 rounded"
+               [class.cursor-pointer]="isEditMode"
+               (click)="cycleSkillProficiency(skill.id)">
+
+            <div class="flex items-center">
+              <!-- Indicateur visuel de l'état -->
+              <div class="mr-2 w-4 h-4 flex items-center justify-center">
+                <ng-container [ngSwitch]="getSkillProficiencyLevel(skill.id)">
+                  <!-- Aucune maîtrise -->
+                  <div *ngSwitchCase="0" class="w-3 h-3 border-2 border-gray-300 rounded"></div>
+                  <!-- Maîtrisé -->
+                  <div *ngSwitchCase="1" class="w-3 h-3 bg-blue-600 rounded"></div>
+                  <!-- Expert -->
+                  <div *ngSwitchCase="2" class="w-3 h-3 bg-purple-600 rounded flex items-center justify-center">
+                    <span class="text-white text-xs font-bold">★</span>
+                  </div>
+                </ng-container>
+              </div>
+
+              <label class="text-gray-700" [class.cursor-pointer]="isEditMode">
+                {{ skill.name }}
+                <span class="text-xs text-gray-500">({{ getAbilityAbbreviation(skill.abilityType) }})</span>
+              </label>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <!-- Texte d'état -->
+              <span class="text-xs" [ngClass]="getSkillStatusClass(skill.id)">
+          {{ getSkillStatusText(skill.id) }}
+        </span>
+
+              <!-- Modificateur -->
+              <span class="font-medium" [ngClass]="getSkillStatusClass(skill.id)">
+          {{ getSkillModifierTextById(skill.id) }}
+        </span>
+            </div>
           </div>
-          <span class="font-medium" [class.text-blue-600]="isSkillProficient(skill.id)">
-            {{ getSkillModifierTextById(skill.id) }}
-          </span>
+        </div>
+
+        <!-- Légende (optionnelle) -->
+        <div *ngIf="isEditMode" class="mt-4 text-xs text-gray-500 flex gap-4">
+          <div class="flex items-center gap-1">
+            <div class="w-3 h-3 border-2 border-gray-300 rounded"></div>
+            <span>Non maîtrisé</span>
+          </div>
+          <div class="flex items-center gap-1">
+            <div class="w-3 h-3 bg-blue-600 rounded"></div>
+            <span>Maîtrisé (+bonus)</span>
+          </div>
+          <div class="flex items-center gap-1">
+            <div class="w-3 h-3 bg-purple-600 rounded flex items-center justify-center">
+              <span class="text-white text-xs font-bold">★</span>
+            </div>
+            <span>Expert (×2 bonus)</span>
+          </div>
+          <span class="ml-auto">Cliquez pour changer l'état</span>
         </div>
       </div>
-    </div>
+
     </div>
 
     <div *ngIf="activeTab === 'spells'">
-      <!-- Informations d'incantation (inchangées) -->
-      <div class="bg-gray-50 p-4 rounded-lg mb-6">
-        <h3 class="font-semibold text-lg mb-2">Information d'incantation</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div class="space-y-2">
-            <div class="flex justify-between">
-              <span class="text-gray-600">Classe d'incantateur:</span>
-              <span>{{ character.classe.name }}</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-gray-600">Attribut d'incantation:</span>
-              <span>{{ getSpellcastingAbility() }}</span>
-            </div>
-          </div>
-
-          <div class="space-y-2">
-            <div class="flex justify-between">
-              <span class="text-gray-600">DD des sorts:</span>
-              <span>{{ calculateSpellSaveDC() }}</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-gray-600">Bonus d'attaque des sorts:</span>
-              <span>{{ calculateSpellAttackBonus() }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Emplacements de sorts -->
-      <div *ngFor="let levelInfo of spellLevels" class="flex items-center justify-between mb-2">
-        <span>Niveau {{ levelInfo.num }}:</span>
-        <div class="flex items-center gap-1">
-          <!-- En mode lecture, afficher les cases à cocher en lecture seule -->
-          <div *ngIf="!isEditMode" class="flex items-center gap-1">
-            <div *ngFor="let i of getSlotArray(levelInfo.key)"
-                 class="w-5 h-5 border border-gray-300 rounded flex items-center justify-center"
-                 [class.bg-blue-500]="i < getUsedSlots(levelInfo.key)"
-                 [class.text-white]="i < getUsedSlots(levelInfo.key)">
-              <span *ngIf="i < getUsedSlots(levelInfo.key)">✓</span>
-            </div>
-          </div>
-
-          <!-- En mode édition, afficher des cases à cocher interactives -->
-          <div *ngIf="isEditMode" class="flex items-center gap-1">
-            <div *ngFor="let i of getSlotArray(levelInfo.key)"
-                 class="w-5 h-5 border border-gray-300 rounded cursor-pointer flex items-center justify-center"
-                 [class.bg-blue-500]="i < getSpellSlotsFormValue(levelInfo.key)"
-                 [class.text-white]="i < getSpellSlotsFormValue(levelInfo.key)"
-                 (click)="toggleSpellSlot(levelInfo.key, i + 1)">
-              <span *ngIf="i < getSpellSlotsFormValue(levelInfo.key)">✓</span>
-            </div>
-          </div>
-
-          <span class="text-gray-500 ml-2">/ {{ getTotalSlots(levelInfo.key) }}</span>
-        </div>
-      </div>
-
-
-      <!-- Onglets pour Sorts préparés / Sorts de classe -->
-      <div class="mb-4">
-        <div class="border-b border-gray-200">
-          <nav class="flex -mb-px">
-            <button
-              (click)="activeSpellTab = 'prepared'"
-              class="py-2 px-4 border-b-2 font-medium text-sm"
-              [class.border-blue-500]="activeSpellTab === 'prepared'"
-              [class.text-blue-600]="activeSpellTab === 'prepared'"
-              [class.border-transparent]="activeSpellTab !== 'prepared'"
-              [class.text-gray-500]="activeSpellTab !== 'prepared'">
-              Sorts préparés
-            </button>
-            <button
-              (click)="activeSpellTab = 'class'"
-              class="py-2 px-4 border-b-2 font-medium text-sm"
-              [class.border-blue-500]="activeSpellTab === 'class'"
-              [class.text-blue-600]="activeSpellTab === 'class'"
-              [class.border-transparent]="activeSpellTab !== 'class'"
-              [class.text-gray-500]="activeSpellTab !== 'class'">
-              Sorts de classe
-            </button>
-          </nav>
-        </div>
-      </div>
-
-      <!-- Sélecteur de niveau de sorts -->
-      <div class="bg-gray-50 p-4 rounded-lg mb-6">
-        <div class="flex flex-wrap gap-2">
-          <button
-            *ngFor="let level of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]"
-            (click)="selectedSpellLevel = level"
-            class="px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1"
-            [class.bg-blue-500]="selectedSpellLevel === level"
-            [class.text-white]="selectedSpellLevel === level"
-            [class.bg-gray-200]="selectedSpellLevel !== level"
-            [class.text-gray-700]="selectedSpellLevel !== level">
-            {{ level === 0 ? 'Mineurs' : 'Niveau ' + level }}
-            <span class="ml-1 px-1.5 py-0.5 rounded-full text-xs"
-                  [class.bg-blue-700]="selectedSpellLevel === level"
-                  [class.bg-gray-400]="selectedSpellLevel !== level">
-          {{ activeSpellTab === 'prepared' ?
-              getPreparedSpellsByLevel(level).length :
-              getClassSpellsByLevel(level).length }}
-        </span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Affichage des sorts préparés -->
-      <div *ngIf="activeSpellTab === 'prepared'" class="bg-gray-50 p-4 rounded-lg">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="font-semibold text-lg">
-            {{ selectedSpellLevel === 0 ? 'Sorts mineurs préparés' : 'Sorts préparés de niveau ' + selectedSpellLevel }}
-          </h3>
-          <span class="text-sm text-gray-500">
-        {{ getPreparedSpellsByLevel(selectedSpellLevel).length }} sort(s)
-      </span>
-        </div>
-
-        <!-- Liste des sorts préparés du niveau sélectionné -->
-        <div class="bg-white rounded-md">
-          <div *ngIf="getPreparedSpellsByLevel(selectedSpellLevel).length > 0">
-            <div *ngFor="let spell of getPreparedSpellsByLevel(selectedSpellLevel); let i = index"
-                 class="border-b border-gray-100 last:border-0">
-
-              <!-- En-tête cliquable du sort -->
-              <div
-                (click)="toggleSpellDetails(spell)"
-                class="flex justify-between items-center py-3 px-4 cursor-pointer hover:bg-gray-50"
-                [class.bg-gray-50]="expandedSpellIds.includes(spell.id)">
-
-                <!-- Informations principales du sort -->
-                <div>
-                  <div class="flex items-center">
-                    <span class="font-medium">{{ spell.name }}</span>
-                    <span *ngIf="spell.ritual" class="ml-2 text-xs bg-purple-100 text-purple-800 px-1.5 py-0.5 rounded-full">Rituel</span>
-                    <span *ngIf="spell.concentration" class="ml-2 text-xs bg-yellow-100 text-yellow-800 px-1.5 py-0.5 rounded-full">Concentration</span>
-                  </div>
-                  <div class="text-xs text-gray-500 mt-1">
-                    {{ spell.school }}
-                  </div>
-                </div>
-
-                <!-- Boutons d'action et icône d'expansion -->
-                <div class="flex items-center gap-3">
-                  <div class="text-xs text-gray-600 flex flex-col items-end">
-                    <div>{{ spell.castingTime }}</div>
-                    <div>{{ spell.range }}</div>
-                  </div>
-                  <button
-                    *ngIf="isEditMode"
-                    (click)="removeFromPrepared(spell); $event.stopPropagation();"
-                    class="text-red-500 hover:text-red-700"
-                    title="Retirer des sorts préparés">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-                    </svg>
-                  </button>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5 text-gray-400 transition-transform"
-                    [class.rotate-180]="expandedSpellIds.includes(spell.id)"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </div>
-              </div>
-
-              <!-- Détails du sort (affiché uniquement si développé) -->
-              <div *ngIf="expandedSpellIds.includes(spell.id)" class="py-3 px-4 bg-gray-50">
-                <!-- Informations supplémentaires -->
-                <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
-                  <div>
-                    <p class="text-gray-600 font-medium">Durée</p>
-                    <p>{{ spell.duration }}</p>
-                  </div>
-                  <div>
-                    <p class="text-gray-600 font-medium">Composants</p>
-                    <p>{{ spell.components }}</p>
-                  </div>
-                  <div *ngIf="spell.material">
-                    <p class="text-gray-600 font-medium">Matériel</p>
-                    <p>{{ spell.material }}</p>
-                  </div>
-                  <div *ngIf="spell.higherLevel">
-                    <p class="text-gray-600 font-medium">Aux niveaux supérieurs</p>
-                    <p>{{ spell.higherLevel }}</p>
-                  </div>
-                </div>
-
-                <!-- Description -->
-                <div class="mb-4">
-                  <p class="text-gray-600 font-medium mb-1 text-sm">Description</p>
-                  <p class="text-sm whitespace-pre-line">{{ spell.description }}</p>
-                </div>
-
-                <!-- Attributs additionnels s'ils existent -->
-                <div *ngIf="hasAdditionalAttributes(spell)" class="grid grid-cols-2 gap-4 text-sm">
-                  <div *ngIf="spell.archetype && spell.archetype !== 'Aucun'">
-                    <p class="text-gray-600 font-medium">Archétype</p>
-                    <p>{{ spell.archetype }}</p>
-                  </div>
-                  <div *ngIf="spell.domains && spell.domains !== 'Aucun'">
-                    <p class="text-gray-600 font-medium">Domaines</p>
-                    <p>{{ spell.domains }}</p>
-                  </div>
-                  <div *ngIf="spell.oaths && spell.oaths !== 'Aucun'">
-                    <p class="text-gray-600 font-medium">Serments</p>
-                    <p>{{ spell.oaths }}</p>
-                  </div>
-                  <div *ngIf="spell.circles && spell.circles !== 'Aucun'">
-                    <p class="text-gray-600 font-medium">Cercles</p>
-                    <p>{{ spell.circles }}</p>
-                  </div>
-                  <div *ngIf="spell.patrons && spell.patrons !== 'Aucun'">
-                    <p class="text-gray-600 font-medium">Patrons</p>
-                    <p>{{ spell.patrons }}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Message si aucun sort préparé de ce niveau -->
-          <div *ngIf="getPreparedSpellsByLevel(selectedSpellLevel).length === 0" class="text-gray-500 text-sm py-4 text-center">
-            Aucun sort préparé de ce niveau
-          </div>
-        </div>
-      </div>
-
-      <!-- Affichage des sorts de classe -->
-      <div *ngIf="activeSpellTab === 'class'" class="bg-gray-50 p-4 rounded-lg">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="font-semibold text-lg">
-            {{ selectedSpellLevel === 0 ? 'Sorts mineurs de classe' : 'Sorts de classe de niveau ' + selectedSpellLevel }}
-          </h3>
-          <span class="text-sm text-gray-500">
-        {{ getClassSpellsByLevel(selectedSpellLevel).length }} sort(s)
-      </span>
-        </div>
-
-        <!-- Liste des sorts de classe du niveau sélectionné -->
-        <div class="bg-white rounded-md">
-          <div *ngIf="getClassSpellsByLevel(selectedSpellLevel).length > 0">
-            <div *ngFor="let spell of getClassSpellsByLevel(selectedSpellLevel); let i = index"
-                 class="border-b border-gray-100 last:border-0">
-
-              <!-- En-tête cliquable du sort -->
-              <div
-                (click)="toggleSpellDetails(spell)"
-                class="flex justify-between items-center py-3 px-4 cursor-pointer hover:bg-gray-50"
-                [class.bg-gray-50]="expandedSpellIds.includes(spell.id)">
-
-                <!-- Informations principales du sort -->
-                <div>
-                  <div class="flex items-center">
-                    <span class="font-medium">{{ spell.name }}</span>
-                    <span *ngIf="spell.ritual" class="ml-2 text-xs bg-purple-100 text-purple-800 px-1.5 py-0.5 rounded-full">Rituel</span>
-                    <span *ngIf="spell.concentration" class="ml-2 text-xs bg-yellow-100 text-yellow-800 px-1.5 py-0.5 rounded-full">Concentration</span>
-                  </div>
-                  <div class="text-xs text-gray-500 mt-1">
-                    {{ spell.school }}
-                  </div>
-                </div>
-
-                <!-- Boutons d'action et icône d'expansion -->
-                <div class="flex items-center gap-3">
-                  <div class="text-xs text-gray-600 flex flex-col items-end">
-                    <div>{{ spell.castingTime }}</div>
-                    <div>{{ spell.range }}</div>
-                  </div>
-
-                  <!-- Bouton pour ajouter aux sorts préparés ou indicateur "Préparé" -->
-                  <button
-                    *ngIf="isEditMode && !isSpellPrepared(spell)"
-                    (click)="addToPrepared(spell); $event.stopPropagation();"
-                    class="text-green-600 hover:text-green-800"
-                    title="Ajouter aux sorts préparés">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
-                    </svg>
-                  </button>
-                  <span
-                    *ngIf="isSpellPrepared(spell)"
-                    class="text-blue-500 text-sm font-medium">
-                Préparé
-              </span>
-
-                  <!-- Icône d'expansion -->
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5 text-gray-400 transition-transform"
-                    [class.rotate-180]="expandedSpellIds.includes(spell.id)"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </div>
-              </div>
-
-              <!-- Détails du sort (affiché uniquement si développé) -->
-              <div *ngIf="expandedSpellIds.includes(spell.id)" class="py-3 px-4 bg-gray-50">
-                <!-- Informations supplémentaires -->
-                <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
-                  <div>
-                    <p class="text-gray-600 font-medium">Durée</p>
-                    <p>{{ spell.duration }}</p>
-                  </div>
-                  <div>
-                    <p class="text-gray-600 font-medium">Composants</p>
-                    <p>{{ spell.components }}</p>
-                  </div>
-                  <div *ngIf="spell.material">
-                    <p class="text-gray-600 font-medium">Matériel</p>
-                    <p>{{ spell.material }}</p>
-                  </div>
-                  <div *ngIf="spell.higherLevel">
-                    <p class="text-gray-600 font-medium">Aux niveaux supérieurs</p>
-                    <p>{{ spell.higherLevel }}</p>
-                  </div>
-                </div>
-
-                <!-- Description -->
-                <div class="mb-4">
-                  <p class="text-gray-600 font-medium mb-1 text-sm">Description</p>
-                  <p class="text-sm whitespace-pre-line">{{ spell.description }}</p>
-                </div>
-
-                <!-- Attributs additionnels s'ils existent -->
-                <div *ngIf="hasAdditionalAttributes(spell)" class="grid grid-cols-2 gap-4 text-sm">
-                  <div *ngIf="spell.archetype && spell.archetype !== 'Aucun'">
-                    <p class="text-gray-600 font-medium">Archétype</p>
-                    <p>{{ spell.archetype }}</p>
-                  </div>
-                  <div *ngIf="spell.domains && spell.domains !== 'Aucun'">
-                    <p class="text-gray-600 font-medium">Domaines</p>
-                    <p>{{ spell.domains }}</p>
-                  </div>
-                  <div *ngIf="spell.oaths && spell.oaths !== 'Aucun'">
-                    <p class="text-gray-600 font-medium">Serments</p>
-                    <p>{{ spell.oaths }}</p>
-                  </div>
-                  <div *ngIf="spell.circles && spell.circles !== 'Aucun'">
-                    <p class="text-gray-600 font-medium">Cercles</p>
-                    <p>{{ spell.circles }}</p>
-                  </div>
-                  <div *ngIf="spell.patrons && spell.patrons !== 'Aucun'">
-                    <p class="text-gray-600 font-medium">Patrons</p>
-                    <p>{{ spell.patrons }}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Message si aucun sort de classe de ce niveau -->
-          <div *ngIf="getClassSpellsByLevel(selectedSpellLevel).length === 0" class="text-gray-500 text-sm py-4 text-center">
-            Aucun sort de classe de ce niveau
-          </div>
-
-          <!-- Bouton pour ajouter un sort en mode édition -->
-          <div *ngIf="isEditMode" class="py-4 px-4 text-center border-t border-gray-100">
-            <button
-              type="button"
-              (click)="addClassSpell(selectedSpellLevel)"
-              class="text-sm bg-blue-100 text-blue-700 px-3 py-1.5 rounded-md hover:bg-blue-200 transition-colors">
-              + Ajouter un sort de classe
-            </button>
-          </div>
-        </div>
-      </div>
-
-
+      <app-character-sheet-spells-tab
+        #spellsTab [character]="character"
+        [isEditMode]="isEditMode"
+        (preparedSpellsChanged)="onPreparedSpellsChange($event)"> </app-character-sheet-spells-tab>
     </div>
+
   </form>
 </div>
