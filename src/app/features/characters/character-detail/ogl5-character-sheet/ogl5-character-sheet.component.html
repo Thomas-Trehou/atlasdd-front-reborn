@@ -381,9 +381,11 @@
                 </select>
               </div>
             </div>
+
             <div class="flex justify-between">
               <span class="text-gray-600">Armure:</span>
-              <div class="text-right">
+
+              <div *ngIf="!isEditMode" class="text-right">
                 <div *ngIf="character.armor">
                   <span>{{ character.armor.name }}</span>
                   <div class="text-sm text-gray-500">
@@ -391,6 +393,15 @@
                   </div>
                 </div>
                 <span *ngIf="!character.armor">Aucune</span>
+              </div>
+
+              <div *ngIf="isEditMode">
+                <select formControlName="armorId" class="px-2 py-1 border border-gray-300 rounded text-sm">
+                  <option [ngValue]="null">Aucune</option>
+                  <option *ngFor="let armor of allArmors" [value]="armor.id">
+                    {{ armor.name }}
+                  </option>
+                </select>
               </div>
             </div>
             <div *ngIf="character.armor.stealthDisadvantage" class="flex justify-between">
@@ -409,31 +420,48 @@
         <div>
           <h4 class="font-medium text-gray-700 mb-2">Armes</h4>
           <div class="bg-white p-3 rounded-md">
-            <div *ngIf="character.weapons?.length">
-              <div *ngFor="let weapon of character.weapons" class="mb-4 last:mb-0">
-                <div class="flex justify-between items-center">
-                  <span class="font-medium">{{ weapon.name }}</span>
-                  <div class="text-sm text-gray-600">
-                    {{ weapon.damageDice }} {{ weapon.damageType }}
-                  </div>
+
+            <div *ngIf="!isEditMode">
+              <div *ngIf="character!.weapons!.length > 0">
+                <div *ngFor="let weapon of character.weapons" class="mb-4 last:mb-0"> <div class="flex justify-between items-center">
+                  <span class="font-medium">{{ weapon.name }}</span> <div class="text-sm text-gray-600">
+                  {{ weapon.damageDice }} {{ weapon.damageType }} </div>
                 </div>
-                <!-- Nouvelle ligne pour la portée -->
-                <div class="text-xs text-gray-600 mt-1">
-                  Portée : {{ weapon.weaponRange }}
+                  <div class="text-xs text-gray-600 mt-1">
+                    Portée : {{ weapon.weaponRange }} </div>
+                  <div *ngIf="weapon.properties" class="text-xs text-gray-500 mt-1">
+                    {{ weapon.properties }} </div>
                 </div>
-                <!-- Nouvelle ligne pour les propriétés -->
-                <div *ngIf="weapon.properties" class="text-xs text-gray-500 mt-1">
-                  {{ weapon.properties }}
-                </div>
+              </div>
+              <div *ngIf="!character.weapons || character.weapons.length === 0" class="text-gray-500">
+                Aucune arme équipée </div>
+            </div>
+
+            <div *ngIf="isEditMode" class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Arme 1</label>
+                <select formControlName="weapon1Id" class="w-full px-2 py-1 border border-gray-300 rounded">
+                  <option [ngValue]="null">Aucune</option>
+                  <option *ngFor="let weapon of allWeapons" [value]="weapon.id">
+                    {{ weapon.name }}
+                  </option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Arme 2</label>
+                <select formControlName="weapon2Id" class="w-full px-2 py-1 border border-gray-300 rounded">
+                  <option [ngValue]="null">Aucune</option>
+                  <option *ngFor="let weapon of allWeapons" [value]="weapon.id">
+                    {{ weapon.name }}
+                  </option>
+                </select>
               </div>
             </div>
 
-
-            <div *ngIf="!character.weapons || character.weapons.length === 0" class="text-gray-500">
-              Aucune arme équipée
-            </div>
           </div>
         </div>
+
       </div>
     </div>
 
@@ -505,14 +533,11 @@
     </div>
 
     <div *ngIf="activeTab === 'spells'">
-      <div *ngIf="activeTab === 'spells'">
-        <app-character-sheet-spells-tab
-          #spellsTab [character]="character"
-          [isEditMode]="isEditMode">
-        </app-character-sheet-spells-tab>
-      </div>
-
-
+      <app-character-sheet-spells-tab
+        #spellsTab [character]="character"
+        [isEditMode]="isEditMode"
+        (preparedSpellsChanged)="onPreparedSpellsChange($event)"> </app-character-sheet-spells-tab>
     </div>
+
   </form>
 </div>

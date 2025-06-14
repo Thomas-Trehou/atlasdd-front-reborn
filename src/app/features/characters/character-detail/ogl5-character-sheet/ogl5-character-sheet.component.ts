@@ -10,6 +10,8 @@ import {Subscription} from 'rxjs';
 import {CharacterSheetSpellsTabComponent} from '../character-sheet-spells-tab/character-sheet-spells-tab.component';
 import {SkillProficiencyLevel} from '../../../../core/enums/skill-proficiency-level';
 import {Skill} from '../../../../core/models/option/skill';
+import {Armor} from '../../../../core/models/option/armor';
+import {Weapon} from '../../../../core/models/option/weapon';
 
 @Component({
   selector: 'app-ogl5-character-sheet',
@@ -36,6 +38,8 @@ export class Ogl5CharacterSheetComponent implements OnInit {
   originalCharacterData: any = null;
   ShieldType = ShieldType;
   private subscriptions: Subscription[] = [];
+  allArmors: Armor[] = [];
+  allWeapons: Weapon[] = [];
 
 
   spellLevels = [
@@ -59,6 +63,7 @@ export class Ogl5CharacterSheetComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.loadAllSkills();
+    this.loadAllEquipment();
 
     const levelControl = this.characterForm.get('level');
     if (levelControl) {
@@ -150,7 +155,8 @@ export class Ogl5CharacterSheetComponent implements OnInit {
       classId: [this.character.classe.id],
       skills: [this.character.skills],
       preparedSpellIds: [this.character.preparedSpells.map(spell => spell.id)],
-      weaponIds: [this.character.weapons.map(weapon => weapon.id)],
+      weapon1Id: [this.character.weapons[0]?.id || null],
+      weapon2Id: [this.character.weapons[1]?.id || null],
       armorId: [this.character.armor ? this.character.armor.id : null]
     });
 
@@ -262,14 +268,24 @@ export class Ogl5CharacterSheetComponent implements OnInit {
         }
       });
 
+      const weapon1Id = formValues.weapon1Id ? Number(formValues.weapon1Id) : null;
+      const weapon2Id = formValues.weapon2Id ? Number(formValues.weapon2Id) : null;
+      const armorId = formValues.armorId ? Number(formValues.armorId) : null;
+
       const updateRequest: Ogl5CharacterUpdateRequest = {
         ...formValues,
+        // On utilise les IDs convertis
+        armorId: armorId,
+        weaponIds: [weapon1Id, weapon2Id].filter(id => id !== null),
         spellSlots: {
           ...this.character.spellSlots,
           slotsUsed: updatedSlotsUsed
         },
-        skills: formValues.skills
+        skills: formValues.skills,
       };
+
+      delete (updateRequest as any).weapon1Id;
+      delete (updateRequest as any).weapon2Id;
 
       this.spellLevels.forEach(level => {
         delete (updateRequest as any)['spellSlots' + level.key];
@@ -279,12 +295,15 @@ export class Ogl5CharacterSheetComponent implements OnInit {
         updateRequest.shield = ShieldType[updateRequest.shield] as any;
       }
 
+      console.log('Données envoyées à l\'API:', JSON.stringify(updateRequest, null, 2));
+
       this.characterService.updateOgl5Character(updateRequest.id, updateRequest).subscribe({
         next: (updatedCharacter) => {
           this.character = updatedCharacter;
           this.characterUpdated.emit(updatedCharacter);
           this.originalCharacterData = null;
           this.isEditMode = false;
+          this.initForm();
         },
         error: (err) => {
           console.error('Erreur lors de la mise à jour du personnage', err);
@@ -486,6 +505,44 @@ export class Ogl5CharacterSheetComponent implements OnInit {
       default:
         return 'text-gray-500';
     }
+  }
+
+  private loadAllEquipment(): void {
+    // Chargement des armures
+    this.characterService.getAllArmors().subscribe({
+      next: (armors) => {
+        this.allArmors = armors;
+      },
+      error: (err) => console.error('Erreur lors du chargement des armures', err)
+    });
+
+    // Chargement des armes
+    this.characterService.getAllWeapons().subscribe({
+      next: (weapons) => {
+        this.allWeapons = weapons;
+      },
+      error: (err) => console.error('Erreur lors du chargement des armes', err)
+    });
+  }
+
+  /**
+   * Reçoit la liste mise à jour des sorts préparés depuis le composant enfant
+   * et met à jour l'état du personnage et le formulaire.
+   */
+  onPreparedSpellsChange(newPreparedSpells: any[]): void {
+    // 1. Mettre à jour l'objet character local (de manière immuable)
+    this.character = {
+      ...this.character,
+      preparedSpells: newPreparedSpells
+    };
+
+    // 2. Mettre à jour le contrôle de formulaire avec les nouveaux IDs
+    this.characterForm.patchValue({
+      preparedSpellIds: newPreparedSpells.map(spell => spell.id)
+    });
+
+    // 3. Marquer le formulaire comme "modifié"
+    this.characterForm.markAsDirty();
   }
 
 }

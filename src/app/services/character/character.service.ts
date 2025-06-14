@@ -12,6 +12,8 @@ import {
   CustomCharacterUpdateRequest
 } from '../../core/models/character/custom-character';
 import {Skill} from '../../core/models/option/skill';
+import {Armor} from '../../core/models/option/armor';
+import {Weapon} from '../../core/models/option/weapon';
 
 
 @Injectable({
@@ -129,6 +131,18 @@ export class CharacterService {
     const url = `${environment.API_URL}${environment.API_RESOURCES.CHARACTER_OPTIONS}/skills`;
     return this.http.get<Skill[]>(url);
   }
+
+  getAllArmors(): Observable<Armor[]> {
+    const url = `${environment.API_URL}${environment.API_RESOURCES.CHARACTER_OPTIONS}/armors`;
+    return this.http.get<Armor[]>(url);
+  }
+
+  getAllWeapons(): Observable<Weapon[]> {
+    const url = `${environment.API_URL}${environment.API_RESOURCES.CHARACTER_OPTIONS}/weapons`;
+    return this.http.get<Weapon[]>(url)
+  }
+
+
 
   /**
    * Récupère un personnage par son ID et son type

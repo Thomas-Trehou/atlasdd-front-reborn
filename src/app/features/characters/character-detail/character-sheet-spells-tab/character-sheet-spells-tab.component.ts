@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SkipSelf } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, SkipSelf} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ControlContainer, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import { Ogl5Character } from '../../../../core/models/character/ogl5-character';
@@ -23,6 +23,7 @@ import { SpellSlotLevels } from '../../../../core/models/character/spell-slots';
 export class CharacterSheetSpellsTabComponent implements OnInit{
   @Input() character!: Ogl5Character;
   @Input() isEditMode: boolean = false;
+  @Output() preparedSpellsChanged = new EventEmitter<any[]>();
 
   public parentForm!: FormGroup;
 
@@ -84,18 +85,18 @@ export class CharacterSheetSpellsTabComponent implements OnInit{
 
   addToPrepared(spell: any): void {
     if (!this.isSpellPrepared(spell)) {
-      this.character.preparedSpells.push({ ...spell });
-      const currentIds = this.parentForm.get('preparedSpellIds')?.value || [];
-      this.parentForm.patchValue({ preparedSpellIds: [...currentIds, spell.id] });
-      this.parentForm.markAsDirty();
+      // Crée une nouvelle liste en ajoutant le nouveau sort
+      const newPreparedSpells = [...this.character.preparedSpells, { ...spell }];
+      // Émet l'événement avec la nouvelle liste
+      this.preparedSpellsChanged.emit(newPreparedSpells);
     }
   }
 
   removeFromPrepared(spell: any): void {
-    this.character.preparedSpells = this.character.preparedSpells.filter(s => s.id !== spell.id);
-    const currentIds = this.parentForm.get('preparedSpellIds')?.value || [];
-    this.parentForm.patchValue({ preparedSpellIds: currentIds.filter((id: string) => id !== spell.id) });
-    this.parentForm.markAsDirty();
+    // Crée une nouvelle liste en filtrant le sort à supprimer
+    const newPreparedSpells = this.character.preparedSpells.filter(s => s.id !== spell.id);
+    // Émet l'événement avec la nouvelle liste
+    this.preparedSpellsChanged.emit(newPreparedSpells);
   }
 
   toggleSpellDetails(spell: any): void {
@@ -134,7 +135,9 @@ export class CharacterSheetSpellsTabComponent implements OnInit{
   }
 
   getTotalSlots(spellLevel: string): number {
-    const spellSlots = this.spellSlotsService.calculateSpellSlots(this.spellcasterType, this.character.level);
+    // On récupère la valeur du niveau directement depuis le formulaire du parent
+    const currentLevel = this.parentForm.get('level')?.value || this.character.level;
+    const spellSlots = this.spellSlotsService.calculateSpellSlots(this.spellcasterType, currentLevel);
     return spellSlots[spellLevel as keyof SpellSlotLevels] || 0;
   }
 
