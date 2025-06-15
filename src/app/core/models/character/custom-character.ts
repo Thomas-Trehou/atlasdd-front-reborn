@@ -81,4 +81,4 @@ export type CustomCharacterUpdateRequest = Omit<CustomCharacterDto, 'createdAt' 
 
 export type CustomCharacter = Omit<CustomCharacterDto, 'userId' | 'raceId' | 'backgroundId' | 'classId' | 'skillIds' | 'preparedSpellIds' | 'weaponIds' | 'armorId'>;
 
-export type CustomCharacterCard = Pick<CustomCharacterDto, 'id' | 'name' | 'level' | 'classe' | 'race' |'status'>
+export type CustomCharacterCard = Pick<CustomCharacterDto, 'id' | 'name' | 'level' | 'classe' | 'race' | 'updatedAt' |'status'>

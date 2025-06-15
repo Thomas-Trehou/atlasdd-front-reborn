@@ -5,5 +5,6 @@ export interface CharacterCardModel {
   classe: string;
   race: string;
   status: string;
+  updatedAt: string;
   type: 'ogl5' | 'custom';
 }

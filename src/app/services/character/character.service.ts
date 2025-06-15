@@ -61,6 +61,7 @@ export class CharacterService {
           // Convertit l'objet race en chaîne de caractères (nom de la race)
           race: typeof char.race === 'string' ? char.race : char.race.name || 'Inconnu',
           status: char.status,
+          updatedAt:char.updatedAt,
           type: 'ogl5' as const
         }));
 
@@ -73,6 +74,7 @@ export class CharacterService {
           // Convertit l'objet race en chaîne de caractères (nom de la race)
           race: typeof char.race === 'string' ? char.race : char.race.name || 'Inconnu',
           status: char.status,
+          updatedAt:char.updatedAt,
           type: 'custom' as const
         }));
 
@@ -152,6 +154,13 @@ export class CharacterService {
    */
   createOgl5Character(characterData: Ogl5CharacterCreateRequest): Observable<Ogl5Character> {
     return this.http.post<Ogl5Character>(`${environment.API_URL}${environment.API_RESOURCES.OGL5_CHARACTER}`, characterData); // Adaptez l'endpoint de création
+  }
+
+  /**
+   * Crée une nouvelle fiche de personnage OGL5.
+   */
+  deleteOgl5Character(id: number): Observable<void> {
+    return this.http.delete<void>(`${environment.API_URL}${environment.API_RESOURCES.OGL5_CHARACTER}/${id}`);
   }
 
 
