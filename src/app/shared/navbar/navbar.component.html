@@ -1,35 +1,33 @@
-<nav class="bg-slate-800 shadow-lg shadow-black/20 border-b border-slate-700">
+<nav class="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-blue-400/20 shadow-lg shadow-black/30">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between h-16">
       <div class="flex items-center">
         <a href="/" class="flex-shrink-0 flex items-center">
-          <span class="text-xl font-bold text-amber-400 font-serif">Atlas des Royaumes Oubliés</span>
+          <span class="text-xl font-bold text-blue-400 font-serif">Atlas des Royaumes Oubliés</span>
         </a>
       </div>
 
       <div class="hidden sm:flex sm:items-center sm:ml-6">
-        <div class="flex space-x-4">
-          <a href="/" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-amber-500">Accueil</a>
-          <a *ngIf="currentUser?.id" routerLink="/characters/list" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-500">
-            Mes Personnages
-          </a>
+        <div class="flex space-x-1">
+          <a href="/" class="text-gray-300 hover:bg-blue-500/10 hover:text-blue-300 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400">Accueil</a>
+          <a *ngIf="currentUser?.id" routerLink="/characters/list" class="text-gray-300 hover:bg-blue-500/10 hover:text-blue-300 px-3 py-2 rounded-md text-sm font-medium cursor-pointer transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400">Mes Personnages</a>
 
           <div class="relative group">
-            <a href="/sanctuary" class="text-gray-300 hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center focus:outline-none focus:ring-2 focus:ring-amber-500">
+            <a href="/sanctuary" class="text-gray-300 hover:bg-blue-500/10 hover:text-blue-300 px-3 py-2 rounded-md text-sm font-medium flex items-center transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400">
               Sanctuaire
               <svg class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
             </a>
-            <div class="absolute z-10 mt-1 w-56 rounded-md shadow-lg bg-slate-800 ring-1 ring-slate-700 transition-all duration-300 opacity-0 invisible group-hover:opacity-100 group-hover:visible">
+            <div class="absolute z-10 mt-2 w-56 rounded-md shadow-lg bg-slate-800/90 backdrop-blur-md ring-1 ring-blue-500/20 transition-all duration-300 opacity-0 invisible group-hover:opacity-100 group-hover:visible">
               <div class="py-1">
-                <a href="/sanctuary/classes" class="block px-4 py-2 text-sm text-gray-300 hover:bg-slate-700 hover:text-white">Les Classes</a>
-                <a href="/sanctuary/races" class="block px-4 py-2 text-sm text-gray-300 hover:bg-slate-700 hover:text-white">Les Races</a>
-                <a href="/sanctuary/backgrounds" class="block px-4 py-2 text-sm text-gray-300 hover:bg-slate-700 hover:text-white">Les Historiques et Origines</a>
-                <a href="/sanctuary/abilities" class="block px-4 py-2 text-sm text-gray-300 hover:bg-slate-700 hover:text-white">Les Caractéristiques et Abilités</a>
-                <a href="/sanctuary/weapons" class="block px-4 py-2 text-sm text-gray-300 hover:bg-slate-700 hover:text-white">Les Armes et Propriétés</a>
-                <a href="/sanctuary/armors" class="block px-4 py-2 text-sm text-gray-300 hover:bg-slate-700 hover:text-white">Les Armures et Bouclier</a>
-                <a href="/sanctuary/conditions" class="block px-4 py-2 text-sm text-gray-300 hover:bg-slate-700 hover:text-white">Les Altérations d'Etat</a>
-                <a href="/sanctuary/talents" class="block px-4 py-2 text-sm text-gray-300 hover:bg-slate-700 hover:text-white">Les Dons</a>
-                <a href="/sanctuary/spells" class="block px-4 py-2 text-sm text-gray-300 hover:bg-slate-700 hover:text-white">Les Sorts</a>
+                <a href="/sanctuary/classes" class="block px-4 py-2 text-sm text-gray-300 hover:bg-blue-500/10 hover:text-blue-300">Les Classes</a>
+                <a href="/sanctuary/races" class="block px-4 py-2 text-sm text-gray-300 hover:bg-blue-500/10 hover:text-blue-300">Les Races</a>
+                <a href="/sanctuary/backgrounds" class="block px-4 py-2 text-sm text-gray-300 hover:bg-blue-500/10 hover:text-blue-300">Les Historiques et Origines</a>
+                <a href="/sanctuary/abilities" class="block px-4 py-2 text-sm text-gray-300 hover:bg-blue-500/10 hover:text-blue-300">Les Caractéristiques et Abilités</a>
+                <a href="/sanctuary/weapons" class="block px-4 py-2 text-sm text-gray-300 hover:bg-blue-500/10 hover:text-blue-300">Les Armes et Propriétés</a>
+                <a href="/sanctuary/armors" class="block px-4 py-2 text-sm text-gray-300 hover:bg-blue-500/10 hover:text-blue-300">Les Armures et Bouclier</a>
+                <a href="/sanctuary/conditions" class="block px-4 py-2 text-sm text-gray-300 hover:bg-blue-500/10 hover:text-blue-300">Les Altérations d'Etat</a>
+                <a href="/sanctuary/talents" class="block px-4 py-2 text-sm text-gray-300 hover:bg-blue-500/10 hover:text-blue-300">Les Dons</a>
+                <a href="/sanctuary/spells" class="block px-4 py-2 text-sm text-gray-300 hover:bg-blue-500/10 hover:text-blue-300">Les Sorts</a>
               </div>
             </div>
           </div>
@@ -37,21 +35,16 @@
 
         <div class="ml-4 flex items-center">
           <div class="flex items-center space-x-2 relative">
-            <div class="h-8 w-8 rounded-full flex items-center justify-center cursor-pointer overflow-hidden ring-2 ring-offset-2 ring-offset-slate-800 ring-amber-500" (click)="toggleProfileMenu()">
+            <div class="h-8 w-8 rounded-full flex items-center justify-center cursor-pointer overflow-hidden ring-2 ring-offset-2 ring-offset-slate-900 ring-purple-500" (click)="toggleProfileMenu()">
               <img *ngIf="currentUser?.pseudo" src="assets/images/UserIcon.webp" alt="Profil utilisateur" class="h-full w-full object-cover" />
               <img *ngIf="!currentUser?.pseudo" src="assets/images/UserIcon-disconnected1.webp" alt="Non connecté" class="h-full w-full object-cover" />
             </div>
-
             <span *ngIf="currentUser?.pseudo" class="text-sm font-medium text-gray-300">{{ currentUser?.pseudo }}</span>
 
-            <div *ngIf="profileMenuOpen" class="absolute right-0 top-10 w-48 rounded-md shadow-lg bg-slate-800 ring-1 ring-slate-700 z-50">
+            <div *ngIf="profileMenuOpen" class="absolute right-0 top-10 w-48 rounded-md shadow-lg bg-slate-800/90 backdrop-blur-md ring-1 ring-blue-500/20 z-50">
               <div class="py-1">
-                <a (click)="goToProfile()" class="block px-4 py-2 text-sm text-gray-300 hover:bg-slate-700 hover:text-white cursor-pointer">
-                  Mon profil
-                </a>
-                <button (click)="logout()" class="w-full text-left block px-4 py-2 text-sm text-gray-300 hover:bg-slate-700 hover:text-white">
-                  Déconnexion
-                </button>
+                <a (click)="goToProfile()" class="block px-4 py-2 text-sm text-gray-300 hover:bg-blue-500/10 hover:text-blue-300 cursor-pointer">Mon profil</a>
+                <button (click)="logout()" class="w-full text-left block px-4 py-2 text-sm text-gray-300 hover:bg-blue-500/10 hover:text-blue-300">Déconnexion</button>
               </div>
             </div>
           </div>
@@ -59,7 +52,7 @@
       </div>
 
       <div class="sm:hidden flex items-center">
-        <button (click)="toggleMenu()" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-amber-500">
+        <button (click)="toggleMenu()" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-400">
           <svg class="h-6 w-6" [class.hidden]="menuOpen" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
           <svg class="h-6 w-6" [class.hidden]="!menuOpen" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
@@ -68,7 +61,7 @@
   </div>
 
   <div class="sm:hidden" [class.hidden]="!menuOpen">
-    <div class="px-2 pt-2 pb-3 space-y-1 border-t border-slate-700">
+    <div class="px-2 pt-2 pb-3 space-y-1">
       <a href="/" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-slate-700">Accueil</a>
       <a *ngIf="currentUser?.id" routerLink="/characters/list" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-slate-700">Mes Personnages</a>
 
@@ -83,9 +76,9 @@
 
       <div class="border-t border-slate-700 pt-4 mt-4">
         <div class="flex items-center px-3">
-          <div class="flex-shrink-0 h-10 w-10 rounded-full flex items-center justify-center ring-2 ring-amber-500 overflow-hidden">
+          <div class="flex-shrink-0 h-10 w-10 rounded-full flex items-center justify-center ring-2 ring-purple-500 overflow-hidden">
             <img *ngIf="currentUser?.pseudo" src="assets/images/UserIcon.webp" alt="Profil utilisateur" class="h-full w-full object-cover" />
-            <img *ngIf="!currentUser?.pseudo" src="assets-images/UserIcon-disconnected1.webp" alt="Non connecté" class="h-full w-full object-cover" />
+            <img *ngIf="!currentUser?.pseudo" src="assets/images/UserIcon-disconnected1.webp" alt="Non connecté" class="h-full w-full object-cover" />
           </div>
           <div class="ml-3">
             <div class="text-base font-medium text-white">{{ currentUser?.pseudo || 'Visiteur' }}</div>
