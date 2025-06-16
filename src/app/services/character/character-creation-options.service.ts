@@ -1,4 +1,3 @@
-// src/app/services/character/character-creation-options.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, Observable } from 'rxjs';

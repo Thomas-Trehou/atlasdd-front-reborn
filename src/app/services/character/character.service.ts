@@ -37,7 +37,6 @@ export class CharacterService {
    * @returns Observable avec un tableau de CharacterCardModel
    */
   getAllCharacters(): Observable<CharacterCardModel[]> {
-    // Obtient l'ID de l'utilisateur connecté à partir du service utilisateur
     const currentUser = this.userService.currentUser;
 
     if (!currentUser || !currentUser.id) {
@@ -51,7 +50,6 @@ export class CharacterService {
       custom: this.getCustomCharacters(userId)
     }).pipe(
       map(results => {
-        // Transforme les résultats en CharacterCardModel avec le type approprié
         const ogl5Characters = results.ogl5.map(char => ({
           id: char.id,
           name: char.name,

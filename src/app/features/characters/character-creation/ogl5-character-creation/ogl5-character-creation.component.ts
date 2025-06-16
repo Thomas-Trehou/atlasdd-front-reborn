@@ -6,7 +6,6 @@ import { CharacterCreationOptionsService, CharacterCreationData } from '../../..
 import { CharacterService } from '../../../../services/character/character.service';
 import { Ogl5CharacterCreateRequest } from '../../../../core/models/character/ogl5-character';
 import { Skill } from '../../../../core/models/option/skill';
-import { SkillProficiencyLevel } from '../../../../core/enums/skill-proficiency-level';
 import {SpellSlots} from '../../../../core/models/character/spell-slots';
 import {Ogl5Race} from '../../../../core/models/option/race';
 
@@ -38,7 +37,6 @@ export class Ogl5CharacterCreationComponent implements OnInit {
     this.optionsService.loadAllCreationData().subscribe({
       next: (data) => {
         this.options = data;
-        // Initialiser le Form Control 'skills' avec toutes les compétences possibles
         const initialSkills = this.options.skills.map(skill => ({ ...skill, expert: false, isProficient: false }));
         this.creationForm.get('skills')?.setValue(initialSkills);
         this.isLoading = false;
@@ -46,7 +44,6 @@ export class Ogl5CharacterCreationComponent implements OnInit {
         this.listenToClassAndConstitutionChanges();
         this.listenToWisdomChanges();
 
-        // On appelle les méthodes une première fois pour initialiser les valeurs
         this.updateHitPoints();
         this.updatePassivePerception();
       },
@@ -80,7 +77,7 @@ export class Ogl5CharacterCreationComponent implements OnInit {
       wisdom: [10, Validators.required],
       charisma: [10, Validators.required],
       status: ['VIVANT', Validators.required],
-      userId: [3, Validators.required], // Mettez l'ID de l'utilisateur connecté
+      userId: [3, Validators.required],
       raceId: [null, Validators.required],
       backgroundId: [null, Validators.required],
       classId: [null, Validators.required],
@@ -92,7 +89,6 @@ export class Ogl5CharacterCreationComponent implements OnInit {
     });
   }
 
-  // --- Méthodes copiées et adaptées de Ogl5CharacterSheetComponent ---
   getAbilityModifierText(score: number): string {
     const modifier = Math.floor((score - 10) / 2);
     return modifier >= 0 ? `+${modifier}` : `${modifier}`;
@@ -133,30 +129,22 @@ export class Ogl5CharacterCreationComponent implements OnInit {
 
     const formValues = this.creationForm.getRawValue();
 
-    // La logique pour filtrer les compétences reste la même
     const proficientSkills = formValues.skills.filter((skill: any) => skill.isProficient);
 
-    // --- MODIFICATION ---
-    // 1. Définir la structure par défaut pour les emplacements de sorts
     const defaultSpellSlots: SpellSlots = {
       slots: { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0 },
       slotsUsed: { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0 }
     };
 
-    // --- MODIFICATION ---
-    // 1. Construire le payload en se basant sur les valeurs du formulaire
     const payload: Ogl5CharacterCreateRequest = {
       ...formValues,
       skills: proficientSkills.map(({ id, expert }: Skill) => ({ id, expert: false })), // On s'assure que 'expert' est toujours false
       spellSlots: defaultSpellSlots,
-      // 2. Créer manuellement le tableau weaponIds
       weaponIds: [formValues.weapon1Id, formValues.weapon2Id].filter(id => id !== null)
     };
 
-    // 3. Supprimer les contrôles temporaires du payload final
     delete (payload as any).weapon1Id;
     delete (payload as any).weapon2Id;
-    // --- FIN DE LA MODIFICATION ---
 
     this.characterService.createOgl5Character(payload).subscribe({
       next: (newCharacter) => {
@@ -175,7 +163,6 @@ export class Ogl5CharacterCreationComponent implements OnInit {
     if (raceIdControl) {
       raceIdControl.valueChanges.subscribe(raceId => {
         if (raceId) {
-          // Le `+` convertit la valeur (qui peut être une chaîne) en nombre
           const selectedRace = this.options.races.find(r => r.id === +raceId);
           if (selectedRace) {
             this.applyRaceBonuses(selectedRace);
@@ -186,7 +173,6 @@ export class Ogl5CharacterCreationComponent implements OnInit {
   }
 
   private applyRaceBonuses(newRace: Ogl5Race): void {
-    // 1. Récupérer les valeurs actuelles des caractéristiques depuis le formulaire
     const currentScores = {
       strength: this.creationForm.get('strength')?.value,
       dexterity: this.creationForm.get('dexterity')?.value,
@@ -196,7 +182,6 @@ export class Ogl5CharacterCreationComponent implements OnInit {
       charisma: this.creationForm.get('charisma')?.value,
     };
 
-    // 2. Si une race était déjà sélectionnée, on soustrait ses bonus pour revenir aux scores de base
     if (this.lastSelectedRace) {
       currentScores.strength -= this.lastSelectedRace.strengthBonus;
       currentScores.dexterity -= this.lastSelectedRace.dexterityBonus;
@@ -206,7 +191,6 @@ export class Ogl5CharacterCreationComponent implements OnInit {
       currentScores.charisma -= this.lastSelectedRace.charismaBonus;
     }
 
-    // 3. On ajoute les bonus de la nouvelle race aux scores (qui sont maintenant "de base")
     const newScores = {
       strength: currentScores.strength + newRace.strengthBonus,
       dexterity: currentScores.dexterity + newRace.dexterityBonus,
@@ -216,17 +200,13 @@ export class Ogl5CharacterCreationComponent implements OnInit {
       charisma: currentScores.charisma + newRace.charismaBonus,
     };
 
-    // On récupère la vitesse de la race. La propriété speed est un string dans la RaceDto.
-    // On la convertit en nombre, avec une valeur par défaut de 30 si invalide.
     const newSpeed = Number(newRace.speed) || 30;
 
-    // 4. Mettre à jour le formulaire avec les nouvelles valeurs
     this.creationForm.patchValue({
       ...newScores,
-      speed: newSpeed // On met à jour la vitesse en même temps
+      speed: newSpeed
     });
 
-    // 5. Mémoriser la race qui vient d'être appliquée pour la prochaine fois
     this.lastSelectedRace = newRace;
   }
 

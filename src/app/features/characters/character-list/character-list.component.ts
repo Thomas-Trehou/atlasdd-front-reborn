@@ -14,15 +14,12 @@ import { catchError, of, finalize } from 'rxjs';
   styleUrl: './character-list.component.scss'
 })
 export class CharacterListComponent implements OnInit {
-  // Listes complètes des personnages
   ogl5Characters: CharacterCardModel[] = [];
   customCharacters: CharacterCardModel[] = [];
 
-  // Listes des personnages actuellement visibles
   visibleOgl5Characters: CharacterCardModel[] = [];
   visibleCustomCharacters: CharacterCardModel[] = [];
 
-  // États pour gérer l'affichage "Voir plus"
   showAllOgl5 = false;
   showAllCustom = false;
 
@@ -57,11 +54,9 @@ export class CharacterListComponent implements OnInit {
       )
       .subscribe({
         next: (allCharacters) => {
-          // Fonction de comparaison pour trier par date (du plus récent au plus ancien)
           const sortByDate = (a: CharacterCardModel, b: CharacterCardModel) =>
             new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
 
-          // On filtre PUIS on trie chaque liste
           this.ogl5Characters = allCharacters
             .filter(c => c.type === 'ogl5')
             .sort(sortByDate);
@@ -70,7 +65,6 @@ export class CharacterListComponent implements OnInit {
             .filter(c => c.type === 'custom')
             .sort(sortByDate);
 
-          // Le reste de la logique pour les listes visibles ne change pas
           this.visibleOgl5Characters = this.ogl5Characters.slice(0, this.initialDisplayCount);
           this.visibleCustomCharacters = this.customCharacters.slice(0, this.initialDisplayCount);
         }
