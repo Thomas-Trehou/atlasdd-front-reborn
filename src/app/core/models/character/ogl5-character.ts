@@ -80,4 +80,4 @@ export type Ogl5CharacterUpdateRequest = Omit<Ogl5CharacterDto, 'createdAt' | 'u
 
 export type Ogl5Character = Omit<Ogl5CharacterDto, 'userId' | 'raceId' | 'backgroundId' | 'classId' | 'skillIds' | 'preparedSpellIds' | 'weaponIds' | 'armorId'>;
 
-export type Ogl5CharacterCard = Pick<Ogl5CharacterDto, 'id' | 'name' | 'level' | 'classe' | 'race' |'status'>
+export type Ogl5CharacterCard = Pick<Ogl5CharacterDto, 'id' | 'name' | 'level' | 'classe' | 'race' | 'updatedAt' |'status'>

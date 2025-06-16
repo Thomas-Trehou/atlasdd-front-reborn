@@ -5,7 +5,12 @@ import { environment } from '../../../environments/environment.development';
 import { AuthService } from '../auth/auth.service';
 import { UserService } from '../user/user.service';
 import {CharacterCardModel} from '../../core/models/character/character-card';
-import {Ogl5Character, Ogl5CharacterCard, Ogl5CharacterUpdateRequest} from '../../core/models/character/ogl5-character';
+import {
+  Ogl5Character,
+  Ogl5CharacterCard,
+  Ogl5CharacterCreateRequest,
+  Ogl5CharacterUpdateRequest
+} from '../../core/models/character/ogl5-character';
 import {
   CustomCharacter,
   CustomCharacterCard,
@@ -32,7 +37,6 @@ export class CharacterService {
    * @returns Observable avec un tableau de CharacterCardModel
    */
   getAllCharacters(): Observable<CharacterCardModel[]> {
-    // Obtient l'ID de l'utilisateur connecté à partir du service utilisateur
     const currentUser = this.userService.currentUser;
 
     if (!currentUser || !currentUser.id) {
@@ -46,7 +50,6 @@ export class CharacterService {
       custom: this.getCustomCharacters(userId)
     }).pipe(
       map(results => {
-        // Transforme les résultats en CharacterCardModel avec le type approprié
         const ogl5Characters = results.ogl5.map(char => ({
           id: char.id,
           name: char.name,
@@ -56,6 +59,7 @@ export class CharacterService {
           // Convertit l'objet race en chaîne de caractères (nom de la race)
           race: typeof char.race === 'string' ? char.race : char.race.name || 'Inconnu',
           status: char.status,
+          updatedAt:char.updatedAt,
           type: 'ogl5' as const
         }));
 
@@ -68,6 +72,7 @@ export class CharacterService {
           // Convertit l'objet race en chaîne de caractères (nom de la race)
           race: typeof char.race === 'string' ? char.race : char.race.name || 'Inconnu',
           status: char.status,
+          updatedAt:char.updatedAt,
           type: 'custom' as const
         }));
 
@@ -140,6 +145,20 @@ export class CharacterService {
   getAllWeapons(): Observable<Weapon[]> {
     const url = `${environment.API_URL}${environment.API_RESOURCES.CHARACTER_OPTIONS}/weapons`;
     return this.http.get<Weapon[]>(url)
+  }
+
+  /**
+   * Crée une nouvelle fiche de personnage OGL5.
+   */
+  createOgl5Character(characterData: Ogl5CharacterCreateRequest): Observable<Ogl5Character> {
+    return this.http.post<Ogl5Character>(`${environment.API_URL}${environment.API_RESOURCES.OGL5_CHARACTER}`, characterData); // Adaptez l'endpoint de création
+  }
+
+  /**
+   * Crée une nouvelle fiche de personnage OGL5.
+   */
+  deleteOgl5Character(id: number): Observable<void> {
+    return this.http.delete<void>(`${environment.API_URL}${environment.API_RESOURCES.OGL5_CHARACTER}/${id}`);
   }
 
 

@@ -72,11 +72,15 @@ export class CharacterSheetSpellsTabComponent implements OnInit{
   }
 
   getPreparedSpellsByLevel(level: number): any[] {
-    return this.character.preparedSpells?.filter(spell => parseInt(spell.level, 10) === level) || [];
+    return this.character.preparedSpells
+      ?.filter(spell => parseInt(spell.level, 10) === level)
+      .sort((a, b) => a.name.localeCompare(b.name)) || [];
   }
 
   getClassSpellsByLevel(level: number): any[] {
-    return this.character.classe.classSpells?.filter(spell => parseInt(spell.level, 10) === level) || [];
+    return this.character.classe.classSpells
+      ?.filter(spell => parseInt(spell.level, 10) === level)
+      .sort((a, b) => a.name.localeCompare(b.name)) || [];
   }
 
   isSpellPrepared(spell: any): boolean {

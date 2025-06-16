@@ -10,8 +10,15 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   // Récupération du token depuis le localStorage
   const token = localStorageService.getItem(environment.LOCAL_STORAGE.TOKEN);
 
+  const excludedEndpoints = [
+    environment.API_URL + environment.API_RESOURCES.USERS + '/signin',
+    environment.API_URL + environment.API_RESOURCES.USERS + '/signup'
+  ]
+
+  const isExcluded = excludedEndpoints.some(url => req.url.includes(url));
+
   // Si un token existe, l'ajouter à l'en-tête d'autorisation
-  if (token) {
+  if (token && !isExcluded) {
     req = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`

@@ -6,16 +6,21 @@ export const authGuard: CanActivateFn = async (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  // Si le token est déjà en mémoire, autoriser l'accès
   if (authService.token) return true;
 
-  // Essayer de récupérer le token du localStorage
-  await authService.checkLocalStorageToken();
+  try {
+    await authService.checkLocalStorageToken();
 
-  // Vérifier à nouveau si le token est présent
-  if (authService.token) return true;
+    if (authService.token) {
+      return true;
+    }
 
-  // Rediriger vers la page de connexion
-  return router.navigate(['/signin']);
+    return router.navigate(['/user/login']);
+
+  } catch (error) {
+    console.error('Auth Guard Error:', error); // Optionnel : pour le débogage
+    return router.navigate(['/user/login']);
+  }
 };
+
 
