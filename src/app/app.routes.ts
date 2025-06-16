@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import {HomeComponent} from './pages/home/home.component';
+import {authGuard} from './guards/auth/auth.guard';
 
 export const routes: Routes = [
   {
@@ -11,7 +12,7 @@ export const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'user',  // Déplacé dans son propre chemin
+    path: 'user',
     loadChildren: () => import('./features/user/user.routes').then(m => m.USER_ROUTES)
   },
   {
@@ -20,7 +21,8 @@ export const routes: Routes = [
   },
   {
     path: 'characters',
-    loadChildren: () => import('./features/characters/character.routes').then(m => m.CHARACTER_ROUTES)
+    loadChildren: () => import('./features/characters/character.routes').then(m => m.CHARACTER_ROUTES),
+    canActivate: [authGuard]
   }
 ];
 

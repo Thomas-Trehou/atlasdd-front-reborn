@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageService } from '../local-storage/local-storage.service';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import { UserService } from '../user/user.service';
 import { environment } from '../../../environments/environment.development';
 import { SignInRequest, UserLight, UserLightAuth } from '../../core/models/user/user';
@@ -47,7 +47,6 @@ export class AuthService {
   async refreshUserProfile(): Promise<void> {
     if (!this.token) throw new Error('Aucun jeton de connexion');
 
-    // Suppression des headers manuels car l'intercepteur les ajoute automatiquement
     const obs = this.http
       .get<UserLight>(this.url + '/me')
       .pipe(
@@ -56,7 +55,16 @@ export class AuthService {
         }),
         map(() => undefined)
       );
-    return lastValueFrom(obs);
+
+    try {
+      await lastValueFrom(obs);
+    } catch (error) {
+      if (error instanceof HttpErrorResponse && (error.status === 401 || error.status === 403)) {
+        console.warn('Token invalide ou expiré. Déconnexion...');
+        this.logout();
+      }
+      throw error;
+    }
   }
 
   logout(): void {
