@@ -27,7 +27,7 @@ export class CharacterListComponent implements OnInit {
   error: string | null = null;
   isEditMode = false;
 
-  readonly initialDisplayCount = 6;
+  readonly initialDisplayCount = 8;
 
   constructor(
     private characterService: CharacterService,
