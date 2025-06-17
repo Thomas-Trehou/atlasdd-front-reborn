@@ -1,55 +1,55 @@
 <!-- src/app/features/sanctuary/abilities/abilities.component.html -->
 <div class="container mx-auto px-4 py-8">
-  <h1 class="text-3xl font-bold text-center mb-8">Caractéristiques</h1>
+  <h1 class="text-4xl font-bold font-serif text-blue-400 text-center mb-8">Caractéristiques</h1>
 
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     <!-- Boucle sur chaque ability -->
-    <div *ngFor="let ability of abilities" class="bg-white rounded-lg shadow-lg overflow-hidden transition-transform hover:-translate-y-1 hover:shadow-xl">
-      <!-- En-tête de la carte avec nom court et nom complet -->
-      <div class="bg-gray-800 text-white px-6 py-4">
+    <div *ngFor="let ability of abilities" class="bg-slate-800/50 backdrop-blur-sm rounded-lg shadow-xl shadow-black/30 border border-slate-700/80 overflow-hidden flex flex-col">
+      <!-- En-tête de la carte -->
+      <div class="bg-slate-900/70 text-blue-300 px-6 py-4 border-b border-slate-700/80">
         <h2 class="text-xl font-semibold">{{ ability.name }} - {{ ability.full_name }}</h2>
       </div>
 
       <!-- Description de l'ability -->
-      <div class="px-6 py-4 border-b border-gray-200">
-        <p class="text-gray-700 leading-relaxed">{{ ability.description }}</p>
+      <div class="px-6 py-4 flex-grow">
+        <p class="text-gray-300 leading-relaxed">{{ ability.description }}</p>
       </div>
 
       <!-- Liste des skills associés -->
-      <div class="px-6 py-4" *ngIf="ability.skills && ability.skills.length > 0">
-        <h3 class="text-lg font-medium text-gray-700 mb-3">Compétences</h3>
+      <div class="px-6 py-4 border-t border-slate-700/80" *ngIf="ability.skills && ability.skills.length > 0">
+        <h3 class="text-lg font-medium text-purple-400 mb-3">Compétences Associées</h3>
 
-        <div class="space-y-3">
+        <div class="space-y-2">
           <!-- Boucle sur chaque skill -->
           <div
             *ngFor="let skill of ability.skills"
-            class="border border-gray-200 rounded-md overflow-hidden"
+            class="bg-slate-900/50 rounded-lg border border-slate-700 overflow-hidden"
           >
             <!-- En-tête du skill (toujours visible) -->
-            <div
-              class="flex justify-between items-center px-4 py-3 bg-gray-50 cursor-pointer hover:bg-gray-100"
+            <button
+              class="w-full flex justify-between items-center px-4 py-3 bg-slate-800/60 hover:bg-slate-700/60 transition-colors text-left"
               (click)="toggleSkill(ability.index, skill.index)"
             >
-              <h4 class="text-base font-medium text-gray-800">{{ skill.name }}</h4>
-              <span class="text-gray-500 text-sm">
-                {{ isSkillExpanded(ability.index, skill.index) ? '▼' : '▶' }}
+              <h4 class="text-base font-medium text-purple-300">{{ skill.name }}</h4>
+              <span class="text-gray-400 text-xl transition-transform transform" [ngClass]="{'rotate-180': isSkillExpanded(ability.index, skill.index)}">
+                ▼
               </span>
-            </div>
+            </button>
 
             <!-- Description du skill (visible uniquement si développé) -->
             <div
-              class="px-4 py-3 bg-gray-50 border-t border-gray-200"
+              class="px-4 py-3 border-t border-slate-700"
               *ngIf="isSkillExpanded(ability.index, skill.index)"
             >
-              <p class="text-gray-600">{{ skill.description }}</p>
+              <p class="text-gray-400 text-sm">{{ skill.description }}</p>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Message si aucun skill n'est associé -->
-      <div class="px-6 py-4 text-center text-gray-500 italic" *ngIf="!ability.skills || ability.skills.length === 0">
-        <p>Aucune compétence associée à cette caractéristique</p>
+      <div class="px-6 py-4 text-center text-gray-500 italic mt-auto" *ngIf="!ability.skills || ability.skills.length === 0">
+        <p>Aucune compétence associée</p>
       </div>
     </div>
   </div>
