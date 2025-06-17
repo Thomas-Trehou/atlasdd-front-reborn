@@ -1,35 +1,35 @@
 <!-- src/app/features/sanctuary/conditions/conditions.component.html -->
-
-<div class="container mx-auto p-4">
-  <h1 class="text-2xl font-bold mb-6">Altérations d'État</h1>
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-4xl font-bold font-serif text-blue-400 text-center mb-8">Altérations d'État</h1>
 
   <!-- Barre de recherche -->
-  <div class="mb-6">
+  <div class="mb-8 max-w-lg mx-auto">
     <div class="relative">
+      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+        </svg>
+      </div>
       <input
         type="text"
-        class="w-full p-3 pl-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        placeholder="Rechercher une altération d'état..."
+        class="w-full p-3 pl-10 bg-slate-800/70 border border-slate-600 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-colors"
+        placeholder="Rechercher une altération..."
         (input)="searchConditions($event)">
-      <div class="absolute left-3 top-3 text-gray-400">
-        <!-- Icon de recherche (vous pouvez utiliser une icône de votre choix) -->
-        <span>🔍</span>
-      </div>
     </div>
   </div>
 
   <div class="flex flex-col lg:flex-row gap-6">
     <!-- Liste des altérations -->
     <div class="lg:w-1/3">
-      <h2 class="text-lg font-semibold mb-3">Liste des altérations</h2>
-      <div class="bg-white rounded-lg shadow overflow-hidden">
-        <ul class="divide-y divide-gray-200">
+      <div class="bg-slate-800/50 backdrop-blur-sm rounded-lg shadow-xl shadow-black/30 border border-slate-700/80 overflow-hidden">
+        <h2 class="text-xl font-bold font-serif text-blue-300 p-4 border-b border-slate-700/80">Liste des Altérations</h2>
+        <ul class="divide-y divide-slate-700/80 max-h-[60vh] overflow-y-auto">
           @for (condition of filteredConditions; track condition.index) {
             <li
-              class="p-4 hover:bg-blue-50 cursor-pointer transition-colors"
-              [class.bg-blue-100]="selectedCondition?.index === condition.index"
+              class="p-4 hover:bg-slate-700/50 cursor-pointer transition-colors"
+              [ngClass]="{'bg-purple-600/30': selectedCondition?.index === condition.index}"
               (click)="selectCondition(condition)">
-              <h3 class="font-medium">{{ condition.name }}</h3>
+              <h3 class="font-medium text-gray-200">{{ condition.name }}</h3>
             </li>
           }
           @empty {
@@ -41,23 +41,27 @@
 
     <!-- Détails de l'altération sélectionnée -->
     <div class="lg:w-2/3">
-      <div class="bg-white rounded-lg shadow p-6">
+      <div class="bg-slate-800/50 backdrop-blur-sm rounded-lg shadow-xl shadow-black/30 border border-slate-700/80 p-6 min-h-[50vh] flex flex-col">
         @if (selectedCondition) {
-          <div class="flex justify-between items-start mb-4">
-            <h2 class="text-xl font-bold">{{ selectedCondition.name }}</h2>
-            <button
-              class="text-gray-500 hover:text-gray-700"
-              (click)="clearSelection()">
-              ✕
-            </button>
-          </div>
-          <div class="prose max-w-none">
-            <p>{{ selectedCondition.description }}</p>
+          <div>
+            <div class="flex justify-between items-start mb-4">
+              <h2 class="text-2xl font-bold font-serif text-purple-400">{{ selectedCondition.name }}</h2>
+              <button
+                class="text-gray-500 hover:text-white transition-colors"
+                (click)="clearSelection()"
+                aria-label="Fermer">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+            <div class="prose prose-invert max-w-none prose-p:text-gray-300 prose-ul:text-gray-300 prose-li:marker:text-purple-400">
+              <!-- La description peut contenir des listes, etc. `prose` gère bien cela -->
+              <p>{{ selectedCondition.description }}</p>
+            </div>
           </div>
         } @else {
-          <div class="text-center py-10 text-gray-500">
+          <div class="text-center m-auto text-gray-500">
             <p class="text-lg mb-2">Sélectionnez une altération d'état pour voir ses détails</p>
-            <p class="italic">Les altérations d'état déterminent les handicaps spéciaux qui affectent les créatures</p>
+            <p class="italic text-sm">Les altérations d'état déterminent les handicaps spéciaux qui affectent les créatures</p>
           </div>
         }
       </div>
