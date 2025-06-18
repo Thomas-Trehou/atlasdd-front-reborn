@@ -52,7 +52,7 @@ export class CharacterSheetSpellsTabComponent implements OnInit{
     const spellcastingAbilities: { [key: string]: string } = {
       'Magicien': 'Intelligence', 'Clerc': 'Sagesse', 'Paladin': 'Charisme',
       'Druide': 'Sagesse', 'Barde': 'Charisme', 'Ensorceleur': 'Charisme',
-      'Sorcier': 'Charisme', 'Rôdeur': 'Sagesse'
+      'Sorcier': 'Charisme', 'Rodeur': 'Sagesse'
     };
     return spellcastingAbilities[this.character.classe.name] || 'Aucun';
   }
