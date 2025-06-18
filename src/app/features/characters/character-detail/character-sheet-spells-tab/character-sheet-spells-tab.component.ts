@@ -172,7 +172,7 @@ export class CharacterSheetSpellsTabComponent implements OnInit{
   }
 
   addClassSpell(level: number): void {
-    console.log(`Ajouter un sort de niveau ${level} à la liste des sorts de classe`);
+    console.log(`Fonction indisponible`);
   }
 
   updateSpellSlotValidators(): void {

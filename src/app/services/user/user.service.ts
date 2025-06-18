@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { UserLight } from '../../core/models/user/user';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'

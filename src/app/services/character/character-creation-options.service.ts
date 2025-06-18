@@ -8,7 +8,7 @@ import { Skill } from '../../core/models/option/skill';
 import { Spell } from '../../core/models/option/spell';
 import { Weapon } from '../../core/models/option/weapon';
 import { Armor } from '../../core/models/option/armor';
-import {environment} from '../../../environments/environment.development';
+import {environment} from '../../../environments/environment';
 
 export interface CharacterCreationData {
   races: Ogl5Race[];

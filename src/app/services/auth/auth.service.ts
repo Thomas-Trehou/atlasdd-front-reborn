@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { LocalStorageService } from '../local-storage/local-storage.service';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import { UserService } from '../user/user.service';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import {SignInRequest, UserCreateRequest, UserLight, UserLightAuth} from '../../core/models/user/user';
 import { lastValueFrom, map, tap } from 'rxjs';
 
@@ -94,7 +94,6 @@ export class AuthService {
 
   async verifyMail(token: string): Promise<string> {
     const finalUrl = this.url + '/verify?token=' + token;
-    console.log('%cSERVICE: Tentative d\'appel réseau à l\'URL :', 'color: orange; font-weight: bold;', finalUrl);
     return lastValueFrom(this.http.get(finalUrl, { responseType: 'text' }));
   }
 

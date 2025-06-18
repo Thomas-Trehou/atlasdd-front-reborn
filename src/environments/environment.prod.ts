@@ -1,5 +1,5 @@
 export const environment = {
-  API_URL: 'http://localhost:8080',
+  API_URL: 'https://atlasdd-back-0ec3a5f735ac.herokuapp.com',
   API_RESOURCES: {
     USERS: '/users',
     FRIENDS_INVITES: '/friends-invitations',

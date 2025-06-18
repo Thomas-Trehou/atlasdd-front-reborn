@@ -188,8 +188,6 @@ export class Ogl5CharacterSheetComponent implements OnInit {
 
       if (key === 'shield' || key === 'alignment') {
         const characterValue = this.character[key];
-        console.log(`Original ${key} value:`, characterValue, typeof characterValue);
-
         let formValue: any = characterValue;
 
         if (key === 'shield' && characterValue !== null) {
@@ -242,7 +240,6 @@ export class Ogl5CharacterSheetComponent implements OnInit {
         }
 
         control?.setValue(formValue);
-        console.log(`Set ${key} to:`, formValue, typeof formValue);
       }
     });
   }
@@ -294,8 +291,6 @@ export class Ogl5CharacterSheetComponent implements OnInit {
       if (updateRequest.shield !== undefined) {
         updateRequest.shield = ShieldType[updateRequest.shield] as any;
       }
-
-      console.log('Données envoyées à l\'API:', JSON.stringify(updateRequest, null, 2));
 
       this.characterService.updateOgl5Character(updateRequest.id, updateRequest).subscribe({
         next: (updatedCharacter) => {
