@@ -15,4 +15,4 @@ FROM nginx:stable-alpine
 
 COPY nginx.conf /etc/nginx/templates/default.conf.template
 
-COPY --from=builder /usr/src/app/dist/atlasdd-app /usr/share/nginx/html
+COPY --from=builder /usr/src/app/dist/atlasdd-app/ /usr/share/nginx/html/
