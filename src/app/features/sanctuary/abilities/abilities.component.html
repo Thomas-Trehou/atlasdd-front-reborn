@@ -1,0 +1,55 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-4xl font-bold font-serif text-blue-400 text-center mb-8">Caractéristiques</h1>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Boucle sur chaque ability -->
+    <div *ngFor="let ability of abilities" class="bg-slate-800/50 backdrop-blur-sm rounded-lg shadow-xl shadow-black/30 border border-slate-700/80 overflow-hidden flex flex-col">
+      <!-- En-tête de la carte -->
+      <div class="bg-slate-900/70 text-blue-300 px-6 py-4 border-b border-slate-700/80">
+        <h2 class="text-xl font-semibold">{{ ability.name }} - {{ ability.full_name }}</h2>
+      </div>
+
+      <!-- Description de l'ability -->
+      <div class="px-6 py-4 flex-grow">
+        <p class="text-gray-300 leading-relaxed">{{ ability.description }}</p>
+      </div>
+
+      <!-- Liste des skills associés -->
+      <div class="px-6 py-4 border-t border-slate-700/80" *ngIf="ability.skills && ability.skills.length > 0">
+        <h3 class="text-lg font-medium text-purple-400 mb-3">Compétences Associées</h3>
+
+        <div class="space-y-2">
+          <!-- Boucle sur chaque skill -->
+          <div
+            *ngFor="let skill of ability.skills"
+            class="bg-slate-900/50 rounded-lg border border-slate-700 overflow-hidden"
+          >
+            <!-- En-tête du skill (toujours visible) -->
+            <button
+              class="w-full flex justify-between items-center px-4 py-3 bg-slate-800/60 hover:bg-slate-700/60 transition-colors text-left"
+              (click)="toggleSkill(ability.index, skill.index)"
+            >
+              <h4 class="text-base font-medium text-purple-300">{{ skill.name }}</h4>
+              <span class="text-gray-400 text-xl transition-transform transform" [ngClass]="{'rotate-180': isSkillExpanded(ability.index, skill.index)}">
+                ▼
+              </span>
+            </button>
+
+            <!-- Description du skill (visible uniquement si développé) -->
+            <div
+              class="px-4 py-3 border-t border-slate-700"
+              *ngIf="isSkillExpanded(ability.index, skill.index)"
+            >
+              <p class="text-gray-400 text-sm">{{ skill.description }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Message si aucun skill n'est associé -->
+      <div class="px-6 py-4 text-center text-gray-500 italic mt-auto" *ngIf="!ability.skills || ability.skills.length === 0">
+        <p>Aucune compétence associée</p>
+      </div>
+    </div>
+  </div>
+</div>

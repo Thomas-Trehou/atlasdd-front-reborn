@@ -1,0 +1,95 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-4xl font-bold font-serif text-blue-400 text-center mb-8">Dons</h1>
+
+  <!-- Barre de recherche -->
+  <div class="mb-8 max-w-lg mx-auto">
+    <div class="relative">
+      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+        </svg>
+      </div>
+      <input
+        type="text"
+        class="w-full p-3 pl-10 bg-slate-800/70 border border-slate-600 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-colors"
+        placeholder="Rechercher un don..."
+        (input)="searchTalents($event)">
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Liste des dons -->
+    <div class="lg:col-span-1">
+      <div class="bg-slate-800/50 backdrop-blur-sm rounded-lg shadow-xl shadow-black/30 border border-slate-700/80 overflow-hidden">
+        <h2 class="text-xl font-bold font-serif text-blue-300 p-4 border-b border-slate-700/80">Liste des Dons</h2>
+        <ul class="divide-y divide-slate-700/80 max-h-[70vh] overflow-y-auto">
+          @for (talent of filteredTalents; track talent.name) {
+            <li
+              class="p-4 hover:bg-slate-700/50 cursor-pointer transition-colors"
+              [ngClass]="{'bg-purple-600/30': selectedTalent?.name === talent.name}"
+              (click)="selectTalent(talent)">
+              <div class="flex justify-between items-center">
+                <h3 class="font-medium text-gray-200">{{ talent.name }}</h3>
+                @if (countSelectedChoices(talent.name) > 0) {
+                  <span class="px-2 py-1 bg-green-800/70 text-green-300 text-xs font-medium rounded-full">
+                    {{ countSelectedChoices(talent.name) }} choix
+                  </span>
+                }
+              </div>
+            </li>
+          }
+          @empty {
+            <li class="p-4 text-gray-500 italic">Aucun don trouvé</li>
+          }
+        </ul>
+      </div>
+    </div>
+
+    <!-- Détails du don sélectionné -->
+    <div class="lg:col-span-2">
+      @if (selectedTalent) {
+        <div class="bg-slate-800/50 backdrop-blur-sm rounded-lg shadow-xl shadow-black/30 border border-slate-700/80 p-6">
+          <div class="flex justify-between items-start mb-4">
+            <h2 class="text-2xl font-bold font-serif text-purple-400">{{ selectedTalent.name }}</h2>
+            <button
+              class="text-gray-500 hover:text-white transition-colors"
+              (click)="clearSelection()"
+              aria-label="Fermer">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+          </div>
+
+          <div class="prose prose-invert max-w-none mb-6 prose-p:text-gray-300">
+            <p>{{ selectedTalent.description }}</p>
+          </div>
+
+          <h3 class="font-semibold mb-3 text-lg text-blue-300">Choix disponibles:</h3>
+          <div class="space-y-3">
+            @for (choice of selectedTalent.choices; track choice) {
+              <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-slate-700/50 transition-colors cursor-pointer border border-slate-700/80"
+                   [ngClass]="{'bg-purple-600/20 border-purple-500/50': isChoiceSelected(selectedTalent.name, choice)}"
+                   (click)="toggleChoiceSelection(selectedTalent.name, choice)">
+                <div class="flex-shrink-0 mt-1">
+                  <div class="w-5 h-5 border-2 border-slate-600 rounded-sm flex items-center justify-center transition-all"
+                       [ngClass]="isChoiceSelected(selectedTalent.name, choice) ? 'bg-purple-500 border-purple-400' : ''">
+                    @if (isChoiceSelected(selectedTalent.name, choice)) {
+                      <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg>
+                    }
+                  </div>
+                </div>
+                <p class="text-gray-300">{{ choice }}</p>
+              </div>
+            }
+          </div>
+        </div>
+      } @else {
+        <div class="bg-slate-800/50 backdrop-blur-sm rounded-lg shadow-xl shadow-black/30 border border-slate-700/80 p-6 h-full flex flex-col justify-center items-center">
+          <div class="text-center py-10 text-gray-500">
+            <p class="text-lg mb-2">Sélectionnez un don pour voir ses détails</p>
+            <p class="italic">Les dons représentent des aptitudes particulières qui permettent à votre personnage de se démarquer</p>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

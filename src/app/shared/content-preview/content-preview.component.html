@@ -1,0 +1,25 @@
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+  @for (item of items; track item.name) {
+    <div class="group cursor-pointer" (click)="onSelect(item)">
+      <div class="relative w-full aspect-[3/4] rounded-lg overflow-hidden shadow-lg bg-slate-900/50 border-2 border-slate-700/80
+                  hover:border-purple-400/60 transition-all duration-300 transform hover:-translate-y-2">
+
+        <!-- Wrapper pour l'image pour contrôler le padding et éviter le zoom -->
+        <div class="absolute inset-0 flex items-center justify-center p-4">
+          <img [src]="item.imageUrl"
+               [alt]="item.alt"
+               [attr.aria-label]="item.aria"
+               class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300">
+        </div>
+
+        <!-- Dégradé pour la lisibilité du texte -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+
+        <!-- Titre de la carte -->
+        <div class="absolute bottom-0 w-full p-3">
+          <h3 class="text-white text-center text-sm font-bold tracking-wide uppercase">{{ item.name }}</h3>
+        </div>
+      </div>
+    </div>
+  }
+</div>

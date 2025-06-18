@@ -1,0 +1,292 @@
+<article class="bg-slate-800/50 backdrop-blur-sm rounded-lg shadow-xl shadow-black/30 overflow-hidden border border-blue-400/30">
+  <header class="relative flex flex-col md:flex-row">
+
+    <!-- Section Image -->
+    <div class="relative md:w-1/2 group">
+      <img
+        [src]="safeContent().imageUrl"
+        [alt]="safeContent().alt"
+        [attr.aria-label]="safeContent().aria"
+        class="w-full h-64 md:h-full object-cover transition-transform duration-300 group-hover:scale-105"
+      >
+      <!-- Dégradé pour la lisibilité -->
+      <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+
+      <!-- Titre sur l'image -->
+      <div class="absolute bottom-0 left-0 right-0 p-6">
+        <h2 class="text-3xl text-white font-bold font-serif">{{ safeContent().name }}</h2>
+      </div>
+    </div>
+
+    <!-- Section Description -->
+    <div class="p-6 md:w-1/2 flex items-center bg-slate-900/40">
+      <p class="text-gray-300 leading-relaxed">{{ safeContent().description }}</p>
+    </div>
+
+  </header>
+
+  <div class="p-6 space-y-8">
+  <ng-container [ngSwitch]="contentType()">
+
+    <!-- Pour les races -->
+    <div *ngSwitchCase="'race'" class="space-y-8">
+      <ng-container *ngIf="getRaceContent() as raceContent">
+        <!-- Détails généraux -->
+        <div *ngIf="raceContent.details?.length">
+          <h3 class="text-2xl font-bold font-serif text-blue-400 mb-4 border-b border-blue-400/20 pb-2">Détails</h3>
+          <div class="space-y-4">
+            <div *ngFor="let detail of raceContent.details"
+                 class="bg-slate-800/60 p-4 rounded-lg border border-slate-700/80">
+              <h4 class="text-lg font-semibold mb-2 text-purple-400">
+                {{ detail.name }}
+              </h4>
+              <p class="text-gray-300 leading-relaxed">
+                {{ detail.content }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Traits raciaux -->
+        <div *ngIf="raceContent.traits?.length">
+          <h3 class="text-2xl font-bold font-serif text-blue-400 mb-4 border-b border-blue-400/20 pb-2">Traits Raciaux</h3>
+          <div class="space-y-4">
+            <div *ngFor="let trait of raceContent.traits"
+                 class="bg-slate-800/60 p-4 rounded-lg border border-slate-700/80">
+              <h4 class="text-lg font-semibold mb-2 text-purple-400">
+                {{ trait.name }}
+              </h4>
+              <p class="text-gray-300 leading-relaxed">
+                {{ trait.description }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sous-races -->
+        <div *ngIf="raceContent.sub_races">
+          <h3 class="text-2xl font-bold font-serif text-blue-400 mb-4 border-b border-blue-400/20 pb-2">{{ raceContent.sub_races.title }}</h3>
+          <p class="text-gray-400 mb-4">{{ raceContent.sub_races.description }}</p>
+
+          <div class="space-y-4">
+            <div *ngFor="let choice of raceContent.sub_races.choices"
+                 class="bg-slate-800/60 p-4 rounded-lg border border-slate-700/80">
+              <h4 class="text-lg font-semibold mb-2 text-purple-400">
+                {{ choice.name }}
+              </h4>
+              <p class="text-gray-300 mb-3">{{ choice.description }}</p>
+
+              <div *ngIf="choice.bonuses?.length" class="pl-4 border-l-4 border-purple-500/50">
+                <h5 class="text-md font-medium text-purple-300 mb-2">Bonus</h5>
+                <div *ngFor="let bonus of choice.bonuses" class="mb-2">
+                  <p class="font-medium text-gray-200">{{ bonus.name }}</p>
+                  <p class="text-gray-400">{{ bonus.description }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table d'ascendance -->
+        <div *ngIf="raceContent.ancestry_table?.length">
+          <h3 class="text-2xl font-bold font-serif text-blue-400 mb-4 border-b border-blue-400/20 pb-2">Table d'Ascendance</h3>
+          <div class="overflow-x-auto rounded-lg border border-slate-700/80">
+            <table class="min-w-full">
+              <thead class="bg-slate-900/70">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Nom</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Type de dégâts</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Souffle</th>
+              </tr>
+              </thead>
+              <tbody class="bg-slate-800/60 divide-y divide-slate-700/80">
+              <tr *ngFor="let element of raceContent.ancestry_table" class="hover:bg-slate-700/50">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-200">{{ element.name }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{{ element.damage_type }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{{ element.breath }}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+
+    <!-- Pour les backgrounds -->
+    <div *ngSwitchCase="'background'" class="space-y-8">
+      <ng-container *ngIf="getBackgroundContent() as bgContent">
+        <!-- Informations de base -->
+        <div>
+          <h3 class="text-2xl font-bold font-serif text-blue-400 mb-4 border-b border-blue-400/20 pb-2">Aptitudes de départ</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div *ngIf="bgContent.starting_proficiencies" class="bg-slate-800/60 p-4 rounded-lg border border-slate-700/80">
+              <h4 class="text-lg font-semibold text-purple-400 mb-2">Maîtrises</h4>
+              <p class="text-gray-300">{{ bgContent.starting_proficiencies }}</p>
+            </div>
+            <div *ngIf="bgContent.mastered_tools" class="bg-slate-800/60 p-4 rounded-lg border border-slate-700/80">
+              <h4 class="text-lg font-semibold text-purple-400 mb-2">Outils maîtrisés</h4>
+              <p class="text-gray-300">{{ bgContent.mastered_tools }}</p>
+            </div>
+            <div *ngIf="bgContent.language_options" class="bg-slate-800/60 p-4 rounded-lg border border-slate-700/80">
+              <h4 class="text-lg font-semibold text-purple-400 mb-2">Langues</h4>
+              <p class="text-gray-300">{{ bgContent.language_options }} langue(s) supplémentaire(s) au choix</p>
+            </div>
+            <div *ngIf="bgContent.starting_equipment" class="bg-slate-800/60 p-4 rounded-lg border border-slate-700/80">
+              <h4 class="text-lg font-semibold text-purple-400 mb-2">Équipement</h4>
+              <p class="text-gray-300">{{ bgContent.starting_equipment }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Aptitude spéciale -->
+        <div *ngIf="bgContent.feature" class="bg-slate-800/60 p-4 rounded-lg border border-slate-700/80">
+          <h3 class="text-xl font-bold font-serif text-blue-400 mb-2">
+            {{ bgContent.feature.name }}
+          </h3>
+          <p class="text-gray-300">{{ bgContent.feature.description }}</p>
+          <div *ngIf="bgContent.feature.choices && bgContent.feature.choices.length > 0" class="mt-4 pt-3 border-t border-slate-700/50">
+            <h4 class="text-md font-medium text-purple-300 mb-2">Spécialités</h4>
+            <ul class="space-y-1 text-gray-300">
+              <li *ngFor="let choice of bgContent.feature.choices">
+                <span class="font-medium">{{ choice.index }}.</span> {{ choice.background_speciality }}
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Grille pour traits, idéaux, etc. -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div *ngIf="bgContent.personality_traits" class="bg-slate-800/60 p-4 rounded-lg border border-slate-700/80">
+            <h3 class="text-lg font-semibold text-purple-400 mb-3">Traits de personnalité <span class="text-sm text-gray-400">(d{{ bgContent.personality_traits.from.length }})</span></h3>
+            <ul class="space-y-3">
+              <li *ngFor="let trait of bgContent.personality_traits.from" class="flex items-start"><span class="flex-shrink-0 w-6 h-6 bg-slate-900/70 text-blue-300 rounded-full text-center font-bold mr-3">{{ trait.id }}</span><span class="text-gray-300">{{ trait.string }}</span></li>
+            </ul>
+          </div>
+          <div *ngIf="bgContent.ideals" class="bg-slate-800/60 p-4 rounded-lg border border-slate-700/80">
+            <h3 class="text-lg font-semibold text-purple-400 mb-3">Idéaux <span class="text-sm text-gray-400">(d{{ bgContent.ideals.from.length }})</span></h3>
+            <ul class="space-y-3">
+              <li *ngFor="let ideal of bgContent.ideals.from" class="flex items-start"><span class="flex-shrink-0 w-6 h-6 bg-slate-900/70 text-blue-300 rounded-full text-center font-bold mr-3">{{ ideal.id }}</span><span class="text-gray-300">{{ ideal.string }}</span></li>
+            </ul>
+          </div>
+          <div *ngIf="bgContent.bonds" class="bg-slate-800/60 p-4 rounded-lg border border-slate-700/80">
+            <h3 class="text-lg font-semibold text-purple-400 mb-3">Liens <span class="text-sm text-gray-400">(d{{ bgContent.bonds.from.length }})</span></h3>
+            <ul class="space-y-3">
+              <li *ngFor="let bond of bgContent.bonds.from" class="flex items-start"><span class="flex-shrink-0 w-6 h-6 bg-slate-900/70 text-blue-300 rounded-full text-center font-bold mr-3">{{ bond.id }}</span><span class="text-gray-300">{{ bond.string }}</span></li>
+            </ul>
+          </div>
+          <div *ngIf="bgContent.flaws" class="bg-slate-800/60 p-4 rounded-lg border border-slate-700/80">
+            <h3 class="text-lg font-semibold text-purple-400 mb-3">Défauts <span class="text-sm text-gray-400">(d{{ bgContent.flaws.from.length }})</span></h3>
+            <ul class="space-y-3">
+              <li *ngFor="let flaw of bgContent.flaws.from" class="flex items-start"><span class="flex-shrink-0 w-6 h-6 bg-slate-900/70 text-blue-300 rounded-full text-center font-bold mr-3">{{ flaw.id }}</span><span class="text-gray-300">{{ flaw.string }}</span></li>
+            </ul>
+          </div>
+        </div>
+
+      </ng-container>
+    </div>
+
+
+
+    <!-- Pour les classes -->
+    <div *ngSwitchCase="'class'" class="space-y-8">
+      <ng-container *ngIf="getClassContent() as classContent">
+
+        <div *ngIf="classContent.trait && classContent.trait_description" class="bg-slate-800/60 p-4 rounded-lg border border-slate-700/80">
+          <h3 class="text-xl font-bold font-serif text-blue-400 mb-2">{{ classContent.trait }}</h3>
+          <p class="text-gray-300 leading-relaxed">{{ classContent.trait_description }}</p>
+        </div>
+
+        <div *ngIf="classContent.class_principles && classContent.class_principles_description" class="bg-slate-800/60 p-4 rounded-lg border border-slate-700/80">
+          <h3 class="text-xl font-bold font-serif text-blue-400 mb-2">{{ classContent.class_principles }}</h3>
+          <p class="text-gray-300 leading-relaxed">{{ classContent.class_principles_description }}</p>
+        </div>
+
+        <div *ngIf="classContent.create && classContent.create_description" class="bg-slate-800/60 p-4 rounded-lg border border-slate-700/80">
+          <h3 class="text-xl font-bold font-serif text-blue-400 mb-2">{{ classContent.create }}</h3>
+          <p class="text-gray-300 leading-relaxed">{{ classContent.create_description }}</p>
+          <p *ngIf="classContent.create_fast" class="text-gray-400 mt-3 italic">{{ classContent.create_fast }}</p>
+        </div>
+
+        <!-- Capacités de classe -->
+        <div *ngIf="classContent.class_abilities" class="space-y-8">
+          <img *ngIf="classContent.alt_abilities && classContent.class_abilities.leveling_table" [src]="classContent.class_abilities.leveling_table" [alt]="classContent.alt_abilities" class="w-full rounded-lg shadow-md">
+
+          <div *ngIf="classContent.class_abilities.health" class="bg-slate-800/60 p-4 rounded-lg border border-slate-700/80">
+            <h3 class="text-2xl font-bold font-serif text-blue-400 mb-4 border-b border-blue-400/20 pb-2">Points de Vie</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div><h4 class="font-semibold text-purple-400">Dés de vie</h4><p class="text-gray-300">{{ classContent.class_abilities.health.hit_dice }}</p></div>
+              <div><h4 class="font-semibold text-purple-400">Au niveau 1</h4><p class="text-gray-300">{{ classContent.class_abilities.health.health_at_lvl_1 }}</p></div>
+              <div><h4 class="font-semibold text-purple-400">Aux niveaux supérieurs</h4><p class="text-gray-300">{{ classContent.class_abilities.health.health_by_lvl }}</p></div>
+            </div>
+          </div>
+
+          <div *ngIf="classContent.class_abilities.masteries" class="bg-slate-800/60 p-4 rounded-lg border border-slate-700/80">
+            <h3 class="text-2xl font-bold font-serif text-blue-400 mb-4 border-b border-blue-400/20 pb-2">Maîtrises</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+              <div><h4 class="font-semibold text-purple-400">Armures</h4><p class="text-gray-300">{{ classContent.class_abilities.masteries.armors }}</p></div>
+              <div><h4 class="font-semibold text-purple-400">Armes</h4><p class="text-gray-300">{{ classContent.class_abilities.masteries.weapons }}</p></div>
+              <div><h4 class="font-semibold text-purple-400">Outils</h4><p class="text-gray-300">{{ classContent.class_abilities.masteries.tools }}</p></div>
+              <div><h4 class="font-semibold text-purple-400">Jets de sauvegarde</h4><p class="text-gray-300">{{ classContent.class_abilities.masteries.saving_throws }}</p></div>
+              <div class="md:col-span-2"><h4 class="font-semibold text-purple-400">Compétences</h4><p class="text-gray-300">{{ classContent.class_abilities.masteries.skills }}</p></div>
+            </div>
+          </div>
+
+          <div *ngIf="classContent.class_abilities.equipment" class="bg-slate-800/60 p-4 rounded-lg border border-slate-700/80">
+            <h3 class="text-2xl font-bold font-serif text-blue-400 mb-3">Équipement</h3>
+            <p class="text-gray-400 mb-4">{{ classContent.class_abilities.equipment.description }}</p>
+            <ul class="space-y-3">
+              <li *ngFor="let choice of classContent.class_abilities.equipment.choices; let i = index" class="flex items-start"><span class="flex-shrink-0 w-6 h-6 bg-slate-900/70 text-blue-300 rounded-full text-center font-bold mr-3 leading-6">{{ i + 1 }}</span><span class="text-gray-300">{{ choice }}</span></li>
+            </ul>
+          </div>
+
+          <div *ngIf="classContent.class_abilities.abilities?.length">
+            <h3 class="text-2xl font-bold font-serif text-blue-400 mb-4 border-b border-blue-400/20 pb-2">Capacités de Classe</h3>
+            <div class="space-y-4">
+              <div *ngFor="let ability of classContent.class_abilities.abilities" class="bg-slate-800/60 p-4 rounded-lg border border-slate-700/80">
+                <h4 class="font-semibold text-lg text-purple-400 mb-1">{{ ability.name }}</h4>
+                <p class="text-gray-300 leading-relaxed">{{ ability.description }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="classContent.class_abilities.specialization" class="space-y-4">
+            <h3 class="text-2xl font-bold font-serif text-blue-400">Spécialisation</h3>
+            <div class="bg-slate-800/60 p-4 rounded-lg border border-slate-700/80">
+              <h4 class="text-xl font-semibold text-purple-400 mb-2">{{ classContent.class_abilities.specialization.name }}</h4>
+              <p class="text-gray-300 mb-4">{{ classContent.class_abilities.specialization.description }}</p>
+
+              <div *ngIf="classContent.class_abilities.specialization.choices?.length" class="space-y-4 mt-4">
+                <div *ngFor="let choice of classContent.class_abilities.specialization.choices; let i = index" class="rounded-lg border border-slate-700/80 overflow-hidden">
+                  <button (click)="toggleSpecChoice(i)" class="w-full flex justify-between items-center p-4 bg-slate-800/70 hover:bg-slate-700/70 transition-colors text-left">
+                    <h5 class="font-medium text-purple-300">{{ choice.name }}</h5>
+                    <svg class="w-5 h-5 transition-transform transform text-gray-400" [ngClass]="{'rotate-180': isSpecChoiceOpen(i)}"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                  </button>
+                  <div class="p-4 bg-slate-900/50 transition-all overflow-hidden" [ngClass]="{'hidden': !isSpecChoiceOpen(i), 'block': isSpecChoiceOpen(i)}">
+                    <p class="text-gray-300 mb-4">{{ choice.description }}</p>
+                    <div *ngIf="choice.abilities?.length" class="space-y-3 mt-3">
+                      <div *ngFor="let ability of choice.abilities" class="border-l-4 border-purple-500/50 pl-4 py-2">
+                        <h6 class="font-medium text-purple-300">{{ ability.name }}</h6>
+                        <p class="text-gray-400">{{ ability.description }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="classContent.tables?.length" class="space-y-4">
+          <div *ngFor="let table of classContent.tables" class="bg-slate-800/60 p-4 rounded-lg border border-slate-700/80">
+            <h3 class="text-xl font-bold font-serif text-blue-400 mb-3">{{ table.name }}</h3>
+            <div class="overflow-x-auto rounded-lg border border-slate-700/80">
+              <table class="min-w-full"><thead class="bg-slate-900/70"><tr><th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Valeur</th><th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Effet</th></tr></thead><tbody class="bg-slate-800/60 divide-y divide-slate-700/80"><tr *ngFor="let choice of table.choices" class="hover:bg-slate-700/50"><td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{{ choice.value }}</td><td class="px-6 py-4 text-sm text-gray-300">{{ choice.effect }}</td></tr></tbody></table>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    </ng-container>
+  </div>
+</article>

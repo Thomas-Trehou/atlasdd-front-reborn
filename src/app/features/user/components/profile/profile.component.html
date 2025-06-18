@@ -1,0 +1,68 @@
+<div *ngIf="user; else notConnected">
+  <div class="max-w-4xl mx-auto p-4 sm:p-6 space-y-8">
+    <!-- En-tête -->
+    <div class="text-center">
+      <h1 class="text-3xl font-bold font-serif text-blue-400">Profil utilisateur</h1>
+    </div>
+
+    <!-- Informations de l'utilisateur -->
+    <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg shadow-xl shadow-black/30 border border-blue-400/30">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+        <div>
+          <p class="text-sm text-gray-400 mb-1">Pseudo</p>
+          <p class="text-lg font-medium text-gray-200">{{ user.pseudo }}</p>
+        </div>
+        <div>
+          <p class="text-sm text-gray-400 mb-1">Slug</p>
+          <p class="text-lg font-medium text-gray-200">{{ user.slug }}</p>
+        </div>
+        <div>
+          <p class="text-sm text-gray-400 mb-1">Email</p>
+          <p class="text-lg font-medium text-gray-200">{{ user.email }}</p>
+        </div>
+        <div>
+          <p class="text-sm text-gray-400 mb-1">Date de création</p>
+          <p class="text-lg font-medium text-gray-200">{{ user.createdAt | customDate }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Liste d'amis -->
+    <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg shadow-xl shadow-black/30 border border-blue-400/30">
+      <h2 class="text-2xl font-bold font-serif text-blue-400 mb-4">Ami(e)s</h2>
+
+      <div *ngIf="userFriends.length === 0" class="text-center py-4">
+        <p class="text-gray-500">Aucun(e) ami(e) à afficher.</p>
+      </div>
+
+      <div *ngIf="userFriends.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div *ngFor="let friend of userFriends"
+             class="bg-slate-900/50 p-4 rounded-lg hover:bg-slate-700/50 transition-colors duration-200 border border-slate-700">
+          <div class="flex items-center space-x-4">
+            <div class="h-12 w-12 rounded-full overflow-hidden ring-2 ring-purple-500/50 flex-shrink-0">
+              <img
+                src="assets/images/UserIcon.webp"
+                alt="{{ friend.pseudo }}"
+                class="h-full w-full object-cover"
+              />
+            </div>
+            <div>
+              <p class="font-medium text-gray-200">{{ friend.pseudo }}</p>
+              <p class="text-sm text-gray-500">Membre depuis {{ friend.createdAt | customDate }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Affichage si l'utilisateur n'est pas connecté -->
+<ng-template #notConnected>
+  <div class="max-w-4xl mx-auto p-8 bg-slate-800/50 backdrop-blur-sm rounded-lg shadow-xl shadow-black/30 border border-blue-400/30 mt-8 text-center">
+    <p class="text-lg text-gray-400">Vous n'êtes pas connecté.</p>
+    <a routerLink="/user/login" class="mt-4 inline-block bg-purple-600 text-white font-bold px-6 py-2 rounded-lg hover:bg-purple-500 focus:outline-none focus:ring-4 focus:ring-purple-400/50 transition-all duration-300">
+      Se connecter
+    </a>
+  </div>
+</ng-template>

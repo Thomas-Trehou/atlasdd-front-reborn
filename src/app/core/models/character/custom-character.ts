@@ -9,6 +9,7 @@ import {Skill} from '../option/skill';
 import {Spell} from '../option/spell';
 import {Weapon} from '../option/weapon';
 import {Armor} from '../option/armor';
+import {SpellSlots} from './spell-slots';
 
 interface CustomCharacterDto extends BaseDto {
 
@@ -18,7 +19,7 @@ interface CustomCharacterDto extends BaseDto {
   experience: number;
   armorClass: number;
   initiative: number;
-  inscription: number;
+  inspiration: number;
   hitPoints: number;
   maxHitPoints: number;
   bonusHitPoints: number;
@@ -37,6 +38,17 @@ interface CustomCharacterDto extends BaseDto {
   intelligence: number;
   wisdom: number;
   charisma: number;
+
+  strengthSavingThrowBonus: number;
+  dexteritySavingThrowBonus: number;
+  constitutionSavingThrowBonus: number;
+  intelligenceSavingThrowBonus: number;
+  wisdomSavingThrowBonus: number;
+  charismaSavingThrowBonus: number;
+
+  status: string;
+
+  spellSlots: SpellSlots;
 
   owner: UserLight;
   userId: number;
@@ -68,3 +80,5 @@ export type CustomCharacterCreateRequest = Omit<CustomCharacterDto, 'id' | 'crea
 export type CustomCharacterUpdateRequest = Omit<CustomCharacterDto, 'createdAt' | 'updatedAt' | 'owner' | 'raceId' | 'backgroundId' | 'classId' | 'skills' | 'preparedSpells' | 'weaponIds' | 'armorId'>;
 
 export type CustomCharacter = Omit<CustomCharacterDto, 'userId' | 'raceId' | 'backgroundId' | 'classId' | 'skillIds' | 'preparedSpellIds' | 'weaponIds' | 'armorId'>;
+
+export type CustomCharacterCard = Pick<CustomCharacterDto, 'id' | 'name' | 'level' | 'classe' | 'race' | 'updatedAt' |'status'>

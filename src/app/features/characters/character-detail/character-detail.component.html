@@ -1,0 +1,45 @@
+<div class="container mx-auto p-4">
+  <!-- Indicateur de chargement stylisé -->
+  <div *ngIf="isLoading" class="flex justify-center items-center py-20">
+    <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-purple-400"></div>
+  </div>
+
+  <!-- Message d'erreur adapté au thème -->
+  <div *ngIf="loadError" class="bg-red-900/50 border border-red-500/50 text-red-300 px-4 py-3 rounded-lg relative mb-4">
+    <span class="block sm:inline">Impossible de charger ce personnage.</span>
+  </div>
+
+  <!-- Contenu principal de la page -->
+  <div *ngIf="!isLoading && !loadError" class="flex flex-col lg:flex-row gap-6">
+
+    <!-- Partie principale (fiche de personnage) -->
+    <div class="lg:w-3/4">
+      <!-- Fiche de personnage OGL5 (le composant enfant doit avoir son propre style) -->
+      <div *ngIf="isOgl5 && character">
+        <app-ogl5-character-sheet
+          [character]="character"
+          (characterUpdated)="onCharacterUpdated($event)">
+        </app-ogl5-character-sheet>
+      </div>
+
+      <!-- Fiche de personnage Custom -->
+      <div *ngIf="!isOgl5 && character">
+        <!-- Message d'attente stylisé pour la fiche Custom -->
+        <div class="bg-slate-800/50 backdrop-blur-sm p-8 rounded-lg shadow-xl shadow-black/30 border border-purple-400/30 text-center">
+          <h2 class="text-2xl font-bold font-serif text-purple-400 mb-4">Fonctionnalité en cours de développement</h2>
+          <p class="text-gray-400">Le support complet pour les fiches de personnages personnalisées est en cours de création.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Colonne latérale pour les notes (le composant enfant est déjà stylisé) -->
+    <div class="lg:w-1/4 lg:sticky top-[88px] h-fit">
+      <app-character-notes
+        [notes]="notes"
+        [characterId]="characterId"
+        [characterType]="characterType"
+        (notesUpdated)="onNotesUpdated($event)">
+      </app-character-notes>
+    </div>
+  </div>
+</div>

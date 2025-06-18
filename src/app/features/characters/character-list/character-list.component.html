@@ -1,0 +1,99 @@
+<div class="container mx-auto p-4">
+  <!-- En-tête de la page -->
+  <div class="flex flex-wrap justify-between items-center gap-4 mb-8">
+    <h1 class="text-4xl font-bold font-serif text-blue-400">Mes personnages</h1>
+    <div class="flex flex-wrap gap-4">
+      <!-- Bouton "Gérer" avec un style de danger en mode édition -->
+      <button
+        *ngIf="!loading && (ogl5Characters.length > 0 || customCharacters.length > 0)"
+        (click)="toggleEditMode()"
+        [ngClass]="isEditMode ? 'bg-red-700 hover:bg-red-600 focus:ring-red-500/50 shadow-red-600/40' : 'bg-purple-800 hover:bg-purple-700 focus:ring-purple-500/50 shadow-purple-800/40'"
+        class="text-white font-bold px-4 py-2 rounded-lg transition-all duration-300 hover:shadow-lg focus:outline-none focus:ring-4">
+        {{ isEditMode ? 'Terminer' : 'Gérer' }}
+      </button>
+
+      <!-- Boutons de création uniformisés en violet -->
+      <button
+        (click)="navigateToCreateOgl5()"
+        class="bg-purple-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-purple-500 focus:outline-none focus:ring-4 focus:ring-purple-400/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/40">
+        Créer une fiche OGL5
+      </button>
+      <button
+        (click)="navigateToCreateCustom()"
+        class="bg-purple-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-purple-500 focus:outline-none focus:ring-4 focus:ring-purple-400/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/40">
+        Créer une fiche personnalisée
+      </button>
+    </div>
+  </div>
+
+  <!-- Indicateur de chargement stylisé -->
+  <div *ngIf="loading" class="flex justify-center items-center h-40">
+    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-400"></div>
+  </div>
+
+  <!-- Message d'erreur adapté au thème sombre -->
+  <div *ngIf="error" class="bg-red-900/50 border border-red-500/50 text-red-300 px-4 py-3 rounded-lg relative mb-6">
+    <span class="block sm:inline">{{ error }}</span>
+  </div>
+
+  <!-- Section Personnages OGL5 dans un panneau "glassmorphism" -->
+  <div *ngIf="!loading && ogl5Characters.length > 0" class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg shadow-xl shadow-black/30 border border-blue-400/30 mb-8">
+    <h2 class="text-3xl font-bold font-serif text-blue-400 mb-6 pb-2 border-b-2 border-blue-400/30">
+      Personnages OGL5
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <app-character-card
+        *ngFor="let character of visibleOgl5Characters"
+        [character]="character"
+        [editMode]="isEditMode"
+        (deleteRequest)="handleDeleteCharacter($event)"
+        (click)="!isEditMode && navigateToDetail(character.id, character.type)"
+        [class.cursor-pointer]="!isEditMode"
+        class="transition-all duration-200">
+      </app-character-card>
+    </div>
+    <!-- Bouton "Voir plus" -->
+    <div *ngIf="!showAllOgl5 && ogl5Characters.length > initialDisplayCount" class="text-center mt-6">
+      <button (click)="showMoreOgl5()" class="bg-purple-700 hover:bg-purple-600 text-white px-6 py-2 rounded-lg font-semibold focus:outline-none focus:ring-4 focus:ring-purple-500/50">
+        Voir plus ({{ ogl5Characters.length - initialDisplayCount }} de plus)
+      </button>
+    </div>
+  </div>
+
+  <!-- Section Personnages Personnalisés -->
+  <div *ngIf="!loading && customCharacters.length > 0" class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg shadow-xl shadow-black/30 border border-blue-400/30">
+    <h2 class="text-3xl font-bold font-serif text-blue-400 mb-6 pb-2 border-b-2 border-blue-400/30">
+      Personnages Personnalisés
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <app-character-card
+        *ngFor="let character of visibleCustomCharacters"
+        [character]="character"
+        [editMode]="isEditMode"
+        (deleteRequest)="handleDeleteCharacter($event)"
+        (click)="!isEditMode && navigateToDetail(character.id, character.type)"
+        [class.cursor-pointer]="!isEditMode"
+        class="transition-all duration-200">
+      </app-character-card>
+    </div>
+    <div *ngIf="!showAllCustom && customCharacters.length > initialDisplayCount" class="text-center mt-6">
+      <button (click)="showMoreCustom()" class="bg-purple-700 hover:bg-purple-600 text-white px-6 py-2 rounded-lg font-semibold focus:outline-none focus:ring-4 focus:ring-purple-500/50">
+        Voir plus ({{ customCharacters.length - initialDisplayCount }} de plus)
+      </button>
+    </div>
+  </div>
+
+  <!-- Message si aucun personnage n'existe -->
+  <div *ngIf="!loading && ogl5Characters.length === 0 && customCharacters.length === 0 && !error"
+       class="text-center bg-slate-800/50 backdrop-blur-sm p-8 rounded-lg shadow-xl shadow-black/30 border border-blue-400/30">
+    <p class="text-gray-400 text-lg mb-6">Vous n'avez pas encore de personnage.</p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <button (click)="navigateToCreateOgl5()" class="bg-purple-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-purple-500 focus:outline-none focus:ring-4 focus:ring-purple-400/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/40">
+        Créer OGL5
+      </button>
+      <button (click)="navigateToCreateCustom()" class="bg-purple-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-purple-500 focus:outline-none focus:ring-4 focus:ring-purple-400/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/40">
+        Créer Custom
+      </button>
+    </div>
+  </div>
+</div>

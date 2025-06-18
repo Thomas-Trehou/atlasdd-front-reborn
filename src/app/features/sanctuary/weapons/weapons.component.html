@@ -1,0 +1,142 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-4xl font-bold font-serif text-blue-400 text-center mb-8">Armes</h1>
+
+  <!-- Onglets de navigation -->
+  <div class="flex justify-center mb-8">
+    <div class="inline-flex rounded-lg shadow-md bg-slate-800/50 border border-slate-700/80 p-1" role="group">
+      <button
+        [ngClass]="activeTab === 'simple' ? 'bg-purple-600 text-white shadow' : 'bg-transparent text-gray-400 hover:bg-slate-700/50'"
+        class="px-4 py-2 text-sm font-semibold rounded-md transition-colors duration-200"
+        (click)="setActiveTab('simple')">
+        Armes courantes
+      </button>
+      <button
+        [ngClass]="activeTab === 'war' ? 'bg-purple-600 text-white shadow' : 'bg-transparent text-gray-400 hover:bg-slate-700/50'"
+        class="px-4 py-2 text-sm font-semibold rounded-md mx-1 transition-colors duration-200"
+        (click)="setActiveTab('war')">
+        Armes de guerre
+      </button>
+      <button
+        [ngClass]="activeTab === 'properties' ? 'bg-purple-600 text-white shadow' : 'bg-transparent text-gray-400 hover:bg-slate-700/50'"
+        class="px-4 py-2 text-sm font-semibold rounded-md transition-colors duration-200"
+        (click)="setActiveTab('properties')">
+        Propriétés
+      </button>
+    </div>
+  </div>
+
+  <!-- Filtres pour les armes -->
+  <div class="flex justify-center mb-6" *ngIf="activeTab !== 'properties'">
+    <div class="inline-flex rounded-lg shadow-sm bg-slate-800/50 border border-slate-700/80 p-1" role="group">
+      <button
+        [ngClass]="selectedWeaponType === 'all' ? 'bg-blue-600/50 text-white' : 'bg-transparent text-gray-400 hover:bg-slate-700/50'"
+        class="px-4 py-1 text-sm font-medium rounded-md transition-colors duration-200"
+        (click)="setWeaponType('all')">
+        Toutes
+      </button>
+      <button
+        [ngClass]="selectedWeaponType === 'melee' ? 'bg-blue-600/50 text-white' : 'bg-transparent text-gray-400 hover:bg-slate-700/50'"
+        class="px-4 py-1 text-sm font-medium rounded-md mx-1 transition-colors duration-200"
+        (click)="setWeaponType('melee')">
+        Corps-à-corps
+      </button>
+      <button
+        [ngClass]="selectedWeaponType === 'ranged' ? 'bg-blue-600/50 text-white' : 'bg-transparent text-gray-400 hover:bg-slate-700/50'"
+        class="px-4 py-1 text-sm font-medium rounded-md transition-colors duration-200"
+        (click)="setWeaponType('ranged')">
+        À distance
+      </button>
+    </div>
+  </div>
+
+  <!-- Affichage des armes courantes -->
+  <div *ngIf="activeTab === 'simple'" class="mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div *ngFor="let weapon of getFilteredWeapons(simpleWeapons)" class="bg-slate-800/50 backdrop-blur-sm rounded-lg shadow-xl shadow-black/30 border border-slate-700/80 overflow-hidden flex flex-col">
+        <div class="bg-blue-900/70 text-white px-4 py-3">
+          <h2 class="text-lg font-semibold">{{ weapon.name }}</h2>
+          <div class="text-sm text-blue-200">{{ weapon.weapon_range }}</div>
+        </div>
+        <div class="p-4 flex-grow flex flex-col">
+          <div class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-sm mb-4">
+            <div class="text-gray-400">Dégâts:</div>
+            <div class="font-medium text-gray-200 text-right">{{ weapon.damage_dice }} {{ weapon.damage_type }}</div>
+            <div class="text-gray-400">Coût:</div>
+            <div class="font-medium text-gray-200 text-right">{{ weapon.cost }}</div>
+            <div class="text-gray-400">Poids:</div>
+            <div class="font-medium text-gray-200 text-right">{{ weapon.weight }} kg</div>
+          </div>
+          <div *ngIf="weapon.properties" class="mt-auto pt-2 border-t border-slate-700/50">
+            <div class="text-gray-400 mb-2 text-sm">Propriétés:</div>
+            <div class="flex flex-wrap gap-2">
+              <span *ngFor="let prop of getWeaponPropertiesList(weapon.properties)"
+                    class="inline-block bg-purple-900/70 text-purple-300 text-xs px-2 py-1 rounded-full">
+                {{ prop }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Affichage des armes de guerre -->
+  <div *ngIf="activeTab === 'war'" class="mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div *ngFor="let weapon of getFilteredWeapons(warWeapons)" class="bg-slate-800/50 backdrop-blur-sm rounded-lg shadow-xl shadow-black/30 border border-slate-700/80 overflow-hidden flex flex-col">
+        <div class="bg-red-900/70 text-white px-4 py-3">
+          <h2 class="text-lg font-semibold">{{ weapon.name }}</h2>
+          <div class="text-sm text-red-200">{{ weapon.weapon_range }}</div>
+        </div>
+        <div class="p-4 flex-grow flex flex-col">
+          <div class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-sm mb-4">
+            <div class="text-gray-400">Dégâts:</div>
+            <div class="font-medium text-gray-200 text-right">{{ weapon.damage_dice }} {{ weapon.damage_type }}</div>
+            <div class="text-gray-400">Coût:</div>
+            <div class="font-medium text-gray-200 text-right">{{ weapon.cost }}</div>
+            <div class="text-gray-400">Poids:</div>
+            <div class="font-medium text-gray-200 text-right">{{ weapon.weight }} kg</div>
+          </div>
+          <div *ngIf="weapon.properties" class="mt-auto pt-2 border-t border-slate-700/50">
+            <div class="text-gray-400 mb-2 text-sm">Propriétés:</div>
+            <div class="flex flex-wrap gap-2">
+              <span *ngFor="let prop of getWeaponPropertiesList(weapon.properties)"
+                    class="inline-block bg-purple-900/70 text-purple-300 text-xs px-2 py-1 rounded-full">
+                {{ prop }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Affichage des propriétés des armes -->
+  <div *ngIf="activeTab === 'properties'" class="mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Liste des propriétés -->
+      <div class="md:col-span-1 bg-slate-800/50 backdrop-blur-sm rounded-lg shadow-xl shadow-black/30 border border-slate-700/80 p-4">
+        <h2 class="text-2xl font-bold font-serif text-blue-400 mb-4">Propriétés</h2>
+        <ul class="space-y-1">
+          <li *ngFor="let property of weaponProperties"
+              [ngClass]="{'bg-purple-600/50': selectedProperty?.index === property.index}"
+              class="p-2 rounded-md hover:bg-slate-700/50 cursor-pointer transition-colors text-gray-300"
+              (click)="showPropertyDetails(property)">
+            {{ property.name }}
+          </li>
+        </ul>
+      </div>
+
+      <!-- Détails de la propriété sélectionnée -->
+      <div class="md:col-span-2 bg-slate-800/50 backdrop-blur-sm rounded-lg shadow-xl shadow-black/30 border border-slate-700/80 p-6" *ngIf="selectedProperty">
+        <h2 class="text-2xl font-bold font-serif text-purple-400 mb-4">{{ selectedProperty.name }}</h2>
+        <p class="text-gray-300 whitespace-pre-wrap leading-relaxed">{{ selectedProperty.desc }}</p>
+      </div>
+
+      <!-- Message si aucune propriété n'est sélectionnée -->
+      <div class="md:col-span-2 bg-slate-800/50 backdrop-blur-sm rounded-lg shadow-xl shadow-black/30 border border-slate-700/80 p-6 flex items-center justify-center" *ngIf="!selectedProperty">
+        <p class="text-gray-500 italic">Sélectionnez une propriété pour en afficher les détails</p>
+      </div>
+    </div>
+  </div>
+</div>

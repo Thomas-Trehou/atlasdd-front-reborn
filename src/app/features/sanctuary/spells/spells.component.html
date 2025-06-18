@@ -1,0 +1,95 @@
+<div class="container mx-auto px-4 py-8">
+  <header class="mb-8 text-center">
+    <h1 class="text-4xl font-bold font-serif text-blue-400 mb-2">Grimoire des Sorts</h1>
+    <p class="text-gray-400">Explorez la collection complète de sorts disponibles pour vos personnages.</p>
+  </header>
+
+  <!-- Barre de recherche et filtres -->
+  <div class="bg-slate-800/50 backdrop-blur-sm p-4 rounded-lg shadow-xl shadow-black/30 border border-slate-700/80 mb-6">
+    <div class="flex flex-col md:flex-row gap-4">
+      <!-- Recherche -->
+      <div class="flex-1">
+        <div class="relative">
+          <input
+            type="text"
+            [(ngModel)]="searchQuery"
+            (keyup.enter)="searchSpells()"
+            placeholder="Rechercher un sort..."
+            class="w-full px-4 py-2 pl-10 bg-slate-900/70 border border-slate-600 rounded-md text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400"
+          >
+          <button
+            (click)="searchSpells()"
+            class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-purple-400"
+            aria-label="Rechercher"
+          >
+            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Filtres -->
+      <div class="flex flex-wrap items-center gap-2">
+        <!-- Filtre par classe -->
+        <select
+          [(ngModel)]="selectedClass"
+          (change)="filterByClass(selectedClass)"
+          class="w-full sm:w-auto px-4 py-2 bg-slate-900/70 border border-slate-600 rounded-md text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400"
+        >
+          <option value="">Toutes les classes</option>
+          @for (classOption of classes; track classOption) {
+            <option [value]="classOption">{{ classOption }}</option>
+          }
+        </select>
+
+        <!-- Filtre par niveau -->
+        <select
+          [(ngModel)]="selectedLevel"
+          (change)="filterByLevel(selectedLevel)"
+          class="w-full sm:w-auto px-4 py-2 bg-slate-900/70 border border-slate-600 rounded-md text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400"
+        >
+          <option value="">Tous les niveaux</option>
+          @for (level of spellLevels; track level) {
+            <option [value]="level">{{ level === '0' ? 'Sortilège' : 'Niveau ' + level }}</option>
+          }
+        </select>
+
+        <!-- Bouton de réinitialisation -->
+        <button
+          (click)="resetFilters()"
+          class="px-4 py-2 bg-slate-600 text-gray-200 rounded-md hover:bg-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-400 transition-colors"
+        >
+          Réinitialiser
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Résultats -->
+  @if (isLoading) {
+    <div class="flex justify-center my-12">
+      <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-400"></div>
+    </div>
+  } @else if (errorMessage) {
+    <div class="bg-red-900/50 border border-red-500/50 text-red-300 px-4 py-3 rounded-lg relative my-6" role="alert">
+      <span class="block sm:inline">{{ errorMessage }}</span>
+    </div>
+  } @else if (filteredSpells.length === 0) {
+    <div class="text-center py-12 text-gray-500">
+      <p class="text-xl">Aucun sort ne correspond à votre recherche.</p>
+      <button
+        (click)="resetFilters()"
+        class="mt-4 px-6 py-2 bg-purple-600 text-white font-bold rounded-lg hover:bg-purple-500 focus:outline-none focus:ring-4 focus:ring-purple-400/50 transition-all"
+      >
+        Voir tous les sorts
+      </button>
+    </div>
+  } @else {
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (spell of filteredSpells; track spell.id) {
+        <app-spell-card [spell]="spell"></app-spell-card>
+      }
+    </div>
+  }
+</div>
