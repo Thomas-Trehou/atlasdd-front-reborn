@@ -56,6 +56,10 @@ export class NavbarComponent implements OnInit, DoCheck {
     this.profileMenuOpen = false;
     this.router.navigate(['/user/login']);
   }
+
+  singup() {
+    this.router.navigate(['/user/signup']);
+  }
 }
 
 

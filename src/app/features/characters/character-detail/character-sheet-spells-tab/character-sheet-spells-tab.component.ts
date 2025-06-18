@@ -52,7 +52,7 @@ export class CharacterSheetSpellsTabComponent implements OnInit{
     const spellcastingAbilities: { [key: string]: string } = {
       'Magicien': 'Intelligence', 'Clerc': 'Sagesse', 'Paladin': 'Charisme',
       'Druide': 'Sagesse', 'Barde': 'Charisme', 'Ensorceleur': 'Charisme',
-      'Sorcier': 'Charisme', 'Rôdeur': 'Sagesse'
+      'Sorcier': 'Charisme', 'Rodeur': 'Sagesse'
     };
     return spellcastingAbilities[this.character.classe.name] || 'Aucun';
   }
@@ -89,17 +89,13 @@ export class CharacterSheetSpellsTabComponent implements OnInit{
 
   addToPrepared(spell: any): void {
     if (!this.isSpellPrepared(spell)) {
-      // Crée une nouvelle liste en ajoutant le nouveau sort
       const newPreparedSpells = [...this.character.preparedSpells, { ...spell }];
-      // Émet l'événement avec la nouvelle liste
       this.preparedSpellsChanged.emit(newPreparedSpells);
     }
   }
 
   removeFromPrepared(spell: any): void {
-    // Crée une nouvelle liste en filtrant le sort à supprimer
     const newPreparedSpells = this.character.preparedSpells.filter(s => s.id !== spell.id);
-    // Émet l'événement avec la nouvelle liste
     this.preparedSpellsChanged.emit(newPreparedSpells);
   }
 
@@ -176,11 +172,7 @@ export class CharacterSheetSpellsTabComponent implements OnInit{
   }
 
   addClassSpell(level: number): void {
-    // Implémentez selon vos besoins, par exemple ouvrir un dialogue pour créer/sélectionner un sort
     console.log(`Ajouter un sort de niveau ${level} à la liste des sorts de classe`);
-
-    // Exemple d'ouverture d'un dialogue
-    // this.dialog.open(AddSpellComponent, { data: { level } });
   }
 
   updateSpellSlotValidators(): void {

@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import {HomeComponent} from './pages/home/home.component';
 import {authGuard} from './guards/auth/auth.guard';
+import {VerifyComponent} from './pages/verify/verify.component';
 
 export const routes: Routes = [
   {
@@ -10,6 +11,10 @@ export const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent
+  },
+  {
+    path: 'verify-info',
+    component: VerifyComponent
   },
   {
     path: 'user',
