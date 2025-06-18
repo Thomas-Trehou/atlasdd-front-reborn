@@ -31,7 +31,7 @@ export class SignupComponent implements OnInit {
   async onSubmitSignup () {
     if (this.form.invalid || this.requestOnGoing) return;
 
-    const { pseudo, email, password, passwordConfirmation } = this.form.value;;
+    const { pseudo, email, password, passwordConfirmation } = this.form.value;
     this.errorMsg = undefined;
     this.requestOnGoing = true;
 
