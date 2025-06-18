@@ -79,7 +79,7 @@ export class Ogl5CharacterCreationComponent implements OnInit {
       wisdom: [10, Validators.required],
       charisma: [10, Validators.required],
       status: ['VIVANT', Validators.required],
-      userId: [null, Validators.required],
+      userId: [null],
       raceId: [null, Validators.required],
       backgroundId: [null, Validators.required],
       classId: [null, Validators.required],
