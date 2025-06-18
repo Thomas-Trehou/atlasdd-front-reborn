@@ -92,4 +92,10 @@ export class AuthService {
     return lastValueFrom(obs);
   }
 
+  async verifyMail(token: string): Promise<string> {
+    const finalUrl = this.url + '/verify?token=' + token;
+    console.log('%cSERVICE: Tentative d\'appel réseau à l\'URL :', 'color: orange; font-weight: bold;', finalUrl);
+    return lastValueFrom(this.http.get(finalUrl, { responseType: 'text' }));
+  }
+
 }
