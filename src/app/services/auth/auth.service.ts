@@ -3,7 +3,7 @@ import { LocalStorageService } from '../local-storage/local-storage.service';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import { UserService } from '../user/user.service';
 import { environment } from '../../../environments/environment.development';
-import { SignInRequest, UserLight, UserLightAuth } from '../../core/models/user/user';
+import {SignInRequest, UserCreateRequest, UserLight, UserLightAuth} from '../../core/models/user/user';
 import { lastValueFrom, map, tap } from 'rxjs';
 
 @Injectable({
@@ -76,4 +76,20 @@ export class AuthService {
   isAuthenticated(): boolean {
     return !!this.token;
   }
+
+  async signup(pseudo: string, slug: string, email: string, password: string): Promise<void> {
+    const obs = this.http
+      .post<UserLight>(this.url + '/signup', {
+        pseudo,
+        slug,
+        email,
+        password
+      } as UserCreateRequest)
+      .pipe(
+        map(() => undefined) // On ne stocke pas de token car l'utilisateur n'est pas encore vérifié
+      );
+
+    return lastValueFrom(obs);
+  }
+
 }
