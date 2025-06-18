@@ -17,8 +17,9 @@ FROM nginx:stable-alpine
 # On copie notre fichier de configuration Nginx, qui est maintenant un template.
 COPY nginx.conf /etc/nginx/templates/default.conf.template
 
-# On copie LE CONTENU du dossier dist/atlasdd-app directement dans la racine de Nginx.
-COPY --from=builder /usr/src/app/dist/atlasdd-app/ /usr/share/nginx/html/
+# On copie LE CONTENU du dossier 'browser' directement dans la racine de Nginx.
+# C'est la correction clé pour que Nginx trouve le bon index.html.
+COPY --from=builder /usr/src/app/dist/atlasdd-app/browser/ /usr/share/nginx/html/
 
 # ÉTAPE DE DÉBOGAGE : On liste le contenu du dossier pour vérifier que la copie a fonctionné.
 # Vous verrez le résultat de cette commande dans les logs de build sur Heroku.
