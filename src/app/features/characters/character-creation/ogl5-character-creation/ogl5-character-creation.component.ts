@@ -8,6 +8,7 @@ import { Ogl5CharacterCreateRequest } from '../../../../core/models/character/og
 import { Skill } from '../../../../core/models/option/skill';
 import {SpellSlots} from '../../../../core/models/character/spell-slots';
 import {Ogl5Race} from '../../../../core/models/option/race';
+import {UserService} from '../../../../services/user/user.service';
 
 @Component({
   selector: 'app-ogl5-character-creation',
@@ -29,7 +30,8 @@ export class Ogl5CharacterCreationComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private optionsService: CharacterCreationOptionsService,
-    private characterService: CharacterService
+    private characterService: CharacterService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -77,7 +79,7 @@ export class Ogl5CharacterCreationComponent implements OnInit {
       wisdom: [10, Validators.required],
       charisma: [10, Validators.required],
       status: ['VIVANT', Validators.required],
-      userId: [3, Validators.required],
+      userId: [null, Validators.required],
       raceId: [null, Validators.required],
       backgroundId: [null, Validators.required],
       classId: [null, Validators.required],
@@ -127,6 +129,13 @@ export class Ogl5CharacterCreationComponent implements OnInit {
       return;
     }
 
+    const currentUser = this.userService.currentUser;
+
+    if (!currentUser) {
+      alert("Un problème est survenu lors de la tentative de récupération du UserId");
+      return;
+    }
+
     const formValues = this.creationForm.getRawValue();
 
     const proficientSkills = formValues.skills.filter((skill: any) => skill.isProficient);
@@ -138,6 +147,7 @@ export class Ogl5CharacterCreationComponent implements OnInit {
 
     const payload: Ogl5CharacterCreateRequest = {
       ...formValues,
+      userId: currentUser.id,
       skills: proficientSkills.map(({ id, expert }: Skill) => ({ id, expert: false })), // On s'assure que 'expert' est toujours false
       spellSlots: defaultSpellSlots,
       weaponIds: [formValues.weapon1Id, formValues.weapon2Id].filter(id => id !== null)
