@@ -6,7 +6,7 @@ WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
 RUN npm install
 COPY . .
-RUN npm run build
+RUN npm run build -- --configuration production
 
 # =========================================================================
 # ÉTAPE 2: RUNTIME - Servir les fichiers statiques avec Nginx
