@@ -122,10 +122,10 @@ export class CustomCharacterCreationComponent implements OnInit {
   createWeaponGroup(): FormGroup {
     return this.fb.group({
       name: ['', Validators.required],
-      weapon_range: ['', Validators.required],
+      weaponRange: ['', Validators.required],
       cost: ['', Validators.required],
-      damage_dice: ['', Validators.required],
-      damage_type: ['', Validators.required],
+      damageDice: ['', Validators.required],
+      damageType: ['', Validators.required],
       weight: [0, Validators.required],
       properties: ['', Validators.required]
     });
