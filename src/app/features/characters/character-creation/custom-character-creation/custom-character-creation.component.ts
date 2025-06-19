@@ -6,6 +6,7 @@ import {CharacterService} from '../../../../services/character/character.service
 import {UserService} from '../../../../services/user/user.service';
 import {CustomCharacterCreateRequest} from '../../../../core/models/character/custom-character';
 import {Skill} from "../../../../core/models/option/skill";
+import {ArmorCategory} from "../../../../core/enums/armor-category";
 
 @Component({
   selector: 'app-custom-character-creation',
@@ -20,6 +21,9 @@ export class CustomCharacterCreationComponent implements OnInit {
   skillsFromOptions: Skill[] = [];
   isLoading = true;
 
+  // CHANGEMENT : Remplacé par armorCategoryOptions pour contenir les paires [clé, valeur]
+  armorCategoryOptions: [string, string][] = [];
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -28,6 +32,9 @@ export class CustomCharacterCreationComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // CHANGEMENT : On utilise Object.entries() pour récupérer les paires clé/valeur
+    this.armorCategoryOptions = Object.entries(ArmorCategory);
+
     this.initForm();
     this.isLoading = true;
 
@@ -48,6 +55,7 @@ export class CustomCharacterCreationComponent implements OnInit {
     });
   }
 
+  // ... le reste du fichier .ts est identique
   private initForm(): void {
     this.creationForm = this.fb.group({
       // ... autres champs
@@ -100,8 +108,6 @@ export class CustomCharacterCreationComponent implements OnInit {
       }),
       preparedSpellIds: [[]],
       skills: [[]],
-
-      // CHANGEMENT : Le FormArray est initialisé avec 2 groupes et des validateurs de taille.
       weapons: this.fb.array(
         [this.createWeaponGroup(), this.createWeaponGroup()],
         [Validators.required, Validators.minLength(2), Validators.maxLength(2)]
@@ -125,7 +131,6 @@ export class CustomCharacterCreationComponent implements OnInit {
     });
   }
 
-  // CHANGEMENT : Ajout d'une garde pour ne pas dépasser 2 armes.
   addWeapon(): void {
     if (this.weapons.length >= 2) {
       alert("Vous ne pouvez pas équiper plus de deux armes.");
@@ -134,7 +139,6 @@ export class CustomCharacterCreationComponent implements OnInit {
     this.weapons.push(this.createWeaponGroup());
   }
 
-  // CHANGEMENT : Ajout d'une garde pour ne pas avoir moins de 2 armes.
   removeWeapon(index: number): void {
     if (this.weapons.length <= 2) {
       alert("Vous devez équiper au moins deux armes.");
@@ -165,7 +169,6 @@ export class CustomCharacterCreationComponent implements OnInit {
 
 
   onSubmit(): void {
-    // La vérification this.creationForm.invalid prendra maintenant en compte les validateurs sur le FormArray
     if (this.creationForm.invalid) {
       alert("Le formulaire est invalide. Veuillez vérifier que vous avez bien renseigné les deux armes.");
       return;

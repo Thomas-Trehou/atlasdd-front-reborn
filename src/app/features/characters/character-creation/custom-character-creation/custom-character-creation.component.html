@@ -84,13 +84,41 @@
         <div formGroupName="armor" class="space-y-4">
           <h3 class="text-lg font-semibold text-purple-300">Armure</h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div><label class="block text-sm font-medium text-gray-300 mb-1">Nom de l'armure</label><input formControlName="name" class="w-full bg-slate-900/70 border border-slate-600 rounded-md px-4 py-2 text-gray-200"></div>
-            <div><label class="block text-sm font-medium text-gray-300 mb-1">Catégorie</label><input formControlName="armorCategory" class="w-full bg-slate-900/70 border border-slate-600 rounded-md px-4 py-2 text-gray-200"></div>
-            <div><label class="block text-sm font-medium text-gray-300 mb-1">Classe d'armure (CA)</label><input type="number" formControlName="armorClass" class="w-full bg-slate-900/70 border border-slate-600 rounded-md px-4 py-2 text-gray-200"></div>
-            <div><label class="block text-sm font-medium text-gray-300 mb-1">Force Min.</label><input type="number" formControlName="strengthMinimum" class="w-full bg-slate-900/70 border border-slate-600 rounded-md px-4 py-2 text-gray-200"></div>
-            <div><label class="block text-sm font-medium text-gray-300 mb-1">Poids</label><input type="number" formControlName="weight" class="w-full bg-slate-900/70 border border-slate-600 rounded-md px-4 py-2 text-gray-200"></div>
-            <div><label class="block text-sm font-medium text-gray-300 mb-1">Coût</label><input formControlName="cost" class="w-full bg-slate-900/70 border border-slate-600 rounded-md px-4 py-2 text-gray-200"></div>
-            <div class="md:col-span-2"><label class="block text-sm font-medium text-gray-300 mb-1">Propriétés</label><input formControlName="properties" class="w-full bg-slate-900/70 border border-slate-600 rounded-md px-4 py-2 text-gray-200"></div>
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-1">Nom de l'armure</label>
+              <input formControlName="name" class="w-full bg-slate-900/70 border border-slate-600 rounded-md px-4 py-2 text-gray-200">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-1">Catégorie</label>
+              <select formControlName="armorCategory" class="w-full bg-slate-900/70 border border-slate-600 rounded-md px-4 py-2 text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400">
+                <option value="" disabled>Choisissez une catégorie</option>
+                <option *ngFor="let option of armorCategoryOptions" [value]="option[0]">
+                  {{ option[1] }}
+                </option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-1">Classe d'armure (CA)</label>
+              <input type="number" formControlName="armorClass" class="w-full bg-slate-900/70 border border-slate-600 rounded-md px-4 py-2 text-gray-200">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-1">Force Min.</label>
+              <input type="number" formControlName="strengthMinimum" class="w-full bg-slate-900/70 border border-slate-600 rounded-md px-4 py-2 text-gray-200">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-1">Poids</label>
+              <input type="number" formControlName="weight" class="w-full bg-slate-900/70 border border-slate-600 rounded-md px-4 py-2 text-gray-200">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-1">Coût</label>
+              <input formControlName="cost" class="w-full bg-slate-900/70 border border-slate-600 rounded-md px-4 py-2 text-gray-200">
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium text-gray-300 mb-1">Propriétés</label>
+              <input formControlName="properties" class="w-full bg-slate-900/70 border border-slate-600 rounded-md px-4 py-2 text-gray-200">
+            </div>
             <div class="flex items-center gap-2 mt-2">
               <input type="checkbox" id="stealthDisadvantage" formControlName="stealthDisadvantage" class="h-4 w-4 rounded bg-slate-900 border-slate-600 text-purple-600 focus:ring-purple-500">
               <label for="stealthDisadvantage" class="text-sm text-gray-300">Désavantage en Discrétion</label>
