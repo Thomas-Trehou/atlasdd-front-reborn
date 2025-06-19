@@ -2,13 +2,13 @@ import {BaseDto} from '../base';
 import {ShieldType} from '../../enums/shield-type';
 import {Alignment} from '../../enums/alignment';
 import {UserLight} from '../user/user';
-import {CustomRace} from '../option/race';
-import {Background} from '../option/background';
-import {CustomClass} from '../option/classe';
+import {CustomRace, RaceCreateRequest} from '../option/race';
+import {Background, BackgroundCreateRequest} from '../option/background';
+import {ClassCreateRequest, CustomClass} from '../option/classe';
 import {Skill} from '../option/skill';
 import {Spell} from '../option/spell';
-import {Weapon} from '../option/weapon';
-import {Armor} from '../option/armor';
+import {Weapon, WeaponCreateRequest} from '../option/weapon';
+import {Armor, ArmorCreateRequest} from '../option/armor';
 import {SpellSlots} from './spell-slots';
 
 interface CustomCharacterDto extends BaseDto {
@@ -54,12 +54,15 @@ interface CustomCharacterDto extends BaseDto {
   userId: number;
 
   race: CustomRace;
+  raceCreateDTO: RaceCreateRequest;
   raceId: number;
 
   background: Background;
+  backgroundCreateDTO: BackgroundCreateRequest;
   backgroundId: number;
 
   classe: CustomClass;
+  classeCreateDTO: ClassCreateRequest;
   classId: number;
 
   skills: Skill[];
@@ -69,16 +72,18 @@ interface CustomCharacterDto extends BaseDto {
   preparedSpellIds: number[];
 
   weapons: Weapon[];
+  weaponsCreateDTO: WeaponCreateRequest[];
   weaponIds: number[];
 
   armor: Armor;
+  armorCreateDTO: ArmorCreateRequest;
   armorId: number;
 }
 
-export type CustomCharacterCreateRequest = Omit<CustomCharacterDto, 'id' | 'createdAt' | 'updatedAt' | 'owner' | 'raceId' | 'backgroundId' | 'classId' | 'skills' | 'preparedSpells' | 'weaponIds' | 'armorId'>;
+export type CustomCharacterCreateRequest = Omit<CustomCharacterDto, 'id' | 'createdAt' | 'updatedAt' | 'owner' | 'raceId' | 'race' | 'backgroundId' | 'background' | 'classId' | 'classe' | 'skills' | 'preparedSpells' | 'weaponIds' | 'weapons' | 'armorId' | 'armor' >;
 
-export type CustomCharacterUpdateRequest = Omit<CustomCharacterDto, 'createdAt' | 'updatedAt' | 'owner' | 'raceId' | 'backgroundId' | 'classId' | 'skills' | 'preparedSpells' | 'weaponIds' | 'armorId'>;
+export type CustomCharacterUpdateRequest = Omit<CustomCharacterDto, 'createdAt' | 'updatedAt' | 'owner' | 'raceId' | 'raceCreateDTO' | 'backgroundId' | 'backgroundCreateDTO' | 'classId' | 'classeCreateDTO' | 'skillIds' | 'preparedSpells' | 'weaponIds' | 'weaponsCreateDTO' | 'armorId' |  'armorCreateDTO' >;
 
-export type CustomCharacter = Omit<CustomCharacterDto, 'userId' | 'raceId' | 'backgroundId' | 'classId' | 'skillIds' | 'preparedSpellIds' | 'weaponIds' | 'armorId'>;
+export type CustomCharacter = Omit<CustomCharacterDto, 'userId' | 'raceId' | 'raceCreateDTO' | 'backgroundId' | 'backgroundCreateDTO' | 'classId' | 'classeCreateDTO' | 'skillIds' | 'preparedSpellIds' | 'weaponIds' | 'weaponsCreateDTO' | 'armorId' |  'armorCreateDTO' >;
 
 export type CustomCharacterCard = Pick<CustomCharacterDto, 'id' | 'name' | 'level' | 'classe' | 'race' | 'updatedAt' |'status'>

@@ -13,7 +13,7 @@ import {
 } from '../../core/models/character/ogl5-character';
 import {
   CustomCharacter,
-  CustomCharacterCard,
+  CustomCharacterCard, CustomCharacterCreateRequest,
   CustomCharacterUpdateRequest
 } from '../../core/models/character/custom-character';
 import {Skill} from '../../core/models/option/skill';
@@ -152,6 +152,13 @@ export class CharacterService {
    */
   createOgl5Character(characterData: Ogl5CharacterCreateRequest): Observable<Ogl5Character> {
     return this.http.post<Ogl5Character>(`${environment.API_URL}${environment.API_RESOURCES.OGL5_CHARACTER}`, characterData); // Adaptez l'endpoint de création
+  }
+
+  /**
+   * Crée une nouvelle fiche de personnage OGL5.
+   */
+  createCustomCharacter(characterData: CustomCharacterCreateRequest): Observable<CustomCharacter> {
+    return this.http.post<CustomCharacter>(`${environment.API_URL}${environment.API_RESOURCES.CUSTOMS_CHARACTER}`, characterData); // Adaptez l'endpoint de création
   }
 
   /**
