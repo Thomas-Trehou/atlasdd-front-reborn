@@ -19,6 +19,7 @@ import {
 import {Skill} from '../../core/models/option/skill';
 import {Armor} from '../../core/models/option/armor';
 import {Weapon} from '../../core/models/option/weapon';
+import {Spell} from '../../core/models/option/spell';
 
 
 @Injectable({
@@ -135,6 +136,11 @@ export class CharacterService {
   getAllSkills(): Observable<Skill[]> {
     const url = `${environment.API_URL}${environment.API_RESOURCES.CHARACTER_OPTIONS}/skills`;
     return this.http.get<Skill[]>(url);
+  }
+
+  getAllSpells(): Observable<Spell[]> {
+    const url = `${environment.API_URL}${environment.API_RESOURCES.CHARACTER_OPTIONS}/spells`;
+    return this.http.get<Spell[]>(url);
   }
 
   getAllArmors(): Observable<Armor[]> {

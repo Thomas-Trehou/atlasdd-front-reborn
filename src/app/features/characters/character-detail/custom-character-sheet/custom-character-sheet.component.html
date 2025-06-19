@@ -485,7 +485,12 @@
     </div>
 
     <div *ngIf="activeTab === 'spells'">
-
+      <app-character-sheet-spells-tab
+        #spellsTab
+        [character]="character"
+        [isEditMode]="isEditMode"
+        [characterType]="'custom'"  (preparedSpellsChanged)="onPreparedSpellsChange($event)">
+      </app-character-sheet-spells-tab>
     </div>
 
   </form>

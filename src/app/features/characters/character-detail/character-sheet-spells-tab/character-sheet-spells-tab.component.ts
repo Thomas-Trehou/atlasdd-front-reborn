@@ -5,6 +5,10 @@ import { Ogl5Character } from '../../../../core/models/character/ogl5-character'
 import { SpellcasterType } from '../../../../core/enums/SpellcasterType';
 import { SpellSlotsService } from '../../../../services/character/spell-slots.service';
 import { SpellSlotLevels } from '../../../../core/models/character/spell-slots';
+import {CharacterService} from '../../../../services/character/character.service';
+import {Spell} from '../../../../core/models/option/spell';
+import {Observable, Subscription} from 'rxjs';
+import {CustomCharacter} from '../../../../core/models/character/custom-character';
 
 @Component({
   selector: 'app-character-sheet-spells-tab',
@@ -21,7 +25,8 @@ import { SpellSlotLevels } from '../../../../core/models/character/spell-slots';
   ]
 })
 export class CharacterSheetSpellsTabComponent implements OnInit{
-  @Input() character!: Ogl5Character;
+  @Input() character!: Ogl5Character | CustomCharacter;
+  @Input() characterType: 'ogl5' | 'custom';
   @Input() isEditMode: boolean = false;
   @Output() preparedSpellsChanged = new EventEmitter<any[]>();
 
@@ -31,6 +36,9 @@ export class CharacterSheetSpellsTabComponent implements OnInit{
   selectedSpellLevel: number = 0;
   expandedSpellIds: string[] = [];
   spellcasterType!: SpellcasterType;
+  allCustomSpells: any[] = [];
+
+  private spellsSubscription: Subscription;
 
   spellLevels = [
     { num: 1, key: '1' }, { num: 2, key: '2' }, { num: 3, key: '3' },
@@ -40,12 +48,19 @@ export class CharacterSheetSpellsTabComponent implements OnInit{
 
   constructor(
     private parentContainer: ControlContainer,
-    private spellSlotsService: SpellSlotsService
+    private spellSlotsService: SpellSlotsService,
+    private characterService: CharacterService
   ) {}
 
   ngOnInit(): void {
     this.parentForm = this.parentContainer.control as FormGroup;
     this.spellcasterType = this.determineSpellcasterType();
+
+    if (this.characterType === 'custom') {
+      this.spellsSubscription = this.characterService.getAllSpells().subscribe(spells => {
+        this.allCustomSpells = spells;
+      });
+    }
   }
 
   getSpellcastingAbility(): string {
@@ -78,9 +93,19 @@ export class CharacterSheetSpellsTabComponent implements OnInit{
   }
 
   getClassSpellsByLevel(level: number): any[] {
-    return this.character.classe.classSpells
-      ?.filter(spell => parseInt(spell.level, 10) === level)
-      .sort((a, b) => a.name.localeCompare(b.name)) || [];
+    let allClassSpells: any[] = [];
+
+    if (this.characterType === 'custom') {
+      allClassSpells = this.allCustomSpells;
+    } else {
+      // On indique à TypeScript que this.character est bien un Ogl5Character ici
+      const oglCharacter = this.character as Ogl5Character;
+      allClassSpells = oglCharacter.classe.classSpells || [];
+    }
+
+    return allClassSpells
+      .filter(spell => parseInt(spell.level, 10) === level)
+      .sort((a, b) => a.name.localeCompare(b.name));
   }
 
   isSpellPrepared(spell: any): boolean {
@@ -108,6 +133,11 @@ export class CharacterSheetSpellsTabComponent implements OnInit{
   // --- Logique pour les emplacements de sorts (spell slots) ---
 
   private determineSpellcasterType(): SpellcasterType {
+
+    if (this.characterType === 'custom') {
+      return SpellcasterType.FULL_CASTER;
+    }
+
     if (!this.character.classe) return SpellcasterType.NON_CASTER;
 
     // Logique pour déterminer le type de lanceur en fonction de la classe
@@ -191,6 +221,12 @@ export class CharacterSheetSpellsTabComponent implements OnInit{
         control.updateValueAndValidity({ emitEvent: false });
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.spellsSubscription) {
+      this.spellsSubscription.unsubscribe();
+    }
   }
 
 }

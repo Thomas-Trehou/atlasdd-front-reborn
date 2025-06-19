@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {CustomCharacter, CustomCharacterUpdateRequest} from '../../../../core/models/character/custom-character';
@@ -11,6 +11,7 @@ import {SKILL_ABILITY_MAPPINGS_BY_ID} from "../../../../core/utils/SkillAbilityM
 import {Ogl5Character} from '../../../../core/models/character/ogl5-character';
 import {CharacterSheetSpellsTabComponent} from '../character-sheet-spells-tab/character-sheet-spells-tab.component';
 import {ArmorCategory} from '../../../../core/enums/armor-category';
+import {Subscription} from 'rxjs';
 // NOTE : Il n'y a pas de CharacterSheetSpellsTabComponent pour l'instant comme demandé.
 
 @Component({
@@ -23,10 +24,12 @@ import {ArmorCategory} from '../../../../core/enums/armor-category';
 export class CustomCharacterSheetComponent implements OnInit {
   @Input() character!: CustomCharacter;
   @Output() characterUpdated = new EventEmitter<CustomCharacter>();
+  @ViewChild(CharacterSheetSpellsTabComponent) private spellsTabComponent!: CharacterSheetSpellsTabComponent;
 
   characterForm!: FormGroup;
   isEditMode = false;
   activeTab: 'general' | 'spells' = 'general';
+  private subscriptions: Subscription[] = [];
 
   // Exposer les enums au template
   ShieldType = ShieldType;
@@ -37,6 +40,18 @@ export class CustomCharacterSheetComponent implements OnInit {
   private skillAbilityMappings = SKILL_ABILITY_MAPPINGS_BY_ID;
   armorCategoryOptions: [string, string][] = [];
 
+  spellLevels = [
+    {num: 1, key: '1'},
+    {num: 2, key: '2'},
+    {num: 3, key: '3'},
+    {num: 4, key: '4'},
+    {num: 5, key: '5'},
+    {num: 6, key: '6'},
+    {num: 7, key: '7'},
+    {num: 8, key: '8'},
+    {num: 9, key: '9'}
+  ];
+
 
   constructor(private fb: FormBuilder, private characterService: CharacterService) {}
 
@@ -44,6 +59,24 @@ export class CustomCharacterSheetComponent implements OnInit {
     this.initForm();
     this.loadAllSkills();
     this.armorCategoryOptions = Object.entries(ArmorCategory);
+
+    const levelControl = this.characterForm.get('level');
+    if (levelControl) {
+      const sub = levelControl.valueChanges.subscribe(() => { // On stocke la souscription
+        setTimeout(() => this.spellsTabComponent?.updateSpellSlotValidators(), 0);
+      });
+      this.subscriptions.push(sub); // On l'ajoute au tableau pour qu'elle soit détruite plus tard
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  ngOnChanges(): void {
+    if (this.character && this.characterForm) {
+      this.characterForm.patchValue(this.character);
+    }
   }
 
   private initForm(): void {
@@ -77,6 +110,7 @@ export class CustomCharacterSheetComponent implements OnInit {
       charismaSavingThrowBonus: [this.character.charismaSavingThrowBonus],
       status: [this.character.status],
       spellSlots: [this.character.spellSlots],
+      preparedSpellIds: [this.character.preparedSpells.map(spell => spell.id)],
 
       // FormGroups imbriqués pour les objets custom
       race: this.fb.group({
@@ -117,6 +151,13 @@ export class CustomCharacterSheetComponent implements OnInit {
       skills: [this.character.skills]
     });
 
+    this.spellLevels.forEach(level => {
+      this.characterForm.addControl(
+        'spellSlots' + level.key,
+        this.fb.control(this.character.spellSlots.slotsUsed[level.key as keyof typeof this.character.spellSlots.slotsUsed])
+      );
+    });
+
     // Désactiver tous les contrôles par défaut
     this.characterForm.disable();
   }
@@ -140,6 +181,13 @@ export class CustomCharacterSheetComponent implements OnInit {
   enterEditMode(): void {
     this.isEditMode = true;
     this.characterForm.enable();
+
+    this.spellLevels.forEach(level => {
+      const control = this.characterForm.get('spellSlots' + level.key);
+      if (control) {
+        control.enable();
+      }
+    });
   }
 
   cancelEdit(): void {
@@ -155,11 +203,27 @@ export class CustomCharacterSheetComponent implements OnInit {
 
     const formValues = this.characterForm.getRawValue();
 
+    const updatedSlotsUsed: { [key: string]: number } = {};
+    this.spellLevels.forEach(level => {
+      const controlName = 'spellSlots' + level.key;
+      if (formValues[controlName] !== undefined && formValues[controlName] !== null) {
+        updatedSlotsUsed[level.key] = formValues[controlName];
+      }
+    });
+
     // La requête d'update attend l'objet complet avec les sous-objets mis à jour
     const updateRequest: CustomCharacterUpdateRequest = {
       ...this.character, // On part de l'objet original pour garder les champs non modifiables (createdAt, etc.)
-      ...formValues // On écrase avec les nouvelles valeurs du formulaire
+      ...formValues,
+      spellSlots: {
+        ...this.character.spellSlots,
+        slotsUsed: updatedSlotsUsed
+      },// On écrase avec les nouvelles valeurs du formulaire
     };
+
+    this.spellLevels.forEach(level => {
+      delete (updateRequest as any)['spellSlots' + level.key];
+    });
 
     this.characterService.updateCustomCharacter(this.character.id, updateRequest).subscribe({
       next: (updatedCharacter) => {
@@ -366,4 +430,25 @@ export class CustomCharacterSheetComponent implements OnInit {
         return 'text-gray-500';
     }
   }
+
+  /**
+   * Reçoit la liste mise à jour des sorts préparés depuis le composant enfant
+   * et met à jour l'état du personnage et le formulaire.
+   */
+  onPreparedSpellsChange(newPreparedSpells: any[]): void {
+    // 1. Mettre à jour l'objet character local (de manière immuable)
+    this.character = {
+      ...this.character,
+      preparedSpells: newPreparedSpells
+    };
+
+    // 2. Mettre à jour le contrôle de formulaire avec les nouveaux IDs
+    this.characterForm.patchValue({
+      preparedSpellIds: newPreparedSpells.map(spell => spell.id)
+    });
+
+    // 3. Marquer le formulaire comme "modifié"
+    this.characterForm.markAsDirty();
+  }
+
 }
