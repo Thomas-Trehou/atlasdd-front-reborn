@@ -212,18 +212,56 @@ export class CustomCharacterSheetComponent implements OnInit {
     });
 
     // La requête d'update attend l'objet complet avec les sous-objets mis à jour
-    const updateRequest: CustomCharacterUpdateRequest = {
-      ...this.character, // On part de l'objet original pour garder les champs non modifiables (createdAt, etc.)
+    const updateRequest: any = {
+      ...this.character,
       ...formValues,
+
+      race: {
+        ...this.character.race,
+        ...formValues.race
+      },
+      background: {
+        ...this.character.background,
+        ...formValues.background
+      },
+      classe: {
+        ...this.character.classe,
+        ...formValues.classe
+      },
+      armor: {
+        ...this.character.armor,
+        ...formValues.armor
+      },
+      weapons: formValues.weapons.map((weaponFromForm: any, index: number) => ({
+        ...this.character.weapons[index],
+        ...weaponFromForm
+      })),
+
       spellSlots: {
         ...this.character.spellSlots,
         slotsUsed: updatedSlotsUsed
-      },// On écrase avec les nouvelles valeurs du formulaire
+      },
     };
 
+    // --- TRANSFORMATION FINALE : GESTION DE L'OWNER ---
+    // Le backend attend `userId`, pas l'objet `owner`.
+    // On ajoute le champ `userId` en se basant sur l'objet `owner`.
+    if (updateRequest.owner && updateRequest.owner.id) {
+      updateRequest.userId = updateRequest.owner.id;
+    }
+    // On supprime l'objet `owner` qui n'est pas attendu par le backend.
+    delete updateRequest.owner;
+    // --- FIN DE LA TRANSFORMATION ---
+
+
+    // On supprime les contrôles de spell slots temporaires de la requête finale
     this.spellLevels.forEach(level => {
       delete (updateRequest as any)['spellSlots' + level.key];
     });
+
+    console.log("This character will be updated:", this.character)
+
+    console.log("This update request:", updateRequest)
 
     this.characterService.updateCustomCharacter(this.character.id, updateRequest).subscribe({
       next: (updatedCharacter) => {
