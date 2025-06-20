@@ -1,0 +1,497 @@
+<div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg shadow-xl shadow-black/30 border border-blue-400/30">
+  <!-- Titre et bouton Modifier/Enregistrer -->
+  <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
+    <div class="flex items-center gap-6">
+      <!-- Titre en mode lecture -->
+      <h2 class="text-3xl font-bold font-serif text-blue-400" *ngIf="!isEditMode">
+        {{ character.name }} - Niveau {{ character.level }}
+      </h2>
+
+      <!-- Onglets de navigation -->
+      <div class="flex space-x-2 border border-slate-700 rounded-lg p-1">
+        <button
+          (click)="activeTab = 'general'"
+          [ngClass]="activeTab === 'general' ? 'bg-purple-600 text-white shadow-md' : 'text-gray-400 hover:bg-slate-700/50'"
+          class="px-4 py-1 rounded-md transition-all text-sm font-semibold">
+          Général
+        </button>
+        <button
+          (click)="activeTab = 'spells'"
+          [ngClass]="activeTab === 'spells' ? 'bg-purple-600 text-white shadow-md' : 'text-gray-400 hover:bg-slate-700/50'"
+          class="px-4 py-1 rounded-md transition-all text-sm font-semibold">
+          Sorts
+        </button>
+      </div>
+    </div>
+
+    <!-- Boutons d'action principaux -->
+    <div class="flex space-x-2">
+      <button
+        *ngIf="!isEditMode"
+        (click)="enterEditMode()"
+        class="bg-purple-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-purple-500 focus:outline-none focus:ring-4 focus:ring-purple-400/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/40">
+        Modifier
+      </button>
+
+      <ng-container *ngIf="isEditMode">
+        <button
+          (click)="cancelEdit()"
+          class="px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-500 transition-colors">
+          Annuler
+        </button>
+        <button
+          (click)="saveChanges()"
+          class="bg-purple-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-purple-500 focus:outline-none focus:ring-4 focus:ring-purple-400/50 transition-all duration-300">
+          Enregistrer
+        </button>
+      </ng-container>
+    </div>
+  </div>
+
+
+  <!-- Envelopper tout le contenu éditable dans un formGroup -->
+  <form [formGroup]="characterForm" *ngIf="characterForm">
+    <!-- Ajouter les champs de nom et niveau au début du formulaire en mode édition -->
+    <div class="mb-6" *ngIf="isEditMode">
+      <div class="flex items-center gap-3">
+        <div class="flex-1">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
+          <input
+            type="text"
+            formControlName="name"
+            class="w-full px-3 py-2 border rounded-md"
+            placeholder="Nom du personnage">
+        </div>
+        <div class="w-24">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Niveau</label>
+          <input
+            type="number"
+            formControlName="level"
+            class="w-full px-3 py-2 border rounded-md text-center"
+            min="1">
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="activeTab === 'general'">
+      <div class="mb-6">
+        <!-- Informations de base -->
+        <div class="mb-6 bg-slate-900/40 p-4 rounded-lg border border-slate-700/50">
+          <h3 class="font-semibold text-lg mb-4 text-blue-300">Informations</h3>
+
+          <!-- GRILLE PRINCIPALE POUR LA SECTION -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6 text-sm">
+
+            <!-- ======================================= -->
+            <!-- COLONNE 1: RACE -->
+            <!-- ======================================= -->
+            <div class="space-y-3" formGroupName="race">
+              <h4 class="font-medium text-base text-purple-300 border-b border-purple-300/20 pb-1">Race</h4>
+
+              <!-- Mode Lecture -->
+              <div *ngIf="!isEditMode" class="space-y-3">
+                <div class="flex justify-between">
+                  <span class="text-gray-400">Nom:</span>
+                  <span class="font-medium text-gray-200 text-right">{{ character.race.name }}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-400">Vitesse:</span>
+                  <span class="font-medium text-gray-200 text-right">{{ character.race.speed }}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-400">Langues:</span>
+                  <span class="font-medium text-gray-200 text-right">{{ character.race.languages }}</span>
+                </div>
+                <div>
+                  <span class="text-gray-400">Traits:</span>
+                  <p class="font-medium text-gray-200 whitespace-pre-line text-xs mt-1">{{ character.race.traits }}</p>
+                </div>
+              </div>
+
+              <!-- Mode Édition -->
+              <div *ngIf="isEditMode" class="space-y-2">
+                <div><label class="block text-gray-400 mb-1">Nom</label><input formControlName="name" class="w-full px-2 py-1 bg-slate-800 border border-slate-600 rounded-md"></div>
+                <div><label class="block text-gray-400 mb-1">Vitesse</label><input formControlName="speed" class="w-full px-2 py-1 bg-slate-800 border border-slate-600 rounded-md"></div>
+                <div><label class="block text-gray-400 mb-1">Langues</label><input formControlName="languages" class="w-full px-2 py-1 bg-slate-800 border border-slate-600 rounded-md"></div>
+                <div><label class="block text-gray-400 mb-1">Traits</label><textarea formControlName="traits" rows="4" class="w-full px-2 py-1 bg-slate-800 border border-slate-600 rounded-md"></textarea></div>
+              </div>
+            </div>
+
+            <!-- ======================================= -->
+            <!-- COLONNE 2: CLASSE -->
+            <!-- ======================================= -->
+            <div class="space-y-3" formGroupName="classe">
+              <h4 class="font-medium text-base text-purple-300 border-b border-purple-300/20 pb-1">Classe</h4>
+
+              <!-- Mode Lecture -->
+              <div *ngIf="!isEditMode" class="space-y-3">
+                <div class="flex justify-between">
+                  <span class="text-gray-400">Nom:</span>
+                  <span class="font-medium text-gray-200 text-right">{{ character.classe.name }}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-400">Dé de vie:</span>
+                  <span class="font-medium text-gray-200 text-right">{{ character.classe.hitDice }}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-400">PV de départ:</span>
+                  <span class="font-medium text-gray-200 text-right">{{ character.classe.startingHitPoints }}</span>
+                </div>
+                <div>
+                  <span class="text-gray-400">Équipement:</span>
+                  <p class="font-medium text-gray-200 whitespace-pre-line text-xs mt-1">{{ character.classe.startingEquipment }}</p>
+                </div>
+              </div>
+
+              <!-- Mode Édition -->
+              <div *ngIf="isEditMode" class="space-y-2">
+                <div><label class="block text-gray-400 mb-1">Nom</label><input formControlName="name" class="w-full px-2 py-1 bg-slate-800 border border-slate-600 rounded-md"></div>
+                <div><label class="block text-gray-400 mb-1">Dé de vie</label><input formControlName="hitDice" class="w-full px-2 py-1 bg-slate-800 border border-slate-600 rounded-md"></div>
+                <div><label class="block text-gray-400 mb-1">PV de départ</label><input type="number" formControlName="startingHitPoints" class="w-full px-2 py-1 bg-slate-800 border border-slate-600 rounded-md"></div>
+                <div><label class="block text-gray-400 mb-1">Équipement</label><textarea formControlName="startingEquipment" rows="4" class="w-full px-2 py-1 bg-slate-800 border border-slate-600 rounded-md"></textarea></div>
+              </div>
+            </div>
+
+            <!-- ======================================= -->
+            <!-- COLONNE 3: HISTORIQUE -->
+            <!-- ======================================= -->
+            <div class="space-y-3" formGroupName="background">
+              <h4 class="font-medium text-base text-purple-300 border-b border-purple-300/20 pb-1">Historique</h4>
+
+              <!-- Mode Lecture -->
+              <div *ngIf="!isEditMode" class="space-y-3">
+                <div class="flex justify-between">
+                  <span class="text-gray-400">Nom:</span>
+                  <span class="font-medium text-gray-200 text-right">{{ character.background.name }}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-400">Outils maîtrisés:</span>
+                  <span class="font-medium text-gray-200 text-right">{{ character.background.masteredTools }}</span>
+                </div>
+                <div>
+                  <span class="text-gray-400">Capacité:</span>
+                  <p class="font-medium text-gray-200 whitespace-pre-line text-xs mt-1">{{ character.background.backgroundFeature }}</p>
+                </div>
+                <div>
+                  <span class="text-gray-400">Équipement:</span>
+                  <p class="font-medium text-gray-200 whitespace-pre-line text-xs mt-1">{{ character.background.startingEquipment }}</p>
+                </div>
+              </div>
+
+              <!-- Mode Édition -->
+              <div *ngIf="isEditMode" class="space-y-2">
+                <div><label class="block text-gray-400 mb-1">Nom</label><input formControlName="name" class="w-full px-2 py-1 bg-slate-800 border border-slate-600 rounded-md"></div>
+                <div><label class="block text-gray-400 mb-1">Outils maîtrisés</label><input formControlName="masteredTools" class="w-full px-2 py-1 bg-slate-800 border border-slate-600 rounded-md"></div>
+                <div><label class="block text-gray-400 mb-1">Capacité</label><textarea formControlName="backgroundFeature" rows="3" class="w-full px-2 py-1 bg-slate-800 border border-slate-600 rounded-md"></textarea></div>
+                <div><label class="block text-gray-400 mb-1">Équipement</label><textarea formControlName="startingEquipment" rows="3" class="w-full px-2 py-1 bg-slate-800 border border-slate-600 rounded-md"></textarea></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- Caractéristiques -->
+        <div class="bg-slate-900/40 p-4 rounded-lg border border-slate-700/50">
+          <h3 class="font-semibold text-lg mb-2 text-blue-300">Caractéristiques</h3>
+          <!-- Bonus de maîtrise ajouté ici -->
+          <div class="flex justify-between items-center bg-slate-800/50 p-2 rounded-md mb-2">
+            <span class="font-semibold text-gray-300">Bonus de Maîtrise</span>
+            <span class="text-2xl font-bold text-white">+{{ getProficiencyBonus() }}</span>
+          </div>
+          <div class="space-y-2">
+            <div class="grid grid-cols-3 items-center bg-slate-800/50 p-2 rounded-md"><span class="font-semibold text-gray-300">FOR</span><div class="text-center"><div class="text-2xl font-bold text-white">{{ getAbilityModifierText(character.strength) }}</div><div *ngIf="!isEditMode" class="text-sm text-gray-400">{{ character.strength }}</div><input *ngIf="isEditMode" type="number" formControlName="strength" class="w-16 px-2 py-1 bg-slate-900 border border-slate-600 rounded-md text-center focus:outline-none focus:ring-1 focus:ring-purple-400"></div><div class="text-right"><span class="text-xs text-gray-400">JDS </span><span *ngIf="!isEditMode" class="font-bold">{{ getModifierText(character.strengthSavingThrowBonus) }}</span><input *ngIf="isEditMode" type="number" formControlName="strengthSavingThrowBonus" class="w-12 px-1 py-0.5 bg-slate-900 border border-slate-600 rounded-md text-center focus:outline-none focus:ring-1 focus:ring-purple-400"></div></div>
+            <div class="grid grid-cols-3 items-center bg-slate-800/50 p-2 rounded-md"><span class="font-semibold text-gray-300">DEX</span><div class="text-center"><div class="text-2xl font-bold text-white">{{ getAbilityModifierText(character.dexterity) }}</div><div *ngIf="!isEditMode" class="text-sm text-gray-400">{{ character.dexterity }}</div><input *ngIf="isEditMode" type="number" formControlName="dexterity" class="w-16 px-2 py-1 bg-slate-900 border border-slate-600 rounded-md text-center focus:outline-none focus:ring-1 focus:ring-purple-400"></div><div class="text-right"><span class="text-xs text-gray-400">JDS </span><span *ngIf="!isEditMode" class="font-bold">{{ getModifierText(character.dexteritySavingThrowBonus) }}</span><input *ngIf="isEditMode" type="number" formControlName="dexteritySavingThrowBonus" class="w-12 px-1 py-0.5 bg-slate-900 border border-slate-600 rounded-md text-center focus:outline-none focus:ring-1 focus:ring-purple-400"></div></div>
+            <div class="grid grid-cols-3 items-center bg-slate-800/50 p-2 rounded-md"><span class="font-semibold text-gray-300">CON</span><div class="text-center"><div class="text-2xl font-bold text-white">{{ getAbilityModifierText(character.constitution) }}</div><div *ngIf="!isEditMode" class="text-sm text-gray-400">{{ character.constitution }}</div><input *ngIf="isEditMode" type="number" formControlName="constitution" class="w-16 px-2 py-1 bg-slate-900 border border-slate-600 rounded-md text-center focus:outline-none focus:ring-1 focus:ring-purple-400"></div><div class="text-right"><span class="text-xs text-gray-400">JDS </span><span *ngIf="!isEditMode" class="font-bold">{{ getModifierText(character.constitutionSavingThrowBonus) }}</span><input *ngIf="isEditMode" type="number" formControlName="constitutionSavingThrowBonus" class="w-12 px-1 py-0.5 bg-slate-900 border border-slate-600 rounded-md text-center focus:outline-none focus:ring-1 focus:ring-purple-400"></div></div>
+            <div class="grid grid-cols-3 items-center bg-slate-800/50 p-2 rounded-md"><span class="font-semibold text-gray-300">INT</span><div class="text-center"><div class="text-2xl font-bold text-white">{{ getAbilityModifierText(character.intelligence) }}</div><div *ngIf="!isEditMode" class="text-sm text-gray-400">{{ character.intelligence }}</div><input *ngIf="isEditMode" type="number" formControlName="intelligence" class="w-16 px-2 py-1 bg-slate-900 border border-slate-600 rounded-md text-center focus:outline-none focus:ring-1 focus:ring-purple-400"></div><div class="text-right"><span class="text-xs text-gray-400">JDS </span><span *ngIf="!isEditMode" class="font-bold">{{ getModifierText(character.intelligenceSavingThrowBonus) }}</span><input *ngIf="isEditMode" type="number" formControlName="intelligenceSavingThrowBonus" class="w-12 px-1 py-0.5 bg-slate-900 border border-slate-600 rounded-md text-center focus:outline-none focus:ring-1 focus:ring-purple-400"></div></div>
+            <div class="grid grid-cols-3 items-center bg-slate-800/50 p-2 rounded-md"><span class="font-semibold text-gray-300">SAG</span><div class="text-center"><div class="text-2xl font-bold text-white">{{ getAbilityModifierText(character.wisdom) }}</div><div *ngIf="!isEditMode" class="text-sm text-gray-400">{{ character.wisdom }}</div><input *ngIf="isEditMode" type="number" formControlName="wisdom" class="w-16 px-2 py-1 bg-slate-900 border border-slate-600 rounded-md text-center focus:outline-none focus:ring-1 focus:ring-purple-400"></div><div class="text-right"><span class="text-xs text-gray-400">JDS </span><span *ngIf="!isEditMode" class="font-bold">{{ getModifierText(character.wisdomSavingThrowBonus) }}</span><input *ngIf="isEditMode" type="number" formControlName="wisdomSavingThrowBonus" class="w-12 px-1 py-0.5 bg-slate-900 border border-slate-600 rounded-md text-center focus:outline-none focus:ring-1 focus:ring-purple-400"></div></div>
+            <div class="grid grid-cols-3 items-center bg-slate-800/50 p-2 rounded-md"><span class="font-semibold text-gray-300">CHA</span><div class="text-center"><div class="text-2xl font-bold text-white">{{ getAbilityModifierText(character.charisma) }}</div><div *ngIf="!isEditMode" class="text-sm text-gray-400">{{ character.charisma }}</div><input *ngIf="isEditMode" type="number" formControlName="charisma" class="w-16 px-2 py-1 bg-slate-900 border border-slate-600 rounded-md text-center focus:outline-none focus:ring-1 focus:ring-purple-400"></div><div class="text-right"><span class="text-xs text-gray-400">JDS </span><span *ngIf="!isEditMode" class="font-bold">{{ getModifierText(character.charismaSavingThrowBonus) }}</span><input *ngIf="isEditMode" type="number" formControlName="charismaSavingThrowBonus" class="w-12 px-1 py-0.5 bg-slate-900 border border-slate-600 rounded-md text-center focus:outline-none focus:ring-1 focus:ring-purple-400"></div></div>
+          </div>
+        </div>
+
+        <!-- Statistiques de combat incluant les Points de vie -->
+        <div class="bg-slate-900/40 p-4 rounded-lg border border-slate-700/50">
+          <h3 class="font-semibold text-lg mb-2 text-blue-300">Combat</h3>
+          <div class="grid grid-cols-2 gap-2 mb-4">
+            <div class="text-center p-2 bg-slate-800/50 rounded-md"><div class="text-gray-400 text-sm">CLASSE D'ARMURE</div><div class="text-2xl font-bold" *ngIf="!isEditMode">{{ character.armorClass }}</div><input *ngIf="isEditMode" type="number" formControlName="armorClass" class="w-20 px-2 py-1 bg-slate-900 border border-slate-600 rounded-md text-center focus:outline-none focus:ring-1 focus:ring-purple-400"></div>
+            <div class="text-center p-2 bg-slate-800/50 rounded-md"><div class="text-gray-400 text-sm">INITIATIVE</div><div class="text-2xl font-bold" *ngIf="!isEditMode">{{ character.initiative }}</div><input *ngIf="isEditMode" type="number" formControlName="initiative" class="w-20 px-2 py-1 bg-slate-900 border border-slate-600 rounded-md text-center focus:outline-none focus:ring-1 focus:ring-purple-400"></div>
+            <div class="text-center p-2 bg-slate-800/50 rounded-md"><div class="text-gray-400 text-sm">VITESSE</div><div class="text-2xl font-bold" *ngIf="!isEditMode">{{ character.speed }}</div><input *ngIf="isEditMode" type="number" formControlName="speed" class="w-20 px-2 py-1 bg-slate-900 border border-slate-600 rounded-md text-center focus:outline-none focus:ring-1 focus:ring-purple-400"></div>
+            <div class="text-center p-2 bg-slate-800/50 rounded-md"><div class="text-gray-400 text-sm">INSPIRATION</div><div class="text-2xl font-bold" *ngIf="!isEditMode">{{ character.inspiration }}</div><input *ngIf="isEditMode" type="number" formControlName="inspiration" class="w-20 px-2 py-1 bg-slate-900 border border-slate-600 rounded-md text-center focus:outline-none focus:ring-1 focus:ring-purple-400"></div>
+          </div>
+          <div class="text-center p-2 bg-slate-800/50 rounded-md mb-4"><div class="text-gray-400 text-sm">PERCEPTION PASSIVE</div><div class="text-2xl font-bold" *ngIf="!isEditMode">{{ character.passivePerception }}</div><input *ngIf="isEditMode" type="number" formControlName="passivePerception" class="w-20 px-2 py-1 bg-slate-900 border border-slate-600 rounded-md text-center focus:outline-none focus:ring-1 focus:ring-purple-400"></div>
+          <div class="bg-slate-800/50 p-3 rounded-md mb-4"><div class="font-semibold mb-2 text-gray-300">POINTS DE VIE</div><div class="flex items-center justify-between mb-2"><span class="text-gray-400">Actuels:</span><div class="flex items-center"><span *ngIf="!isEditMode" class="font-bold text-xl">{{ character.hitPoints }}</span><input *ngIf="isEditMode" type="number" formControlName="hitPoints" class="w-20 px-2 py-1 bg-slate-900 border border-slate-600 rounded-md text-right focus:outline-none focus:ring-1 focus:ring-purple-400"><span class="mx-2">/</span><span *ngIf="!isEditMode" class="font-bold text-xl">{{ character.maxHitPoints }}</span><input *ngIf="isEditMode" type="number" formControlName="maxHitPoints" class="w-20 px-2 py-1 bg-slate-900 border border-slate-600 rounded-md text-right focus:outline-none focus:ring-1 focus:ring-purple-400"></div></div><div class="flex items-center justify-between"><span class="text-gray-400">Temporaires:</span><div><span *ngIf="!isEditMode" class="font-bold">{{ character.bonusHitPoints || 0 }}</span><input *ngIf="isEditMode" type="number" formControlName="bonusHitPoints" class="w-20 px-2 py-1 bg-slate-900 border border-slate-600 rounded-md text-right focus:outline-none focus:ring-1 focus:ring-purple-400"></div></div></div>
+
+          <div class="bg-slate-800/50 p-3 rounded-md">
+            <div class="font-semibold mb-3 text-gray-300 text-center text-sm">JETS DE SAUVEGARDE CONTRE LA MORT</div>
+            <div class="flex flex-wrap justify-center sm:justify-between items-center gap-x-6 gap-y-3">
+              <!-- Réussites -->
+              <div class="flex items-center gap-3">
+                <span class="text-sm text-gray-400 w-16">Réussites</span>
+                <div class="flex items-center gap-2">
+                  <label><input type="checkbox" class="sr-only peer"><div class="w-5 h-5 border-2 border-slate-600 rounded-full cursor-pointer transition-colors peer-checked:bg-green-500 peer-checked:border-green-400"></div></label>
+                  <label><input type="checkbox" class="sr-only peer"><div class="w-5 h-5 border-2 border-slate-600 rounded-full cursor-pointer transition-colors peer-checked:bg-green-500 peer-checked:border-green-400"></div></label>
+                  <label><input type="checkbox" class="sr-only peer"><div class="w-5 h-5 border-2 border-slate-600 rounded-full cursor-pointer transition-colors peer-checked:bg-green-500 peer-checked:border-green-400"></div></label>
+                </div>
+              </div>
+              <!-- Échecs -->
+              <div class="flex items-center gap-3">
+                <span class="text-sm text-gray-400 w-16">Échecs</span>
+                <div class="flex items-center gap-2">
+                  <label><input type="checkbox" class="sr-only peer"><div class="w-5 h-5 border-2 border-slate-600 rounded-full cursor-pointer transition-colors peer-checked:bg-red-600 peer-checked:border-red-500"></div></label>
+                  <label><input type="checkbox" class="sr-only peer"><div class="w-5 h-5 border-2 border-slate-600 rounded-full cursor-pointer transition-colors peer-checked:bg-red-600 peer-checked:border-red-500"></div></label>
+                  <label><input type="checkbox" class="sr-only peer"><div class="w-5 h-5 border-2 border-slate-600 rounded-full cursor-pointer transition-colors peer-checked:bg-red-600 peer-checked:border-red-500"></div></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Équipement -->
+        <!-- Section Équipement avec le thème "Bibliothèque Arcanique" -->
+        <div class="bg-slate-900/40 p-4 rounded-lg border border-slate-700/50">
+          <h3 class="font-semibold text-lg mb-2 text-blue-300">Équipement</h3>
+
+          <!-- Défense -->
+          <div class="mb-4">
+            <h4 class="font-medium text-gray-300 mb-2">Défense</h4>
+            <div class="flex flex-col gap-2 bg-slate-800/50 p-3 rounded-md text-sm">
+              <!-- Bouclier -->
+              <div class="flex justify-between items-center">
+                <span class="text-gray-400">Bouclier:</span>
+                <div *ngIf="!isEditMode" class="text-right font-medium text-gray-200">
+                  {{ getShieldDisplayName(character.shield) }}
+                </div>
+                <div *ngIf="isEditMode" class="flex items-center">
+                  <select
+                    formControlName="shield"
+                    class="bg-slate-900 border border-slate-600 rounded text-sm px-2 py-1 focus:outline-none focus:ring-1 focus:ring-purple-400">
+                    <option [ngValue]="ShieldType.NONE">Aucun</option>
+                    <option [ngValue]="ShieldType.NORMAL">Normal (+2)</option>
+                    <option [ngValue]="ShieldType.MAGIC_1">Magique +1 (+3)</option>
+                    <option [ngValue]="ShieldType.MAGIC_2">Magique +2 (+4)</option>
+                    <option [ngValue]="ShieldType.MAGIC_3">Magique +3 (+5)</option>
+                  </select>
+                </div>
+              </div>
+              <!-- Armure -->
+              <div formGroupName="armor" class="bg-slate-800/50 p-3 rounded-md">
+                <h4 class="font-medium text-gray-300 mb-2">Armure</h4>
+
+                <!-- ======================= -->
+                <!-- MODE LECTURE -->
+                <!-- ======================= -->
+                <div *ngIf="!isEditMode" class="text-sm space-y-2">
+                  <div class="flex justify-between items-center">
+                    <p class="font-bold text-base text-purple-300">{{ character.armor.name }}</p>
+                    <p class="font-semibold text-gray-200">CA {{ character.armor.armorClass }}</p>
+                  </div>
+                  <div class="flex justify-between border-t border-slate-700/50 pt-2">
+                    <span class="text-gray-400">Catégorie:</span>
+                    <span class="font-medium text-gray-200">{{ character.armor.armorCategory }}</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-gray-400">Force Min.:</span>
+                    <span class="font-medium text-gray-200">{{ character.armor.strengthMinimum || 0 }}</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-gray-400">Poids:</span>
+                    <span class="font-medium text-gray-200">{{ character.armor.weight }} kg</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-gray-400">Désavantage Discrétion:</span>
+                    <span class="font-medium" [ngClass]="character.armor.stealthDisadvantage ? 'text-red-400' : 'text-green-400'">
+        {{ character.armor.stealthDisadvantage ? 'Oui' : 'Non' }}
+      </span>
+                  </div>
+                  <div class="border-t border-slate-700/50 pt-2">
+                    <span class="text-gray-400">Propriétés:</span>
+                    <p class="font-medium text-gray-200 whitespace-pre-line text-xs mt-1">{{ character.armor.properties }}</p>
+                  </div>
+                </div>
+
+                <!-- ======================= -->
+                <!-- MODE ÉDITION -->
+                <!-- ======================= -->
+                <div *ngIf="isEditMode" class="space-y-3">
+                  <!-- Ligne 1: Nom & Classe d'armure -->
+                  <div class="grid grid-cols-2 gap-2">
+                    <div>
+                      <label class="block text-xs text-gray-400 mb-1">Nom</label>
+                      <input formControlName="name" class="w-full px-2 py-1 bg-slate-900 border border-slate-600 rounded-md text-sm">
+                    </div>
+                    <div>
+                      <label class="block text-xs text-gray-400 mb-1">Classe d'Armure</label>
+                      <input type="number" formControlName="armorClass" class="w-full px-2 py-1 bg-slate-900 border border-slate-600 rounded-md text-sm">
+                    </div>
+                  </div>
+                  <!-- Ligne 2: Catégorie & Force Min. -->
+                  <div class="grid grid-cols-2 gap-2">
+                    <div>
+                      <label class="block text-xs text-gray-400 mb-1">Catégorie</label>
+                      <!-- Note: Utilise le même select que pour la création -->
+                      <select formControlName="armorCategory" class="w-full bg-slate-900/70 border border-slate-600 rounded-md px-4 py-2 text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400">
+                        <option value="" disabled>Choisissez une catégorie</option>
+                        <option *ngFor="let option of armorCategoryOptions" [value]="option[0]">
+                          {{ option[1] }}
+                        </option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="block text-xs text-gray-400 mb-1">Force Min.</label>
+                      <input type="number" formControlName="strengthMinimum" class="w-full px-2 py-1 bg-slate-900 border border-slate-600 rounded-md text-sm">
+                    </div>
+                  </div>
+                  <!-- Ligne 3: Poids & Coût -->
+                  <div class="grid grid-cols-2 gap-2">
+                    <div>
+                      <label class="block text-xs text-gray-400 mb-1">Poids (kg)</label>
+                      <input type="number" formControlName="weight" class="w-full px-2 py-1 bg-slate-900 border border-slate-600 rounded-md text-sm">
+                    </div>
+                    <div>
+                      <label class="block text-xs text-gray-400 mb-1">Coût</label>
+                      <input formControlName="cost" class="w-full px-2 py-1 bg-slate-900 border border-slate-600 rounded-md text-sm">
+                    </div>
+                  </div>
+                  <!-- Ligne 4: Propriétés -->
+                  <div>
+                    <label class="block text-xs text-gray-400 mb-1">Propriétés</label>
+                    <textarea formControlName="properties" rows="2" class="w-full px-2 py-1 bg-slate-900 border border-slate-600 rounded-md text-sm"></textarea>
+                  </div>
+                  <!-- Ligne 5: Désavantage Discrétion -->
+                  <div class="flex items-center gap-2">
+                    <input id="stealthDisadvantage" type="checkbox" formControlName="stealthDisadvantage" class="h-4 w-4 rounded bg-slate-900 border-slate-600 text-purple-600 focus:ring-purple-500">
+                    <label for="stealthDisadvantage" class="text-sm text-gray-300">Désavantage en Discrétion</label>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Armes -->
+          <div class="bg-slate-800/50 p-3 rounded-md">
+            <h4 class="font-medium text-gray-300 mb-2">Armes</h4>
+
+            <div *ngIf="!isEditMode" class="space-y-3">
+              <div *ngIf="!character.weapons || character.weapons.length === 0" class="text-gray-500 text-sm">
+                Aucune arme équipée
+              </div>
+              <div *ngFor="let weapon of character.weapons" class="text-sm">
+                <div class="flex justify-between items-center">
+                  <span class="font-medium text-gray-200">{{ weapon.name }}</span>
+                  <div class="text-gray-300">{{ weapon.damageDice }} {{ weapon.damageType }}</div>
+                </div>
+                <div class="text-xs text-gray-500 mt-1">
+                  <span *ngIf="weapon.weaponRange">Portée: {{ weapon.weaponRange }}</span>
+                  <span *ngIf="weapon.properties && weapon.weaponRange"> | </span>
+                  <span *ngIf="weapon.properties">Propriétés: {{ weapon.properties }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="isEditMode" formArrayName="weapons" class="space-y-4">
+              <div *ngFor="let weaponGroup of weapons.controls; let i=index" [formGroupName]="i" class="bg-slate-900/70 p-3 rounded-lg border border-slate-700">
+                <p class="text-sm font-semibold text-purple-300 mb-2">Arme {{ i + 1 }}</p>
+                <div class="space-y-2">
+                  <div>
+                    <label class="block text-xs font-medium text-gray-400 mb-1">Nom</label>
+                    <input formControlName="name" class="w-full bg-slate-800 border border-slate-600 rounded-md px-3 py-1.5 text-sm">
+                  </div>
+                  <div class="grid grid-cols-2 gap-2">
+                    <div>
+                      <label class="block text-xs font-medium text-gray-400 mb-1">Dégâts</label>
+                      <input formControlName="damageDice" placeholder="Ex: 1d8" class="w-full bg-slate-800 border border-slate-600 rounded-md px-3 py-1.5 text-sm">
+                    </div>
+                    <div>
+                      <label class="block text-xs font-medium text-gray-400 mb-1">Type de dégâts</label>
+                      <input formControlName="damageType" placeholder="Ex: Tranchant" class="w-full bg-slate-800 border border-slate-600 rounded-md px-3 py-1.5 text-sm">
+                    </div>
+                  </div>
+                  <div class="grid grid-cols-2 gap-2">
+                    <div>
+                      <label class="block text-xs font-medium text-gray-400 mb-1">Portée</label>
+                      <input formControlName="weaponRange" placeholder="Ex: 1.5m" class="w-full bg-slate-800 border border-slate-600 rounded-md px-3 py-1.5 text-sm">
+                    </div>
+                    <div>
+                      <label class="block text-xs font-medium text-gray-400 mb-1">Propriétés</label>
+                      <input formControlName="properties" placeholder="Ex: Polyvalente" class="w-full bg-slate-800 border border-slate-600 rounded-md px-3 py-1.5 text-sm">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Section compétences -->
+      <div class="mt-6 bg-slate-900/40 p-4 rounded-lg border border-slate-700/50">
+        <h3 class="font-semibold text-lg mb-2 text-blue-300">Compétences</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-2 text-sm">
+
+          <!-- Itération sur chaque compétence -->
+          <div *ngFor="let skill of allSkills"
+               class="flex items-center justify-between p-1 rounded-md"
+               [ngClass]="{'hover:bg-slate-800/50': isEditMode}"
+               [class.cursor-pointer]="isEditMode"
+               (click)="isEditMode && cycleSkillProficiency(skill.id)">
+
+            <div class="flex items-center">
+              <!-- Indicateur visuel de maîtrise -->
+              <div class="mr-3 w-4 h-4 flex items-center justify-center">
+                <ng-container [ngSwitch]="getSkillProficiencyLevel(skill.id)">
+                  <!-- Aucune maîtrise -->
+                  <div *ngSwitchCase="0" class="w-3 h-3 border-2 border-slate-600 rounded-full"></div>
+                  <!-- Maîtrisé -->
+                  <div *ngSwitchCase="1" class="w-3 h-3 bg-purple-500 rounded-full"></div>
+                  <!-- Expert -->
+                  <div *ngSwitchCase="2" class="w-3 h-3 bg-blue-400 rounded-full flex items-center justify-center">
+                    <span class="text-white text-xs font-bold -mt-px">★</span>
+                  </div>
+                </ng-container>
+              </div>
+
+              <!-- Nom de la compétence -->
+              <label class="text-gray-300" [class.cursor-pointer]="isEditMode">
+                {{ skill.name }}
+                <span class="text-xs text-gray-500">({{ getAbilityAbbreviation(skill.abilityType) }})</span>
+              </label>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <!-- Texte d'état (Maîtrise/Expert) -->
+              <span class="text-xs w-12 text-right" [ngClass]="getSkillStatusClass(skill.id)">
+          {{ getSkillStatusText(skill.id) }}
+        </span>
+              <!-- Modificateur total -->
+              <span class="font-bold text-lg w-6 text-center" [ngClass]="getSkillStatusClass(skill.id)">
+          {{ getSkillModifierTextById(skill.id) }}
+        </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Légende en mode édition -->
+        <div *ngIf="isEditMode" class="mt-4 pt-3 border-t border-slate-700/50 text-xs text-gray-500 flex flex-wrap gap-x-4 gap-y-1">
+          <div class="flex items-center gap-1.5"><div class="w-3 h-3 border-2 border-slate-600 rounded-full"></div><span>Non maîtrisé</span></div>
+          <div class="flex items-center gap-1.5"><div class="w-3 h-3 bg-purple-500 rounded-full"></div><span>Maîtrisé</span></div>
+          <div class="flex items-center gap-1.5"><div class="w-3 h-3 bg-blue-400 rounded-full flex items-center justify-center"><span class="text-white text-xs font-bold -mt-px">★</span></div><span>Expert</span></div>
+          <span class="ml-auto text-purple-400 font-semibold">Cliquez sur une compétence pour changer son état</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div *ngIf="activeTab === 'spells'">
+      <app-character-sheet-spells-tab
+        #spellsTab
+        [character]="character"
+        [isEditMode]="isEditMode"
+        [characterType]="'custom'"  (preparedSpellsChanged)="onPreparedSpellsChange($event)">
+      </app-character-sheet-spells-tab>
+    </div>
+
+  </form>
+</div>

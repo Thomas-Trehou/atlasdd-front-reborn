@@ -75,31 +75,27 @@ export class CharacterListComponent implements OnInit {
     this.isEditMode = !this.isEditMode;
   }
 
-  handleDeleteCharacter(characterId: number): void {
+  handleDeleteCharacter(characterId: number, characterType: 'ogl5' | 'custom'): void {
     const confirmation = window.confirm('Êtes-vous sûr de vouloir supprimer ce personnage ? Cette action est irréversible.');
 
     if (confirmation) {
-      const characterToDelete = [...this.ogl5Characters, ...this.customCharacters].find(c => c.id === characterId);
-
-      if (!characterToDelete) {
-        this.error = 'Erreur : Impossible de trouver le personnage à supprimer.';
-        console.error(`Personnage avec l'ID ${characterId} non trouvé.`);
-        return;
-      }
-
+      // Il n'est plus nécessaire de chercher le personnage, nous connaissons son type !
       this.error = null;
 
-      const deleteRequest = characterToDelete.type === 'ogl5'
+      const deleteRequest = characterType === 'ogl5'
         ? this.characterService.deleteOgl5Character(characterId)
-        : this.characterService.deleteOgl5Character(characterId);
+        : this.characterService.deleteCustomCharacter(characterId);
 
       deleteRequest.subscribe({
         next: () => {
-          this.ogl5Characters = this.ogl5Characters.filter(c => c.id !== characterId);
-          this.customCharacters = this.customCharacters.filter(c => c.id !== characterId);
-
-          this.visibleOgl5Characters = this.visibleOgl5Characters.filter(c => c.id !== characterId);
-          this.visibleCustomCharacters = this.visibleCustomCharacters.filter(c => c.id !== characterId);
+          // La logique de mise à jour des listes reste la même
+          if (characterType === 'ogl5') {
+            this.ogl5Characters = this.ogl5Characters.filter(c => c.id !== characterId);
+            this.visibleOgl5Characters = this.visibleOgl5Characters.filter(c => c.id !== characterId);
+          } else {
+            this.customCharacters = this.customCharacters.filter(c => c.id !== characterId);
+            this.visibleCustomCharacters = this.visibleCustomCharacters.filter(c => c.id !== characterId);
+          }
         },
         error: (err) => {
           this.error = `Erreur lors de la suppression du personnage. Veuillez réessayer.`;

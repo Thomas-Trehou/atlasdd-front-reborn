@@ -46,7 +46,7 @@
         *ngFor="let character of visibleOgl5Characters"
         [character]="character"
         [editMode]="isEditMode"
-        (deleteRequest)="handleDeleteCharacter($event)"
+        (deleteRequest)="handleDeleteCharacter($event, 'ogl5')"
         (click)="!isEditMode && navigateToDetail(character.id, character.type)"
         [class.cursor-pointer]="!isEditMode"
         class="transition-all duration-200">
@@ -70,7 +70,7 @@
         *ngFor="let character of visibleCustomCharacters"
         [character]="character"
         [editMode]="isEditMode"
-        (deleteRequest)="handleDeleteCharacter($event)"
+        (deleteRequest)="handleDeleteCharacter($event, 'custom')"
         (click)="!isEditMode && navigateToDetail(character.id, character.type)"
         [class.cursor-pointer]="!isEditMode"
         class="transition-all duration-200">
