@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {map, Observable} from 'rxjs';
 import { Spell } from '../core/models/option/spell';
+import {environment} from '../../environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class SpellsService {
-  private apiUrl = 'http://localhost:8080/character-creation-options/spells';
+  private apiUrl = environment.API_URL + environment.API_RESOURCES.CHARACTER_OPTIONS + '/spells';
   private cachedSpells: Spell[] | null = null;
 
   constructor(private http: HttpClient) { }
