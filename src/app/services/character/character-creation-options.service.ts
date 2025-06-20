@@ -27,6 +27,10 @@ export class CharacterCreationOptionsService {
 
   constructor(private http: HttpClient) { }
 
+  getAllSpells() {
+
+  }
+
   /**
    * Charge toutes les données nécessaires à la création de personnage en un seul appel.
    */

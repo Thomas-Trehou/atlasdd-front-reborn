@@ -15,4 +15,8 @@ export class HomeComponent {
     this.router.navigate(['/characters/create/ogl5']);
   }
 
+  navigateToCreateCustom(): void {
+    this.router.navigate(['/characters/create/custom']);
+  }
+
 }

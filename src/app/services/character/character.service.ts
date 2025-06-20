@@ -13,12 +13,13 @@ import {
 } from '../../core/models/character/ogl5-character';
 import {
   CustomCharacter,
-  CustomCharacterCard,
+  CustomCharacterCard, CustomCharacterCreateRequest,
   CustomCharacterUpdateRequest
 } from '../../core/models/character/custom-character';
 import {Skill} from '../../core/models/option/skill';
 import {Armor} from '../../core/models/option/armor';
 import {Weapon} from '../../core/models/option/weapon';
+import {Spell} from '../../core/models/option/spell';
 
 
 @Injectable({
@@ -137,6 +138,11 @@ export class CharacterService {
     return this.http.get<Skill[]>(url);
   }
 
+  getAllSpells(): Observable<Spell[]> {
+    const url = `${environment.API_URL}${environment.API_RESOURCES.CHARACTER_OPTIONS}/spells`;
+    return this.http.get<Spell[]>(url);
+  }
+
   getAllArmors(): Observable<Armor[]> {
     const url = `${environment.API_URL}${environment.API_RESOURCES.CHARACTER_OPTIONS}/armors`;
     return this.http.get<Armor[]>(url);
@@ -157,8 +163,22 @@ export class CharacterService {
   /**
    * Crée une nouvelle fiche de personnage OGL5.
    */
+  createCustomCharacter(characterData: CustomCharacterCreateRequest): Observable<CustomCharacter> {
+    return this.http.post<CustomCharacter>(`${environment.API_URL}${environment.API_RESOURCES.CUSTOMS_CHARACTER}`, characterData); // Adaptez l'endpoint de création
+  }
+
+  /**
+   * Crée une nouvelle fiche de personnage OGL5.
+   */
   deleteOgl5Character(id: number): Observable<void> {
     return this.http.delete<void>(`${environment.API_URL}${environment.API_RESOURCES.OGL5_CHARACTER}/${id}`);
+  }
+
+  /**
+   * Crée une nouvelle fiche de personnage OGL5.
+   */
+  deleteCustomCharacter(id: number): Observable<void> {
+    return this.http.delete<void>(`${environment.API_URL}${environment.API_RESOURCES.CUSTOMS_CHARACTER}/${id}`);
   }
 
 

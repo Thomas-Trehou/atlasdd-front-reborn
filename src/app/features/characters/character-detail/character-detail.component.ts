@@ -11,6 +11,8 @@ import { CharacterService } from '../../../services/character/character.service'
 import { Observable, of } from 'rxjs';
 import { switchMap, tap, catchError } from 'rxjs/operators';
 import {CharacterNoteService} from '../../../services/character/character-notes.service';
+import {CustomCharacterSheetComponent} from './custom-character-sheet/custom-character-sheet.component';
+import {ArmorCategory} from '../../../core/enums/armor-category';
 
 @Component({
   selector: 'app-character-detail',
@@ -18,7 +20,7 @@ import {CharacterNoteService} from '../../../services/character/character-notes.
   imports: [
     CommonModule,
     Ogl5CharacterSheetComponent,
-    //CustomCharacterSheetComponent,
+    CustomCharacterSheetComponent,
     CharacterNotesComponent
   ],
   templateUrl: './character-detail.component.html',
