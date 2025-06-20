@@ -87,6 +87,7 @@ export class CustomCharacterCreationComponent implements OnInit {
       hitPoints: [10],
       maxHitPoints: [10],
       speed: [30],
+      passivePerception: [10],
       shield: ['NONE'],
       alignment: ['LOYAL_BON', Validators.required],
       strength: [10, Validators.required],
