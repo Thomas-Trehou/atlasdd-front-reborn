@@ -64,6 +64,22 @@
         <div formGroupName="classe" class="space-y-4">
           <h3 class="text-lg font-semibold text-purple-300">Classe</h3>
           <div><label class="block text-sm font-medium text-gray-300 mb-1">Nom de la Classe</label><input formControlName="name" class="w-full bg-slate-900/70 border border-slate-600 rounded-md px-4 py-2 text-gray-200"></div>
+          <div>
+            <label for="spellcasterType" class="block text-sm font-medium text-gray-300 mb-1">Type de Lanceur de Sorts</label>
+            <select id="spellcasterType" formControlName="spellcasterType" class="w-full bg-slate-900/70 border border-slate-600 rounded-md px-4 py-2 text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400">
+              <option *ngFor="let option of spellcasterTypeOptions" [value]="option[0]">
+                {{ option[1] }}
+              </option>
+            </select>
+          </div>
+          <div>
+            <label for="spellcastingAbility" class="block text-sm font-medium text-gray-300 mb-1">Caractéristique d'Incantation</label>
+            <select id="spellcastingAbility" formControlName="spellcastingAbility" class="w-full bg-slate-900/70 border border-slate-600 rounded-md px-4 py-2 text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400">
+              <option *ngFor="let ability of spellcastingAbilityOptions" [value]="ability">
+                {{ ability }}
+              </option>
+            </select>
+          </div>
           <div><label class="block text-sm font-medium text-gray-300 mb-1">Dé de Vie</label><input formControlName="hitDice" class="w-full bg-slate-900/70 border border-slate-600 rounded-md px-4 py-2 text-gray-200"></div>
           <div><label class="block text-sm font-medium text-gray-300 mb-1">Points de vie de départ</label><input type="number" formControlName="startingHitPoints" class="w-full bg-slate-900/70 border border-slate-600 rounded-md px-4 py-2 text-gray-200"></div>
           <div><label class="block text-sm font-medium text-gray-300 mb-1">Équipement de départ</label><textarea formControlName="startingEquipment" rows="4" class="w-full bg-slate-900/70 border border-slate-600 rounded-md px-4 py-2 text-gray-200"></textarea></div>

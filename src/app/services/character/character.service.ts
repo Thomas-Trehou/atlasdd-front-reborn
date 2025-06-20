@@ -174,6 +174,13 @@ export class CharacterService {
     return this.http.delete<void>(`${environment.API_URL}${environment.API_RESOURCES.OGL5_CHARACTER}/${id}`);
   }
 
+  /**
+   * Crée une nouvelle fiche de personnage OGL5.
+   */
+  deleteCustomCharacter(id: number): Observable<void> {
+    return this.http.delete<void>(`${environment.API_URL}${environment.API_RESOURCES.CUSTOMS_CHARACTER}/${id}`);
+  }
+
 
 
   /**

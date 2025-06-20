@@ -64,6 +64,11 @@ export class CharacterSheetSpellsTabComponent implements OnInit{
   }
 
   getSpellcastingAbility(): string {
+    if (this.characterType === 'custom') {
+      const customChar = this.character as CustomCharacter;
+      return customChar.classe?.spellcastingAbility || 'Aucun';
+    }
+
     const spellcastingAbilities: { [key: string]: string } = {
       'Magicien': 'Intelligence', 'Clerc': 'Sagesse', 'Paladin': 'Charisme',
       'Druide': 'Sagesse', 'Barde': 'Charisme', 'Ensorceleur': 'Charisme',
@@ -135,7 +140,8 @@ export class CharacterSheetSpellsTabComponent implements OnInit{
   private determineSpellcasterType(): SpellcasterType {
 
     if (this.characterType === 'custom') {
-      return SpellcasterType.FULL_CASTER;
+      const customChar = this.character as CustomCharacter;
+      return customChar.classe?.spellcasterType || SpellcasterType.NON_CASTER;
     }
 
     if (!this.character.classe) return SpellcasterType.NON_CASTER;

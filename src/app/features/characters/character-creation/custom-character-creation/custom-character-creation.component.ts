@@ -7,6 +7,7 @@ import {UserService} from '../../../../services/user/user.service';
 import {CustomCharacterCreateRequest} from '../../../../core/models/character/custom-character';
 import {Skill} from "../../../../core/models/option/skill";
 import {ArmorCategory} from "../../../../core/enums/armor-category";
+import {SpellcasterType} from '../../../../core/enums/SpellcasterType';
 
 @Component({
   selector: 'app-custom-character-creation',
@@ -24,6 +25,22 @@ export class CustomCharacterCreationComponent implements OnInit {
   // CHANGEMENT : Remplacé par armorCategoryOptions pour contenir les paires [clé, valeur]
   armorCategoryOptions: [string, string][] = [];
 
+  public spellcasterTypeOptions: [string, string][] = [];
+  public spellcastingAbilityOptions: string[] = [];
+
+  private spellcastingAbilityLabels = [
+    'Intelligence',
+    'Sagesse',
+    'Charisme',
+  ]
+
+  private spellcasterTypeLabels: { [key: string]: string } = {
+    [SpellcasterType.NON_CASTER]: 'Non-lanceur de sorts',
+    [SpellcasterType.FULL_CASTER]: 'Lanceur de sorts complet',
+    [SpellcasterType.HALF_CASTER]: 'Demi-lanceur de sorts',
+    [SpellcasterType.THIRD_CASTER]: 'Tiers-lanceur de sorts'
+  };
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -34,6 +51,8 @@ export class CustomCharacterCreationComponent implements OnInit {
   ngOnInit(): void {
     // CHANGEMENT : On utilise Object.entries() pour récupérer les paires clé/valeur
     this.armorCategoryOptions = Object.entries(ArmorCategory);
+    this.spellcasterTypeOptions = Object.keys(SpellcasterType).map(key => [key, this.spellcasterTypeLabels[key]]);
+    this.spellcastingAbilityOptions = this.spellcastingAbilityLabels;
 
     this.initForm();
     this.isLoading = true;
@@ -92,6 +111,8 @@ export class CustomCharacterCreationComponent implements OnInit {
       }),
       classe: this.fb.group({
         name: ['', Validators.required],
+        spellcasterType: [SpellcasterType.NON_CASTER, Validators.required],
+        spellcastingAbility: ['Aucune', Validators.required],
         hitDice: ['', Validators.required],
         startingHitPoints: [8, Validators.required],
         startingEquipment: ['', Validators.required]
