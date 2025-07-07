@@ -1,5 +1,3 @@
-// src/app/features/user/components/profile/profile.component.ts
-
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {UserLight} from '../../../../core/models/user/user';
 import {UserService} from '../../../../services/user/user.service';
