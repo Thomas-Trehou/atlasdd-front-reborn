@@ -102,11 +102,65 @@
           </ul>
         </div>
 
-        <!-- Carte des personnages (fonctionnalité à venir) -->
+        <!-- ... (partie supérieure du template, jusqu'à la carte des participants) ... -->
+
+        <!-- Carte des personnages (MISE À JOUR) -->
         <div class="bg-slate-800/50 p-6 rounded-lg shadow-xl shadow-black/30 border border-blue-400/30">
-          <h2 class="text-2xl font-bold font-serif text-blue-300 mb-4">Personnages</h2>
-          <div class="text-gray-400 text-sm">Fonctionnalité à venir</div>
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-bold font-serif text-blue-300">Personnages</h2>
+            <!-- Bouton pour qu'un joueur ajoute son personnage, s'il n'en a pas -->
+            <button *ngIf="canAddCharacter" (click)="navigateToAddCharacter()"
+                    class="bg-purple-600 text-white text-sm font-bold px-3 py-1 rounded-lg hover:bg-purple-500 transition-colors">
+              Ajouter
+            </button>
+          </div>
+
+          <!-- Message si aucun personnage n'est dans la campagne -->
+          <div *ngIf="campaign && campaign.campaignOgl5CharacterSheets.length === 0 && campaign.campaignCustomCharacterSheets.length === 0" class="text-gray-400 text-sm">
+            Aucun personnage n'a encore rejoint cette campagne.
+          </div>
+
+          <!-- SECTION POUR LES PERSONNAGES OGL 5 -->
+          <div *ngIf="campaign && campaign.campaignOgl5CharacterSheets.length > 0">
+            <h3 class="text-lg font-semibold text-purple-300 mt-4 mb-2 border-b border-purple-500/30 pb-1">Personnages OGL 5</h3>
+            <ul class="space-y-2">
+              <li *ngFor="let char of campaign.campaignOgl5CharacterSheets"
+                  class="flex flex-wrap justify-between items-center bg-slate-900/50 p-3 rounded-md gap-2">
+                <!-- Nom du personnage et du joueur (pour le MJ) -->
+                <div class="flex-grow">
+                  <span class="font-semibold text-gray-200">{{ char.name }}</span>
+                  <span *ngIf="isGameMaster" class="text-xs text-purple-400 ml-2">({{ char.owner.pseudo }})</span>
+                </div>
+                <!-- Actions sur le personnage -->
+                <div class="flex items-center space-x-3">
+                  <a *ngIf="isGameMaster || char.owner.id === currentUserId" [routerLink]="['/characters/detail', 'ogl5', char.id]" class="text-blue-400 hover:text-blue-300 text-sm font-semibold">Voir la fiche</a>
+                  <button *ngIf="isGameMaster || char.owner.id === currentUserId" (click)="removeCharacter(char.id, 'ogl5')" class="text-red-500 hover:text-red-400 text-xs font-semibold">Retirer</button>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- SECTION POUR LES PERSONNAGES CUSTOM -->
+          <div *ngIf="campaign && campaign.campaignCustomCharacterSheets.length > 0">
+            <h3 class="text-lg font-semibold text-purple-300 mt-4 mb-2 border-b border-purple-500/30 pb-1">Personnages Personnalisés</h3>
+            <ul class="space-y-2">
+              <li *ngFor="let char of campaign.campaignCustomCharacterSheets"
+                  class="flex flex-wrap justify-between items-center bg-slate-900/50 p-3 rounded-md gap-2">
+                <!-- Nom du personnage et du joueur (pour le MJ) -->
+                <div class="flex-grow">
+                  <span class="font-semibold text-gray-200">{{ char.name }}</span>
+                  <span *ngIf="isGameMaster" class="text-xs text-purple-400 ml-2">({{ char.owner.pseudo }})</span>
+                </div>
+                <!-- Actions sur le personnage -->
+                <div class="flex items-center space-x-3">
+                  <a *ngIf="isGameMaster || char.owner.id === currentUserId" [routerLink]="['/characters/detail', 'custom', char.id]" class="text-blue-400 hover:text-blue-300 text-sm font-semibold">Voir la fiche</a>
+                  <button *ngIf="isGameMaster || char.owner.id === currentUserId" (click)="removeCharacter(char.id, 'custom')" class="text-red-500 hover:text-red-400 text-xs font-semibold">Retirer</button>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
+      <!-- ... (reste du template) ... -->
 
       </div>
 

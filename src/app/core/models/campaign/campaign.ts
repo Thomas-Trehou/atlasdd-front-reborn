@@ -1,7 +1,7 @@
 import {UserLight} from '../user/user';
 import {BaseDto} from '../base';
 import {Ogl5Character, Ogl5CharacterCard} from '../character/ogl5-character';
-import {CustomCharacterCard} from '../character/custom-character';
+import {CustomCharacter, CustomCharacterCard} from '../character/custom-character';
 
 interface CampaignDto extends BaseDto{
 
@@ -9,8 +9,8 @@ interface CampaignDto extends BaseDto{
   description: string;
   gameMaster: UserLight;
   campaignPlayers: UserLight[];
-  ogl5Characters: Ogl5CharacterCard[];
-  customCharacters: CustomCharacterCard[];
+  campaignOgl5CharacterSheets: Ogl5Character[];
+  campaignCustomCharacterSheets: CustomCharacter[];
   gameMasterId: number;
 }
 

@@ -5,12 +5,16 @@ import {CommonModule} from '@angular/common';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 import {CampaignNotesComponent} from '../campaign-notes/campaign-notes.component';
+// MODIFICATION: Plus besoin d'importer Ogl5Character et CustomCharacter ici
 import {Campaign, CampaignCreateUpdateRequest} from '../../../core/models/campaign/campaign';
 import {CampaignService} from '../../../services/campaign/campaign.service';
 import {UserService} from '../../../services/user/user.service';
 import {UserLight} from '../../../core/models/user/user';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+
+// SUPPRESSION: Le type unifié n'est plus nécessaire
+// type UnifiedCharacter = (Ogl5Character | CustomCharacter) & { type: 'ogl' | 'custom' };
 
 @Component({
   selector: 'app-campaign-detail',
@@ -26,12 +30,8 @@ export class CampaignDetailComponent implements OnInit, OnDestroy {
   isLoading = true;
   currentUserId!: number;
   isGameMaster = false;
-
-  /** Liste des amis qui ne sont pas encore dans la campagne. */
   availableFriends: UserLight[] = [];
-  /** ID de l'ami sélectionné dans la liste déroulante pour l'ajout. */
   selectedFriendIdToAdd: number | null = null;
-
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -42,6 +42,28 @@ export class CampaignDetailComponent implements OnInit, OnDestroy {
     private userService: UserService,
   ) {}
 
+  // SUPPRESSION: Le getter pour unifier les personnages est retiré.
+  /*
+  get allCharacters(): UnifiedCharacter[] { ... }
+  */
+
+  /**
+   * Détermine si l'utilisateur actuel (s'il est joueur) peut ajouter un personnage.
+   * (Logique : un joueur ne peut avoir qu'un seul personnage à la fois, peu importe son type).
+   */
+  get canAddCharacter(): boolean {
+    if (!this.campaign || this.isGameMaster) {
+      return false;
+    }
+    // MODIFICATION: On vérifie si l'ID du joueur est présent dans l'une OU l'autre des listes.
+    const hasOglChar = this.campaign.campaignOgl5CharacterSheets.some(c => c.owner.id === this.currentUserId);
+    const hasCustomChar = this.campaign.campaignCustomCharacterSheets.some(c => c.owner.id === this.currentUserId);
+
+    // Le joueur peut ajouter un personnage s'il n'en a ni OGL, ni Custom.
+    return !hasOglChar && !hasCustomChar;
+  }
+
+  // ... (le reste du fichier ngOnInit, ngOnDestroy, loadCampaign, etc. reste identique)
   ngOnInit(): void {
     const currentUser = this.userService.currentUser;
     if (!currentUser) {
@@ -72,6 +94,8 @@ export class CampaignDetailComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (campaign) => {
+          campaign.campaignOgl5CharacterSheets = campaign.campaignOgl5CharacterSheets || [];
+          campaign.campaignCustomCharacterSheets = campaign.campaignCustomCharacterSheets || [];
           this.campaign = campaign;
           this.isGameMaster = this.campaign.gameMaster.id === this.currentUserId;
           this.initForm();
@@ -149,14 +173,8 @@ export class CampaignDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * Gère le changement de sélection dans la liste déroulante des amis.
-   * @param event L'événement DOM du changement.
-   */
   onFriendSelected(event: Event): void {
-    // On indique à TypeScript que la cible de cet événement est un élément <select>
     const selectElement = event.target as HTMLSelectElement;
-    // On récupère la valeur et on la convertit en nombre
     this.selectedFriendIdToAdd = Number(selectElement.value);
   }
 
@@ -183,5 +201,32 @@ export class CampaignDetailComponent implements OnInit, OnDestroy {
         this.loadAvailableFriends(); // Mettre à jour la liste des amis disponibles
         alert('Joueur retiré avec succès !');
       });
+  }
+
+  removeCharacter(characterId: number, characterType: 'ogl5' | 'custom'): void {
+    if (!this.campaign || !confirm('Voulez-vous vraiment retirer ce personnage de la campagne ?')) {
+      return;
+    }
+
+    const removeObs$ = characterType === 'ogl5'
+      ? this.campaignService.removeOgl5Character(this.campaign.id, characterId)
+      : this.campaignService.removeCustomCharacter(this.campaign.id, characterId);
+
+    removeObs$.pipe(takeUntil(this.destroy$)).subscribe({
+      next: () => {
+        alert('Personnage retiré avec succès.');
+        this.loadCampaign(this.campaign!.id);
+      },
+      error: (err) => {
+        console.error("Erreur lors du retrait du personnage", err);
+        alert("Une erreur est survenue.");
+      }
+    });
+  }
+
+  navigateToAddCharacter(): void {
+    if (!this.campaign) return;
+    this.router.navigate(['/characters/select-for-campaign', this.campaign.id]);
+    alert("Redirection vers la page de sélection de personnage (à implémenter).");
   }
 }
