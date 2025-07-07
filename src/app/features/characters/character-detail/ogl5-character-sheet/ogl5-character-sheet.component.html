@@ -27,7 +27,7 @@
     <!-- Boutons d'action principaux -->
     <div class="flex space-x-2">
       <button
-        *ngIf="!isEditMode"
+        *ngIf="!isEditMode && !isReadOnly"
         (click)="enterEditMode()"
         class="bg-purple-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-purple-500 focus:outline-none focus:ring-4 focus:ring-purple-400/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/40">
         Modifier

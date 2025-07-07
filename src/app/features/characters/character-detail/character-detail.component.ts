@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Ogl5CharacterSheetComponent } from './ogl5-character-sheet/ogl5-character-sheet.component';
 //import { CustomCharacterSheetComponent } from './custom-character-sheet/custom-character-sheet.component';
@@ -13,6 +13,7 @@ import { switchMap, tap, catchError } from 'rxjs/operators';
 import {CharacterNoteService} from '../../../services/character/character-notes.service';
 import {CustomCharacterSheetComponent} from './custom-character-sheet/custom-character-sheet.component';
 import {ArmorCategory} from '../../../core/enums/armor-category';
+import {UserService} from '../../../services/user/user.service';
 
 @Component({
   selector: 'app-character-detail',
@@ -33,14 +34,26 @@ export class CharacterDetailComponent implements OnInit {
   notes: Note[] = [];
   isLoading: boolean = true;
   loadError: boolean = false;
+  private currentUserId?: number;
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private characterService: CharacterService,
-    private characterNoteService: CharacterNoteService
+    private characterNoteService: CharacterNoteService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
+
+    const currentUser = this.userService.currentUser;
+    if (!currentUser) {
+      console.error("Accès non autorisé : utilisateur non connecté.");
+      this.router.navigate(['/login']); // Redirige si pas connecté
+      return;
+    }
+    this.currentUserId = currentUser.id;
+
     // Récupérer le type de personnage depuis les paramètres d'URL
     const typeParam = this.route.snapshot.paramMap.get('type');
     this.characterId = +this.route.snapshot.paramMap.get('id')!;
@@ -56,6 +69,19 @@ export class CharacterDetailComponent implements OnInit {
     this.characterType = typeParam;
     this.loadCharacterByType();
     this.loadNotes();
+  }
+
+  // NOUVEAU: Getter pour déterminer si l'utilisateur est le propriétaire
+  /**
+   * Vérifie si l'utilisateur actuellement connecté est le propriétaire du personnage affiché.
+   * @returns {boolean} True si l'utilisateur est le propriétaire, sinon false.
+   */
+  get isOwner(): boolean {
+    // On vérifie que toutes les données nécessaires sont chargées avant de comparer
+    if (!this.character || !this.currentUserId) {
+      return false;
+    }
+    return this.character.owner.id === this.currentUserId;
   }
 
   private loadCharacterByType(): void {
