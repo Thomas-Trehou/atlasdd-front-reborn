@@ -2,15 +2,21 @@ import {Component, OnInit} from '@angular/core';
 import {UserLight} from '../../../../core/models/user/user';
 import {UserService} from '../../../../services/user/user.service';
 import {NgForOf, NgIf} from '@angular/common';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {CustomDatePipe} from '../../../../core/utils/DatePipe';
+import {SearchFriendsComponent} from '../search-friends/search-friends.component';
+import {ManageInvitationsComponent} from '../manage-invitations/manage-invitations.component';
 
 @Component({
   selector: 'app-profile',
+  standalone: true,
   imports: [
     NgIf,
     CustomDatePipe,
-    NgForOf
+    NgForOf,
+    RouterLink,
+    SearchFriendsComponent,
+    ManageInvitationsComponent
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'

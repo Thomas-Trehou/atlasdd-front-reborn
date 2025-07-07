@@ -1,0 +1,22 @@
+<div class="space-y-8">
+  <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg shadow-xl shadow-black/30 border border-blue-400/30">
+    <h2 class="text-2xl font-bold font-serif text-blue-400 mb-4">Invitations reçues</h2>
+    <div *ngIf="receivedInvitations.length === 0" class="text-gray-500">Aucune nouvelle invitation.</div>
+    <div *ngFor="let inv of receivedInvitations" class="flex items-center justify-between p-3 bg-slate-900/50 rounded-lg mb-2">
+      <p class="text-gray-200">Invitation de <span class="font-bold">{{ inv.requester_user_pseudo }}</span></p>
+      <div class="flex space-x-2">
+        <button (click)="accept(inv.id)" class="bg-green-600 px-3 py-1 rounded hover:bg-green-500">Accepter</button>
+        <button (click)="decline(inv.id)" class="bg-red-600 px-3 py-1 rounded hover:bg-red-500">Refuser</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg shadow-xl shadow-black/30 border border-blue-400/30">
+    <h2 class="text-2xl font-bold font-serif text-blue-400 mb-4">Invitations envoyées en attente</h2>
+    <div *ngIf="sentInvitations.length === 0" class="text-gray-500">Aucune invitation en attente.</div>
+    <div *ngFor="let inv of sentInvitations" class="flex items-center justify-between p-3 bg-slate-900/50 rounded-lg mb-2">
+      <p class="text-gray-200">Invitation envoyée à <span class="font-bold">{{ inv.receiver_user_pseudo }}</span></p>
+      <button (click)="cancel(inv.id)" class="bg-yellow-600 text-black px-3 py-1 rounded hover:bg-yellow-500">Annuler</button>
+    </div>
+  </div>
+</div>
