@@ -10,8 +10,12 @@ import {Campaign, CampaignCreateUpdateRequest} from '../../../core/models/campai
 import {CampaignService} from '../../../services/campaign/campaign.service';
 import {UserService} from '../../../services/user/user.service';
 import {UserLight} from '../../../core/models/user/user';
-import {Subject} from 'rxjs';
+import {forkJoin, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import { SelectCharacterModalComponent} from './select-character-modal/select-character-modal.component';
+import {CharacterService} from '../../../services/character/character.service';
+import {Ogl5CharacterCard} from '../../../core/models/character/ogl5-character';
+import {CustomCharacterCard} from '../../../core/models/character/custom-character';
 
 // SUPPRESSION: Le type unifié n'est plus nécessaire
 // type UnifiedCharacter = (Ogl5Character | CustomCharacter) & { type: 'ogl' | 'custom' };
@@ -19,7 +23,7 @@ import {takeUntil} from 'rxjs/operators';
 @Component({
   selector: 'app-campaign-detail',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, CampaignNotesComponent],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, CampaignNotesComponent, SelectCharacterModalComponent],
   templateUrl: './campaign-detail.component.html',
   styleUrl: './campaign-detail.component.scss'
 })
@@ -34,18 +38,73 @@ export class CampaignDetailComponent implements OnInit, OnDestroy {
   selectedFriendIdToAdd: number | null = null;
   private destroy$ = new Subject<void>();
 
+  isModalOpen = false;
+  userAvailableOglChars: Ogl5CharacterCard[] = [];
+  userAvailableCustomChars: CustomCharacterCard[] = [];
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
     private campaignService: CampaignService,
     private userService: UserService,
+    private characterService: CharacterService
   ) {}
 
-  // SUPPRESSION: Le getter pour unifier les personnages est retiré.
-  /*
-  get allCharacters(): UnifiedCharacter[] { ... }
-  */
+  /**
+   * MODIFICATION: La méthode est ré-implémentée pour utiliser les méthodes existantes du service.
+   * Ouvre la modale après avoir récupéré et filtré les personnages de l'utilisateur.
+   */
+  openCharacterModal(): void {
+    if (!this.campaign) return;
+
+    // 1. On récupère les IDs des personnages DÉJÀ dans la campagne
+    const campaignOglCharIds = new Set(this.campaign.campaignOgl5CharacterSheets.map(c => c.id));
+    const campaignCustomCharIds = new Set(this.campaign.campaignCustomCharacterSheets.map(c => c.id));
+
+    // 2. On appelle le service pour récupérer TOUS les personnages de l'utilisateur
+    forkJoin({
+      ogl: this.characterService.getOgl5Characters(this.currentUserId),
+      custom: this.characterService.getCustomCharacters(this.currentUserId)
+    }).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe({
+      next: (results) => {
+        // 3. On filtre les listes pour ne garder que les personnages qui ne sont pas dans la campagne
+        this.userAvailableOglChars = results.ogl.filter(
+          char => !campaignOglCharIds.has(char.id)
+        );
+        this.userAvailableCustomChars = results.custom.filter(
+          char => !campaignCustomCharIds.has(char.id)
+        );
+
+        // 4. On ouvre la modale avec les listes filtrées
+        this.isModalOpen = true;
+      },
+      error: (err) => {
+        console.error("Erreur lors de la récupération des personnages disponibles", err);
+        alert("Impossible de charger vos personnages disponibles.");
+      }
+    });
+  }
+
+  /**
+   * Ferme la modale.
+   */
+  onModalClose(): void {
+    this.isModalOpen = false;
+  }
+
+  /**
+   * Gère l'événement après l'ajout d'un personnage.
+   * Ferme la modale et rafraîchit les données de la campagne.
+   */
+  onCharacterAdded(): void {
+    this.isModalOpen = false;
+    if (this.campaign) {
+      this.loadCampaign(this.campaign.id); // Recharge les données pour voir le nouveau personnage
+    }
+  }
 
   /**
    * Détermine si l'utilisateur actuel (s'il est joueur) peut ajouter un personnage.

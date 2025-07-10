@@ -19,4 +19,8 @@ export class HomeComponent {
     this.router.navigate(['/characters/create/custom']);
   }
 
+  navigateToNewCampaign(): void {
+    this.router.navigate(['/campaigns/create']);
+  }
+
 }

@@ -11,7 +11,7 @@
         <div class="flex space-x-1">
           <a href="/" class="text-gray-300 hover:bg-blue-500/10 hover:text-blue-300 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400">Accueil</a>
           <a *ngIf="currentUser?.id" routerLink="/characters/list" class="text-gray-300 hover:bg-blue-500/10 hover:text-blue-300 px-3 py-2 rounded-md text-sm font-medium cursor-pointer transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400">Mes Personnages</a>
-
+          <a *ngIf="currentUser?.id" routerLink="/campaigns/list" class="text-gray-300 hover:bg-blue-500/10 hover:text-blue-300 px-3 py-2 rounded-md text-sm font-medium cursor-pointer transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400">Mes Campagnes</a>
           <div class="relative group">
             <a href="/sanctuary" class="text-gray-300 hover:bg-blue-500/10 hover:text-blue-300 px-3 py-2 rounded-md text-sm font-medium flex items-center transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400">
               Sanctuaire
@@ -70,12 +70,18 @@
     <div class="px-2 pt-2 pb-3 space-y-1">
       <a href="/" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-slate-700">Accueil</a>
       <a *ngIf="currentUser?.id" routerLink="/characters/list" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-slate-700">Mes Personnages</a>
-
+      <a *ngIf="currentUser?.id" routerLink="/campaigns/list" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-slate-700">Mes Campagnes</a>
       <div>
         <a href="/sanctuary" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-slate-700">Sanctuaire</a>
         <div class="pl-4 mt-1 space-y-1">
           <a href="/sanctuary/classes" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-400 hover:text-white hover:bg-slate-700">Les Classes</a>
           <a href="/sanctuary/races" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-400 hover:text-white hover:bg-slate-700">Les Races</a>
+          <a href="/sanctuary/backgrounds" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-400 hover:text-white hover:bg-slate-700">Les Historiques et Origines</a>
+          <a href="/sanctuary/abilities" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-400 hover:text-white hover:bg-slate-700">Les Caractéristiques et Abilités</a>
+          <a href="/sanctuary/weapons" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-400 hover:text-white hover:bg-slate-700">Les Armes et Propriétés</a>
+          <a href="/sanctuary/armors" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-400 hover:text-white hover:bg-slate-700">Les Armures et Bouclier</a>
+          <a href="/sanctuary/conditions" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-400 hover:text-white hover:bg-slate-700">Les Altérations d'Etat</a>
+          <a href="/sanctuary/talents" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-400 hover:text-white hover:bg-slate-700">Les Dons</a>
           <a href="/sanctuary/spells" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-400 hover:text-white hover:bg-slate-700">Les Sorts</a>
         </div>
       </div>

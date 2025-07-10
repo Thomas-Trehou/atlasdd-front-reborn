@@ -109,7 +109,7 @@
           <div class="flex justify-between items-center mb-4">
             <h2 class="text-2xl font-bold font-serif text-blue-300">Personnages</h2>
             <!-- Bouton pour qu'un joueur ajoute son personnage, s'il n'en a pas -->
-            <button *ngIf="canAddCharacter" (click)="navigateToAddCharacter()"
+            <button *ngIf="canAddCharacter" (click)="openCharacterModal()"
                     class="bg-purple-600 text-white text-sm font-bold px-3 py-1 rounded-lg hover:bg-purple-500 transition-colors">
               Ajouter
             </button>
@@ -172,3 +172,16 @@
     </div>
   </form>
 </div>
+
+<!-- ... (début du template) ... -->
+
+<!-- NOUVEAU: Ajout de la modale à la fin du template du composant -->
+<!-- Elle ne sera visible que si isModalOpen est true -->
+<app-select-character-modal
+  *ngIf="isModalOpen"
+  [campaignId]="campaign!.id"
+  [availableOglChars]="userAvailableOglChars"
+  [availableCustomChars]="userAvailableCustomChars"
+  (closeModal)="onModalClose()"
+  (characterAdded)="onCharacterAdded()">
+</app-select-character-modal>
