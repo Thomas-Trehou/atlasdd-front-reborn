@@ -18,3 +18,5 @@ export type UserLight = Omit<UserDto, 'token' | 'password'>;
 export type UserLightAuth = Omit<UserDto, 'password'>
 
 export type SignInRequest = Pick<UserDto, 'email' | 'password'>;
+
+export type UserUpdateRequest = Partial<Pick<UserDto, 'pseudo' | 'password'>>;

@@ -7,15 +7,43 @@
   <section class="mb-16 grid md:grid-cols-2 gap-8">
     <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg shadow-xl shadow-black/30 border border-blue-400/30">
       <h2 class="text-2xl font-bold font-serif text-blue-400 mb-4">Création de Personnage OGL5</h2>
-      <p class="mb-6 text-gray-400">Créez facilement des personnages avec les règles officielles OGL5.</p>
+      <p class="mb-6 text-gray-400">
+        Créez facilement des personnages avec les règles officielles OGL5.
+      </p>
+      <p class="mb-6 text-gray-400">
+        Vous faites votre choix dans une liste déroulante pour :
+      </p>
+        <ul class="list-disc list-inside space-y-2 text-gray-400">
+          <li> L'espèce </li>
+          <li> La classe </li>
+          <li> L'historique </li>
+          <li> L'armure </li>
+          <li> Les armes </li>
+        </ul>
+
+      <p class="mt-6 mb-6 text-gray-400">
+        Une fiche adaptée au débutant ou pour un démarage rapide sur la base des règles OGL5 de 2014.
+      </p>
+
       <button (click)="navigateToCreateOgl5()" class="bg-purple-600 text-white font-bold px-6 py-2 rounded-lg hover:bg-purple-500 focus:outline-none focus:ring-4 focus:ring-purple-400/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/40">
-        Créer un personnage OGL5
+        Créer un personnage OGL5.
       </button>
     </div>
 
     <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg shadow-xl shadow-black/30 border border-blue-400/30">
       <h2 class="text-2xl font-bold font-serif text-blue-400 mb-4">Création de Personnage Custom</h2>
-      <p class="mb-6 text-gray-400">Développez des personnages uniques avec vos propres règles sur la base de la 5e Edition.</p>
+      <p class="mb-6 text-gray-400">
+        Développez des personnages uniques avec vos propres règles sur la base de la 5e Edition.
+      </p>
+      <p class="mb-6 text-gray-400">
+        Utilisez cette fiche pour vos personnages Donjons et Dragons 2024/2014, Rôle'n Play, Level Up: Advanced 5th Edition, Adventures in Middle-earth ...
+      </p>
+      <p class="mb-6 text-gray-400">
+        La fiche de personnage "custom" est entièrement personnalisable pour vous permettre de faire le personnage que vous voulez sans contraintes, comme sur une feuille de papier.
+      </p>
+      <p class="mb-6 text-gray-400">
+        La fiche a pour but de vous donner les mêmes sensation qu'une fiche papier afin de vous permettre de jouer sur tablette ou ordinateur, que se soit à distance ou à une table.
+      </p>
       <button (click)="navigateToCreateCustom()" class="bg-purple-600 text-white font-bold px-6 py-2 rounded-lg hover:bg-purple-500 focus:outline-none focus:ring-4 focus:ring-purple-400/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/40">
         Créer un personnage Custom
       </button>
@@ -36,7 +64,7 @@
         </ul>
       </div>
       <div class="text-center self-center">
-        <button class="bg-purple-600 text-white font-bold px-6 py-2 rounded-lg hover:bg-purple-500 focus:outline-none focus:ring-4 focus:ring-purple-400/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/40">
+        <button (click)="navigateToNewCampaign()" class="bg-purple-600 text-white font-bold px-6 py-2 rounded-lg hover:bg-purple-500 focus:outline-none focus:ring-4 focus:ring-purple-400/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/40">
           Créer une nouvelle campagne
         </button>
       </div>

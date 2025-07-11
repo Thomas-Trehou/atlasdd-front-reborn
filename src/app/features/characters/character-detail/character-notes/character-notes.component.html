@@ -3,7 +3,7 @@
   <div class="flex justify-between items-center mb-6">
     <h2 class="text-2xl font-bold font-serif text-blue-400">Notes</h2>
     <button
-      *ngIf="!isAddingNote && !editingNoteId"
+      *ngIf="!isAddingNote && !editingNoteId && !isReadOnly"
       (click)="startAddNote()"
       class="bg-purple-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-purple-500 focus:outline-none focus:ring-4 focus:ring-purple-400/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/40 text-sm">
       Ajouter une note
@@ -66,6 +66,7 @@
       <h3 class="font-semibold text-xl font-serif text-blue-400">{{ note.title }}</h3>
       <div class="flex space-x-3">
         <button
+          *ngIf="!isReadOnly"
           (click)="startEditNote(note)"
           class="text-gray-400 hover:text-purple-400 transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -73,6 +74,7 @@
           </svg>
         </button>
         <button
+          *ngIf="!isReadOnly"
           (click)="deleteNote(note.id)"
           class="text-gray-400 hover:text-red-500 transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
