@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {UserLight} from '../../../../core/models/user/user';
@@ -11,6 +11,8 @@ import {UserService} from '../../../../services/user/user.service';
   templateUrl: './search-friends.component.html',
 })
 export class SearchFriendsComponent {
+  @Output() invitationSent = new EventEmitter<void>();
+
   searchTerm: string = '';
   searchResult?: UserLight;
   loading: boolean = false;
@@ -54,6 +56,7 @@ export class SearchFriendsComponent {
       this.message = 'Invitation envoyée avec succès !';
       this.isError = false;
       this.searchResult = undefined; // Cacher le résultat après envoi
+      this.invitationSent.emit();
     } catch (error) {
       this.message = "Erreur lors de l'envoi de l'invitation.";
       this.isError = true;

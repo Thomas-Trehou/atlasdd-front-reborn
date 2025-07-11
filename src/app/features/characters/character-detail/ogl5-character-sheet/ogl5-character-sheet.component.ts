@@ -27,6 +27,7 @@ import {Weapon} from '../../../../core/models/option/weapon';
 })
 export class Ogl5CharacterSheetComponent implements OnInit {
   @Input() character!: Ogl5Character;
+  @Input() isReadOnly: boolean = false;
   @Output() characterUpdated = new EventEmitter<Ogl5Character>();
   @ViewChild(CharacterSheetSpellsTabComponent) private spellsTabComponent!: CharacterSheetSpellsTabComponent;
 

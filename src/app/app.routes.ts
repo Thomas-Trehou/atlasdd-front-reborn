@@ -28,6 +28,11 @@ export const routes: Routes = [
     path: 'characters',
     loadChildren: () => import('./features/characters/character.routes').then(m => m.CHARACTER_ROUTES),
     canActivate: [authGuard]
+  },
+  {
+    path: 'campaigns',
+    loadChildren: () => import('./features/campaigns/campaign.routes').then(m => m.CAMPAIGN_ROUTES),
+    canActivate: [authGuard]
   }
 ];
 

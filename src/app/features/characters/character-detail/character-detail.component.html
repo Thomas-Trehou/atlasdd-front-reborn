@@ -18,7 +18,8 @@
       <div *ngIf="isOgl5 && character">
         <app-ogl5-character-sheet
           [character]="character"
-          (characterUpdated)="onCharacterUpdated($event)">
+          (characterUpdated)="onCharacterUpdated($event)"
+          [isReadOnly]="!isOwner">
         </app-ogl5-character-sheet>
       </div>
 
@@ -27,7 +28,8 @@
         <!-- Message d'attente stylisé pour la fiche Custom -->
           <app-custom-character-sheet
             [character]="character"
-            (characterUpdated)="onCharacterUpdated($event)">
+            (characterUpdated)="onCharacterUpdated($event)"
+            [isReadOnly]="!isOwner">
           </app-custom-character-sheet>
       </div>
     </div>
@@ -38,7 +40,8 @@
         [notes]="notes"
         [characterId]="characterId"
         [characterType]="characterType"
-        (notesUpdated)="onNotesUpdated($event)">
+        (notesUpdated)="onNotesUpdated($event)"
+        [isReadOnly]="!isOwner">
       </app-character-notes>
     </div>
   </div>

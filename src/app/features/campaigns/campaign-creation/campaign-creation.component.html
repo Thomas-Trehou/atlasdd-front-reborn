@@ -1,0 +1,35 @@
+<div class="min-h-screen flex items-center justify-center p-4">
+  <div class="w-full max-w-2xl bg-slate-800/50 backdrop-blur-sm p-8 rounded-lg shadow-xl shadow-black/30 border border-blue-400/30">
+    <h1 class="text-3xl font-bold font-serif text-blue-400 mb-6 text-center">Créer une nouvelle campagne</h1>
+    <form [formGroup]="campaignForm" (ngSubmit)="onSubmit()">
+      <div class="mb-4">
+        <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Nom</label>
+        <input id="name" type="text" formControlName="name"
+               class="w-full px-4 py-2 bg-slate-900/70 border border-slate-600 rounded-md text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-colors"
+               [ngClass]="{'border-red-500/50': campaignForm.get('name')?.invalid && campaignForm.get('name')?.touched}">
+        <div *ngIf="campaignForm.get('name')?.invalid && campaignForm.get('name')?.touched"
+             class="text-red-400/90 text-sm mt-1">Le nom est requis.</div>
+      </div>
+
+      <div class="mb-6">
+        <label for="description" class="block text-sm font-medium text-gray-300 mb-1">Description</label>
+        <textarea id="description" formControlName="description" rows="5"
+                  class="w-full px-4 py-2 bg-slate-900/70 border border-slate-600 rounded-md text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-colors"
+                  [ngClass]="{'border-red-500/50': campaignForm.get('description')?.invalid && campaignForm.get('description')?.touched}"></textarea>
+        <div *ngIf="campaignForm.get('description')?.invalid && campaignForm.get('description')?.touched"
+             class="text-red-400/90 text-sm mt-1">La description est requise.</div>
+      </div>
+
+      <div class="flex justify-end space-x-4">
+        <a routerLink="/campaigns/list"
+           class="px-6 py-2 bg-transparent border border-slate-600 rounded-lg text-gray-300 hover:bg-slate-700 hover:text-white transition-colors">
+          Annuler
+        </a>
+        <button type="submit" [disabled]="campaignForm.invalid || isSubmitting"
+                class="px-6 py-2 bg-purple-600 text-white font-bold rounded-lg hover:bg-purple-500 focus:outline-none focus:ring-4 focus:ring-purple-400/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+          {{ isSubmitting ? 'Création...' : 'Créer la campagne' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -23,6 +23,7 @@ import {Subscription} from 'rxjs';
 })
 export class CustomCharacterSheetComponent implements OnInit {
   @Input() character!: CustomCharacter;
+  @Input() isReadOnly: boolean = false;
   @Output() characterUpdated = new EventEmitter<CustomCharacter>();
   @ViewChild(CharacterSheetSpellsTabComponent) private spellsTabComponent!: CharacterSheetSpellsTabComponent;
 

@@ -12,6 +12,7 @@ import {UserService} from '../../../../services/user/user.service';
 })
 export class ManageInvitationsComponent implements OnInit {
   @Output() friendAdded = new EventEmitter<void>();
+  @Output() invitationsChanged = new EventEmitter<void>();
 
   receivedInvitations: Invitation[] = [];
   sentInvitations: Invitation[] = [];
@@ -47,11 +48,10 @@ export class ManageInvitationsComponent implements OnInit {
       // 1. Appel API pour accepter
       await this.userService.acceptInvitation(invitationId, this.currentUser.id);
 
-      // 2. Mise à jour immédiate de la liste d'invitations (la supprime de la vue)
-      this.receivedInvitations = this.receivedInvitations.filter(inv => inv.id !== invitationId);
-
-      // 3. Émettre l'événement pour notifier le parent
+      // 2. Émettre l'événement pour notifier le parent
       this.friendAdded.emit();
+      this.invitationsChanged.emit();
+      await this.loadInvitations();
 
     } catch (error) {
       console.error("Erreur lors de l'acceptation de l'invitation", error);
@@ -64,7 +64,8 @@ export class ManageInvitationsComponent implements OnInit {
     try {
       await this.userService.declineInvitation(invitationId, this.currentUser.id);
       // Mise à jour immédiate également pour le refus
-      this.receivedInvitations = this.receivedInvitations.filter(inv => inv.id !== invitationId);
+      this.invitationsChanged.emit();
+      await this.loadInvitations();
     } catch (error) {
       console.error("Erreur lors du refus de l'invitation", error);
     }
@@ -75,7 +76,8 @@ export class ManageInvitationsComponent implements OnInit {
     try {
       await this.userService.cancelInvitation(invitationId, this.currentUser.id);
       // Mise à jour immédiate pour l'annulation
-      this.sentInvitations = this.sentInvitations.filter(inv => inv.id !== invitationId);
+      this.invitationsChanged.emit();
+      await this.loadInvitations();
     } catch (error) {
       console.error("Erreur lors de l'annulation de l'invitation", error);
     }

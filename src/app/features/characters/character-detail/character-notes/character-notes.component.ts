@@ -20,6 +20,7 @@ export class CharacterNotesComponent implements OnInit {
   @Input() characterId!: number;
   @Input() notes: Note[] = [];
   @Input() characterType!: 'ogl5' | 'custom'; // Ajout du type de personnage
+  @Input() isReadOnly: boolean = false;
   @Output() notesUpdated = new EventEmitter<Note[]>();
 
   noteForm!: FormGroup;

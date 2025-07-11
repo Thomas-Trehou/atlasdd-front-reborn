@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {UserLight} from '../../../../core/models/user/user';
 import {UserService} from '../../../../services/user/user.service';
 import {NgForOf, NgIf} from '@angular/common';
@@ -22,6 +22,8 @@ import {ManageInvitationsComponent} from '../manage-invitations/manage-invitatio
   styleUrl: './profile.component.scss'
 })
 export class ProfileComponent implements OnInit {
+  @ViewChild(ManageInvitationsComponent) manageInvitationsComponent!: ManageInvitationsComponent;
+
   user?: UserLight;
   userFriends: UserLight[] = [];
   loading: boolean = false;
@@ -55,6 +57,12 @@ export class ProfileComponent implements OnInit {
       this.errorMessage = 'Impossible de charger la liste des amis';
     } finally {
       this.loading = false;
+    }
+  }
+
+  onInvitationsChanged(): void {
+    if (this.manageInvitationsComponent) {
+      this.manageInvitationsComponent.loadInvitations();
     }
   }
 
