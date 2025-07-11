@@ -29,9 +29,9 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-      <app-search-friends></app-search-friends>
+      <app-search-friends (invitationSent)="onInvitationsChanged()"></app-search-friends>
 
-      <app-manage-invitations (friendAdded)="loadUserFriends()"></app-manage-invitations>
+      <app-manage-invitations (friendAdded)="loadUserFriends()" (invitationsChanged)="onInvitationsChanged()"></app-manage-invitations>
 
     </div>
 
