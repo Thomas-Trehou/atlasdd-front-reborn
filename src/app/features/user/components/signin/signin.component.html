@@ -1,3 +1,5 @@
+<!-- src/app/features/user/components/signin/signin.component.html -->
+
 <div class="flex items-center justify-center p-4">
   <!-- Conteneur du formulaire avec effet de verre et bordure lumineuse -->
   <div class="w-full max-w-md bg-slate-800/50 backdrop-blur-sm rounded-lg shadow-xl shadow-black/30 border border-blue-400/30 p-8">
@@ -29,9 +31,16 @@
 
       <!-- Champ Mot de passe -->
       <div>
-        <label class="block text-gray-300 text-sm font-medium mb-2">
-          Mot de passe
-        </label>
+        <!-- MODIFIÉ: Conteneur flex pour aligner le label et le lien -->
+        <div class="flex justify-between items-center mb-2">
+          <label class="block text-gray-300 text-sm font-medium">
+            Mot de passe
+          </label>
+          <!-- NOUVEAU: Lien vers la page de mot de passe oublié -->
+          <a routerLink="/user/forgot-password" class="text-sm text-purple-400 hover:text-purple-300 hover:underline transition-colors">
+            Mot de passe oublié ?
+          </a>
+        </div>
         <input
           type="password"
           formControlName="password"
