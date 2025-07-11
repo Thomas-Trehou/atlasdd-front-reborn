@@ -20,3 +20,10 @@ export type UserLightAuth = Omit<UserDto, 'password'>
 export type SignInRequest = Pick<UserDto, 'email' | 'password'>;
 
 export type UserUpdateRequest = Partial<Pick<UserDto, 'pseudo' | 'password'>>;
+
+export type ForgotPasswordRequest = Pick<UserDto, 'email'>;
+
+export type ResetPasswordRequest = {
+  token: string;
+  newPassword: string;
+};
