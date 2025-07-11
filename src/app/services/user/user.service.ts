@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {UserLight, UserUpdateRequest} from '../../core/models/user/user';
+import {ForgotPasswordRequest, ResetPasswordRequest, UserLight, UserUpdateRequest} from '../../core/models/user/user';
 import { HttpClient } from '@angular/common/http';
-import { lastValueFrom } from 'rxjs';
+import {lastValueFrom, map} from 'rxjs';
 import { environment } from '../../../environments/environment';
 import {Invitation} from '../../core/models/user/invitation';
 
@@ -87,6 +87,28 @@ export class UserService {
   async cancelInvitation(invitationId: number, senderId: number): Promise<void> {
     const endpoint = `${this.invitationUrl}/${invitationId}/cancel/${senderId}`;
     return lastValueFrom(this.http.delete<void>(endpoint));
+  }
+
+  /**
+   * Envoie une demande de réinitialisation de mot de passe.
+   * @param payload L'objet contenant l'email de l'utilisateur.
+   * @returns Une promesse avec le message de succès de l'API.
+   */
+  async forgotPassword(payload: ForgotPasswordRequest): Promise<string> {
+    const endpoint = `${this.userUrl}/forgot-password`;
+    const obs = this.http.post(endpoint, payload, { responseType: 'text' });
+    return lastValueFrom(obs);
+  }
+
+  /**
+   * Réinitialise le mot de passe de l'utilisateur avec un token.
+   * @param payload L'objet contenant le token et le nouveau mot de passe.
+   * @returns Une promesse avec le message de succès de l'API.
+   */
+  async resetPassword(payload: ResetPasswordRequest): Promise<string> { // MODIFIÉ: Le type de retour est maintenant Promise<string>
+    const endpoint = `${this.userUrl}/reset-password`;
+    const obs = this.http.post(endpoint, payload, { responseType: 'text' });
+    return lastValueFrom(obs);
   }
 
 }

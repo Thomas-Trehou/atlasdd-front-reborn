@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AuthService} from '../../../../services/auth/auth.service';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {NgClass, NgIf} from '@angular/common';
 
 @Component({
@@ -10,7 +10,8 @@ import {NgClass, NgIf} from '@angular/common';
   imports: [
     NgClass,
     ReactiveFormsModule,
-    NgIf
+    NgIf,
+    RouterLink
   ],
   templateUrl: './signin.component.html',
   styleUrl: './signin.component.scss'
