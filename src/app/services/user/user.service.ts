@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UserLight } from '../../core/models/user/user';
+import {UserLight, UserUpdateRequest} from '../../core/models/user/user';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -17,6 +17,19 @@ export class UserService {
   constructor(private http: HttpClient) {
     this.userUrl = environment.API_URL + environment.API_RESOURCES.USERS;
     this.invitationUrl = environment.API_URL + environment.API_RESOURCES.FRIENDS_INVITES;
+  }
+
+  /**
+   * NOUVEAU: Met à jour le profil d'un utilisateur (pseudo ou mot de passe).
+   * @param userId L'ID de l'utilisateur à mettre à jour.
+   * @param payload Les données à mettre à jour (ex: { pseudo: 'nouveau' } ou { password: '...' }).
+   * @returns L'objet UserLight mis à jour.
+   */
+  async updateUserProfile(userId: number, payload: UserUpdateRequest): Promise<UserLight> {
+    const endpoint = `${this.userUrl}/${userId}/profile`;
+    // On utilise PATCH car c'est une mise à jour partielle.
+    const obs = this.http.patch<UserLight>(endpoint, payload);
+    return lastValueFrom(obs);
   }
 
   async getUserFriends(userId: number): Promise<UserLight[]> {

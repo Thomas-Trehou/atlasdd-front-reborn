@@ -1,3 +1,5 @@
+<!-- src/app/features/user/components/profile/profile.component.html -->
+
 <div *ngIf="user; else notConnected">
   <div class="max-w-4xl mx-auto p-4 sm:p-6 space-y-8">
     <!-- En-tête -->
@@ -6,53 +8,149 @@
     </div>
 
     <!-- Informations de l'utilisateur -->
-    <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg shadow-xl shadow-black/30 border border-blue-400/30">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
-        <div>
-          <p class="text-sm text-gray-400 mb-1">Pseudo</p>
-          <p class="text-lg font-medium text-gray-200">{{ user.pseudo }}</p>
+    <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg shadow-xl shadow-black/30 border border-blue-400/30 relative">
+      <!-- Bouton Modifier -->
+      <button *ngIf="!isEditMode" (click)="enterEditMode()" class="absolute top-4 right-4 bg-purple-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-purple-500 transition-colors text-sm">
+        Modifier
+      </button>
+
+      <!-- === VUE AFFICHAGE === -->
+      <div *ngIf="!isEditMode">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+          <div>
+            <p class="text-sm text-gray-400 mb-1">Pseudo</p>
+            <p class="text-lg font-medium text-gray-200">{{ user.pseudo }}</p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-400 mb-1">Slug</p>
+            <p class="text-lg font-medium text-gray-200">{{ user.slug }}</p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-400 mb-1">Email</p>
+            <p class="text-lg font-medium text-gray-200">{{ user.email }}</p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-400 mb-1">Date de création</p>
+            <p class="text-lg font-medium text-gray-200">{{ user.createdAt | customDate }}</p>
+          </div>
         </div>
-        <div>
-          <p class="text-sm text-gray-400 mb-1">Slug</p>
-          <p class="text-lg font-medium text-gray-200">{{ user.slug }}</p>
-        </div>
-        <div>
-          <p class="text-sm text-gray-400 mb-1">Email</p>
-          <p class="text-lg font-medium text-gray-200">{{ user.email }}</p>
-        </div>
-        <div>
-          <p class="text-sm text-gray-400 mb-1">Date de création</p>
-          <p class="text-lg font-medium text-gray-200">{{ user.createdAt | customDate }}</p>
+      </div>
+
+      <!-- === VUE ÉDITION === -->
+      <div *ngIf="isEditMode" class="space-y-8">
+        <!-- Formulaire de mise à jour du pseudo -->
+        <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="space-y-4">
+          <h3 class="text-xl font-semibold text-purple-300 border-b border-purple-500/30 pb-2">Modifier le pseudo</h3>
+          <div>
+            <label for="pseudo" class="block text-sm font-medium text-gray-400 mb-1">Nouveau pseudo</label>
+            <input id="pseudo" type="text" formControlName="pseudo" class="w-full bg-slate-900 border border-slate-700 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+            <div *ngIf="profileForm.get('pseudo')?.invalid && profileForm.get('pseudo')?.touched" class="text-red-400 text-sm mt-1">
+              <p *ngIf="profileForm.get('pseudo')?.errors?.['required']">Le pseudo est requis.</p>
+              <p *ngIf="profileForm.get('pseudo')?.errors?.['maxlength']">Le pseudo ne peut pas dépasser 35 caractères.</p>
+              <p *ngIf="profileForm.get('pseudo')?.errors?.['pattern']">Caractères non autorisés.</p>
+            </div>
+          </div>
+          <button type="submit" [disabled]="profileForm.invalid" class="w-full bg-green-600 text-white font-bold py-2 rounded-lg hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed">
+            Enregistrer le pseudo
+          </button>
+        </form>
+
+        <!-- Formulaire de mise à jour du mot de passe -->
+        <!-- ... (début du template jusqu'au formulaire de mot de passe) ... -->
+
+        <!-- Formulaire de mise à jour du mot de passe -->
+        <form [formGroup]="passwordForm" (ngSubmit)="savePassword()" class="space-y-4">
+          <h3 class="text-xl font-semibold text-purple-300 border-b border-purple-500/30 pb-2">Changer le mot de passe</h3>
+
+          <!-- Champ Nouveau mot de passe -->
+          <div>
+            <label for="password" class="block text-sm font-medium text-gray-400 mb-1">Nouveau mot de passe</label>
+            <!-- NOUVEAU: Conteneur relatif pour positionner l'icône -->
+            <div class="relative">
+              <input
+                id="password"
+                [type]="showPassword ? 'text' : 'password'"
+                formControlName="password"
+                class="w-full bg-slate-900 border border-slate-700 rounded-md px-3 py-2 pr-10 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+              <!-- NOUVEAU: Bouton pour basculer la visibilité -->
+              <button type="button" (click)="showPassword = !showPassword" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-white">
+                <!-- Icône "oeil barré" si le mdp est visible -->
+                <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+                </svg>
+                <!-- Icône "oeil" si le mdp est caché -->
+                <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </button>
+            </div>
+            <div *ngIf="passwordForm.get('password')?.invalid && passwordForm.get('password')?.touched" class="text-red-400 text-sm mt-1">
+              <p *ngIf="passwordForm.get('password')?.errors?.['required']">Le mot de passe est requis.</p>
+              <p *ngIf="passwordForm.get('password')?.errors?.['pattern']">Doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial.</p>
+            </div>
+          </div>
+
+          <!-- Champ Confirmer le mot de passe -->
+          <div>
+            <label for="passwordConfirm" class="block text-sm font-medium text-gray-400 mb-1">Confirmer le mot de passe</label>
+            <!-- NOUVEAU: Conteneur relatif pour positionner l'icône -->
+            <div class="relative">
+              <input
+                id="passwordConfirm"
+                [type]="showPasswordConfirm ? 'text' : 'password'"
+                formControlName="passwordConfirm"
+                class="w-full bg-slate-900 border border-slate-700 rounded-md px-3 py-2 pr-10 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+              <!-- NOUVEAU: Bouton pour basculer la visibilité -->
+              <button type="button" (click)="showPasswordConfirm = !showPasswordConfirm" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-white">
+                <!-- Icône "oeil barré" si le mdp est visible -->
+                <svg *ngIf="showPasswordConfirm" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+                </svg>
+                <!-- Icône "oeil" si le mdp est caché -->
+                <svg *ngIf="!showPasswordConfirm" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </button>
+            </div>
+            <div *ngIf="passwordForm.errors?.['mismatch'] && passwordForm.get('passwordConfirm')?.touched" class="text-red-400 text-sm mt-1">
+              <p>Les mots de passe ne correspondent pas.</p>
+            </div>
+          </div>
+          <button type="submit" [disabled]="passwordForm.invalid" class="w-full bg-green-600 text-white font-bold py-2 rounded-lg hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed">
+            Changer le mot de passe
+          </button>
+        </form>
+
+        <!-- ... (reste du template) ... -->
+
+        <!-- Message d'erreur global et bouton Annuler -->
+        <div class="mt-4 text-center">
+          <p *ngIf="updateError" class="text-red-400 mb-4">{{ updateError }}</p>
+          <button (click)="cancelEdit()" class="w-full bg-slate-600 text-white py-2 rounded-lg hover:bg-slate-500">
+            Annuler
+          </button>
         </div>
       </div>
     </div>
 
+    <!-- ... (reste du template : recherche, invitations, liste d'amis) ... -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
       <app-search-friends (invitationSent)="onInvitationsChanged()"></app-search-friends>
-
       <app-manage-invitations (friendAdded)="loadUserFriends()" (invitationsChanged)="onInvitationsChanged()"></app-manage-invitations>
-
     </div>
 
-    <!-- Liste d'amis -->
     <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg shadow-xl shadow-black/30 border border-blue-400/30">
       <h2 class="text-2xl font-bold font-serif text-blue-400 mb-4">Ami(e)s</h2>
-
       <div *ngIf="userFriends.length === 0" class="text-center py-4">
         <p class="text-gray-500">Aucun(e) ami(e) à afficher.</p>
       </div>
-
       <div *ngIf="userFriends.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        <div *ngFor="let friend of userFriends"
-             class="bg-slate-900/50 p-4 rounded-lg hover:bg-slate-700/50 transition-colors duration-200 border border-slate-700">
+        <div *ngFor="let friend of userFriends" class="bg-slate-900/50 p-4 rounded-lg hover:bg-slate-700/50 transition-colors duration-200 border border-slate-700">
           <div class="flex items-center space-x-4">
             <div class="h-12 w-12 rounded-full overflow-hidden ring-2 ring-purple-500/50 flex-shrink-0">
-              <img
-                src="assets/images/UserIcon.webp"
-                alt="{{ friend.pseudo }}"
-                class="h-full w-full object-cover"
-              />
+              <img src="assets/images/UserIcon.webp" alt="{{ friend.pseudo }}" class="h-full w-full object-cover"/>
             </div>
             <div>
               <p class="font-medium text-gray-200">{{ friend.pseudo }}</p>
