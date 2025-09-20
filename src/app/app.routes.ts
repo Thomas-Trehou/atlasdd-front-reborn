@@ -17,6 +17,11 @@ export const routes: Routes = [
     component: VerifyComponent
   },
   {
+    path: 'mentions-legales',
+    loadComponent: () => import('./pages/legals/legals.component').then(m => m.LegalsComponent),
+    title: 'Mentions Légales'
+  },
+  {
     path: 'user',
     loadChildren: () => import('./features/user/user.routes').then(m => m.USER_ROUTES)
   },
