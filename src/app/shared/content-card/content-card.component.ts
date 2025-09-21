@@ -94,6 +94,15 @@ export class ContentCardComponent {
     return isBackgroundContent(content) ? content : null;
   }
 
+  /**
+   * Garde de type qui vérifie si la valeur est un objet de type table de niveau.
+   * @param value La valeur à vérifier.
+   * @returns boolean indiquant si la valeur est bien une table de niveau.
+   */
+  isObject(value: any): value is { headers: string[]; rows: (string | number)[][] } {
+    return typeof value === 'object' && value !== null && !Array.isArray(value) && 'headers' in value && 'rows' in value;
+  }
+
 
   protected readonly isRaceContent = isRaceContent;
   protected readonly isBackgroundContent = isBackgroundContent;
