@@ -36,7 +36,31 @@
           "un sac d'explorateur et quatre javelines"
         ]
       },
-      "leveling_table": "./assets/images/lvlclass/lvl_Barbare.webp",
+      "leveling_table": {
+        "headers": ["Niveau", "Bonus de Maîtrise", "Capacités", "Rages", "Dégâts de Rage"],
+        "rows": [
+          [ 1, "+2", "Rage, Défense sans armure", "2", "+2" ],
+          [ 2, "+2", "Attaque téméraire, Sens du danger", "2", "+2" ],
+          [ 3, "+2", "Voie primitive", "3", "+2" ],
+          [ 4, "+2", "Amélioration de caractéristiques", "3", "+2" ],
+          [ 5, "+3", "Attaque supplémentaire, Déplacement rapide", "3", "+2" ],
+          [ 6, "+3", "Capacité de voie", "4", "+2" ],
+          [ 7, "+3", "Instinct sauvage", "4", "+2" ],
+          [ 8, "+3", "Amélioration de caractéristiques", "4", "+2" ],
+          [ 9, "+4", "Critique brutal (1 dé)", "4", "+3" ],
+          [ 10, "+4", "Capacité de voie", "4", "+3" ],
+          [ 11, "+4", "Rage implacable", "4", "+3" ],
+          [ 12, "+4", "Amélioration de caractéristiques", "5", "+3" ],
+          [ 13, "+5", "Critique brutal (2 dés)", "5", "+3" ],
+          [ 14, "+5", "Capacité de voie", "5", "+3" ],
+          [ 15, "+5", "Rage persistante", "5", "+3" ],
+          [ 16, "+5", "Amélioration de caractéristiques", "5", "+4" ],
+          [ 17, "+6", "Critique brutal (3 dés)", "6", "+4" ],
+          [ 18, "+6", "Puissance indomptable", "6", "+4" ],
+          [ 19, "+6", "Amélioration de caractéristiques", "6", "+4" ],
+          [ 20, "+6", "Champion primitif", "Illimitées", "+4" ]
+        ]
+      },
       "abilities": [
         {
           "name": "Rage",
@@ -254,7 +278,35 @@
           "une armure de cuir et une dague"
         ]
       },
-      "leveling_table": "./assets/images/lvlclass/lvl_Barde.webp",
+      "leveling_table": {
+        "headers": [
+          "Niveau", "Maîtrise", "Capacités", "Sorts mineurs", "Sorts connus",
+          "Empl. 1", "Empl. 2", "Empl. 3", "Empl. 4", "Empl. 5",
+          "Empl. 6", "Empl. 7", "Empl. 8", "Empl. 9"
+        ],
+        "rows": [
+          [1, "+2", "Incantation, Inspiration bardique (d6)", 2, 4, 2, "-", "-", "-", "-", "-", "-", "-", "-"],
+          [2, "+2", "Touche-à-tout, Chant reposant (d6)", 2, 5, 3, "-", "-", "-", "-", "-", "-", "-", "-"],
+          [3, "+2", "Collège bardique, Expertise", 2, 6, 4, 2, "-", "-", "-", "-", "-", "-", "-"],
+          [4, "+2", "Amélioration de caractéristiques", 3, 7, 4, 3, "-", "-", "-", "-", "-", "-", "-"],
+          [5, "+3", "Inspiration bardique (d8), Source d'inspiration", 3, 8, 4, 3, 2, "-", "-", "-", "-", "-", "-"],
+          [6, "+3", "Contre-charme, Capacité de collège bardique", 3, 9, 4, 3, 3, "-", "-", "-", "-", "-", "-"],
+          [7, "+3", "-", 3, 10, 4, 3, 3, 1, "-", "-", "-", "-", "-"],
+          [8, "+3", "Amélioration de caractéristiques", 3, 11, 4, 3, 3, 2, "-", "-", "-", "-", "-"],
+          [9, "+4", "Chant reposant (d8)", 3, 12, 4, 3, 3, 3, 1, "-", "-", "-", "-"],
+          [10, "+4", "Inspiration bardique (d10), Expertise, Secrets magiques", 4, 14, 4, 3, 3, 3, 2, "-", "-", "-", "-"],
+          [11, "+4", "-", 4, 15, 4, 3, 3, 3, 2, 1, "-", "-", "-"],
+          [12, "+4", "Amélioration de caractéristiques", 4, 15, 4, 3, 3, 3, 2, 1, "-", "-", "-"],
+          [13, "+5", "Chant reposant (d10)", 4, 16, 4, 3, 3, 3, 2, 1, 1, "-", "-"],
+          [14, "+5", "Secrets magiques, Capacité de collège bardique", 4, 18, 4, 3, 3, 3, 2, 1, 1, "-", "-"],
+          [15, "+5", "Inspiration bardique (d12)", 4, 19, 4, 3, 3, 3, 2, 1, 1, 1, "-"],
+          [16, "+5", "Amélioration de caractéristiques", 4, 19, 4, 3, 3, 3, 2, 1, 1, 1, "-"],
+          [17, "+6", "Chant reposant (d12)", 4, 20, 4, 3, 3, 3, 2, 1, 1, 1, 1],
+          [18, "+6", "Secrets magiques", 4, 22, 4, 3, 3, 3, 3, 1, 1, 1, 1],
+          [19, "+6", "Amélioration de caractéristiques", 4, 22, 4, 3, 3, 3, 3, 2, 1, 1, 1],
+          [20, "+6", "Inspiration supérieure", 4, 22, 4, 3, 3, 3, 3, 2, 2, 1, 1]
+        ]
+      },
       "abilities": [
         {
           "name": "Incantation",
@@ -417,7 +469,35 @@
           "un bouclier et un symbole sacré"
         ]
       },
-      "leveling_table": "./assets/images/lvlclass/lvl_Clerc.webp",
+      "leveling_table": {
+        "headers": [
+          "Niveau", "Maîtrise", "Capacités", "Sorts mineurs",
+          "Empl. 1", "Empl. 2", "Empl. 3", "Empl. 4", "Empl. 5",
+          "Empl. 6", "Empl. 7", "Empl. 8", "Empl. 9"
+        ],
+        "rows": [
+          [1, "+2", "Incantation, Domaine divin", 3, 2, "-", "-", "-", "-", "-", "-", "-", "-"],
+          [2, "+2", "Conduit divin (1/repos), Capacité de domaine divin", 3, 3, "-", "-", "-", "-", "-", "-", "-", "-"],
+          [3, "+2", "-", 3, 4, 2, "-", "-", "-", "-", "-", "-", "-"],
+          [4, "+2", "Amélioration de caractéristiques", 4, 4, 3, "-", "-", "-", "-", "-", "-", "-"],
+          [5, "+3", "Destruction des morts-vivants (FP 1/2)", 4, 4, 3, 2, "-", "-", "-", "-", "-", "-"],
+          [6, "+3", "Conduit divin (2/repos), Capacité de domaine divin", 4, 4, 3, 3, "-", "-", "-", "-", "-", "-"],
+          [7, "+3", "-", 4, 4, 3, 3, 1, "-", "-", "-", "-", "-"],
+          [8, "+3", "Amélioration de caractéristiques, Destruction des morts-vivants (FP 1), Capacité de domaine divin", 4, 4, 3, 3, 2, "-", "-", "-", "-", "-"],
+          [9, "+4", "-", 4, 4, 3, 3, 3, 1, "-", "-", "-", "-"],
+          [10, "+4", "Intervention divine", 5, 4, 3, 3, 3, 2, "-", "-", "-", "-"],
+          [11, "+4", "Destruction des morts-vivants (FP 2)", 5, 4, 3, 3, 3, 2, 1, "-", "-", "-"],
+          [12, "+4", "Amélioration de caractéristiques", 5, 4, 3, 3, 3, 2, 1, "-", "-", "-"],
+          [13, "+5", "-", 5, 4, 3, 3, 3, 2, 1, 1, "-", "-"],
+          [14, "+5", "Destruction des morts-vivants (FP 3)", 5, 4, 3, 3, 3, 2, 1, 1, "-", "-"],
+          [15, "+5", "-", 5, 4, 3, 3, 3, 2, 1, 1, 1, "-"],
+          [16, "+5", "Amélioration de caractéristiques", 5, 4, 3, 3, 3, 2, 1, 1, 1, "-"],
+          [17, "+6", "Destruction des morts-vivants (FP 4), Capacité de domaine divin", 5, 4, 3, 3, 3, 2, 1, 1, 1, 1],
+          [18, "+6", "Conduit divin (3/repos)", 5, 4, 3, 3, 3, 3, 1, 1, 1, 1],
+          [19, "+6", "Amélioration de caractéristiques", 5, 4, 3, 3, 3, 3, 2, 1, 1, 1],
+          [20, "+6", "Intervention divine supérieure", 5, 4, 3, 3, 3, 3, 2, 2, 1, 1]
+        ]
+      },
       "abilities": [
         {
           "name": "Sorts mineurs",
@@ -608,7 +688,35 @@
           "une armure de cuir, un sac d'explorateur et un focaliseur druidique"
         ]
       },
-      "leveling_table": "./assets/images/lvlclass/lvl_Druide.webp",
+      "leveling_table": {
+        "headers": [
+          "Niveau", "Maîtrise", "Capacités", "Sorts mineurs",
+          "Empl. 1", "Empl. 2", "Empl. 3", "Empl. 4", "Empl. 5",
+          "Empl. 6", "Empl. 7", "Empl. 8", "Empl. 9"
+        ],
+        "rows": [
+          [1, "+2", "Druidique, Incantation", 2, 2, "-", "-", "-", "-", "-", "-", "-", "-"],
+          [2, "+2", "Forme sauvage, Cercle druidique", 2, 3, "-", "-", "-", "-", "-", "-", "-", "-"],
+          [3, "+2", "-", 2, 4, 2, "-", "-", "-", "-", "-", "-", "-"],
+          [4, "+2", "Forme sauvage améliorée, Amélioration de caractéristiques", 3, 4, 3, "-", "-", "-", "-", "-", "-", "-"],
+          [5, "+3", "-", 3, 4, 3, 2, "-", "-", "-", "-", "-", "-"],
+          [6, "+3", "Capacité de cercle druidique", 3, 4, 3, 3, "-", "-", "-", "-", "-", "-"],
+          [7, "+3", "-", 3, 4, 3, 3, 1, "-", "-", "-", "-", "-"],
+          [8, "+3", "Forme sauvage améliorée, Amélioration de caractéristiques", 3, 4, 3, 3, 2, "-", "-", "-", "-", "-"],
+          [9, "+4", "-", 3, 4, 3, 3, 3, 1, "-", "-", "-", "-"],
+          [10, "+4", "Capacité de cercle druidique", 4, 4, 3, 3, 3, 2, "-", "-", "-", "-"],
+          [11, "+4", "-", 4, 4, 3, 3, 3, 2, 1, "-", "-", "-"],
+          [12, "+4", "Amélioration de caractéristiques", 4, 4, 3, 3, 3, 2, 1, "-", "-", "-"],
+          [13, "+5", "-", 4, 4, 3, 3, 3, 2, 1, 1, "-", "-"],
+          [14, "+5", "Capacité de cercle druidique", 4, 4, 3, 3, 3, 2, 1, 1, "-", "-"],
+          [15, "+5", "-", 4, 4, 3, 3, 3, 2, 1, 1, 1, "-"],
+          [16, "+5", "Amélioration de caractéristiques", 4, 4, 3, 3, 3, 2, 1, 1, 1, "-"],
+          [17, "+6", "-", 4, 4, 3, 3, 3, 2, 1, 1, 1, 1],
+          [18, "+6", "Jeunesse éternelle, Incantation animale", 4, 4, 3, 3, 3, 3, 1, 1, 1, 1],
+          [19, "+6", "Amélioration de caractéristiques", 4, 4, 3, 3, 3, 3, 2, 1, 1, 1],
+          [20, "+6", "Archidruide", 4, 4, 3, 3, 3, 3, 2, 2, 1, 1]
+        ]
+      },
       "abilities": [
         {
           "name": "Druidique",
@@ -798,7 +906,35 @@
           "deux dagues"
         ]
       },
-      "leveling_table": "./assets/images/lvlclass/lvl_Ensorceleur.webp",
+      "leveling_table": {
+        "headers": [
+          "Niveau", "Maîtrise", "Points de Sorcellerie", "Capacités", "Sorts mineurs", "Sorts connus",
+          "Empl. 1", "Empl. 2", "Empl. 3", "Empl. 4", "Empl. 5",
+          "Empl. 6", "Empl. 7", "Empl. 8", "Empl. 9"
+        ],
+        "rows": [
+          [1, "+2", "-", "Incantation, Origine magique", 4, 2, 2, "-", "-", "-", "-", "-", "-", "-", "-"],
+          [2, "+2", 2, "Source de magie", 4, 3, 3, "-", "-", "-", "-", "-", "-", "-", "-"],
+          [3, "+2", 3, "Métamagie", 4, 4, 4, 2, "-", "-", "-", "-", "-", "-", "-"],
+          [4, "+2", 4, "Amélioration de caractéristiques", 5, 5, 4, 3, "-", "-", "-", "-", "-", "-", "-"],
+          [5, "+3", 5, "-", 5, 6, 4, 3, 2, "-", "-", "-", "-", "-", "-"],
+          [6, "+3", 6, "Capacité de l'origine magique", 5, 7, 4, 3, 3, "-", "-", "-", "-", "-", "-"],
+          [7, "+3", 7, "-", 5, 8, 4, 3, 3, 1, "-", "-", "-", "-", "-"],
+          [8, "+3", 8, "Amélioration de caractéristiques", 5, 9, 4, 3, 3, 2, "-", "-", "-", "-", "-"],
+          [9, "+4", 9, "-", 5, 10, 4, 3, 3, 3, 1, "-", "-", "-", "-"],
+          [10, "+4", 10, "Métamagie", 6, 11, 4, 3, 3, 3, 2, "-", "-", "-", "-"],
+          [11, "+4", 11, "-", 6, 12, 4, 3, 3, 3, 2, 1, "-", "-", "-"],
+          [12, "+4", 12, "Amélioration de caractéristiques", 6, 12, 4, 3, 3, 3, 2, 1, "-", "-", "-"],
+          [13, "+5", 13, "-", 6, 13, 4, 3, 3, 3, 2, 1, 1, "-", "-"],
+          [14, "+5", 14, "Capacité de l'origine magique", 6, 13, 4, 3, 3, 3, 2, 1, 1, "-", "-"],
+          [15, "+5", 15, "-", 6, 14, 4, 3, 3, 3, 2, 1, 1, 1, "-"],
+          [16, "+5", 16, "Amélioration de caractéristiques", 6, 14, 4, 3, 3, 3, 2, 1, 1, 1, "-"],
+          [17, "+6", 17, "Métamagie", 6, 15, 4, 3, 3, 3, 2, 1, 1, 1, 1],
+          [18, "+6", 18, "Capacité de l'origine magique", 6, 15, 4, 3, 3, 3, 3, 1, 1, 1, 1],
+          [19, "+6", 19, "Amélioration de caractéristiques", 6, 15, 4, 3, 3, 3, 3, 2, 1, 1, 1],
+          [20, "+6", 20, "Restauration magique", 6, 15, 4, 3, 3, 3, 3, 2, 2, 1, 1]
+        ]
+      },
       "abilities": [
         {
           "name": "Incantation",
@@ -1190,7 +1326,35 @@
           "(a) un sac d'exploration souterraine ou (b) un sac d'explorateur"
         ]
       },
-      "leveling_table": "./assets/images/lvlclass/lvl_Guerrier.webp",
+      "leveling_table": {
+        "headers": [
+          "Niveau",
+          "Bonus de Maîtrise",
+          "Capacités"
+        ],
+        "rows": [
+          [1, "+2", "Style de combat, Second souffle"],
+          [2, "+2", "Fougue (1 utilisation)"],
+          [3, "+2", "Archétype martial"],
+          [4, "+2", "Amélioration de caractéristiques"],
+          [5, "+3", "Attaque supplémentaire"],
+          [6, "+3", "Amélioration de caractéristiques"],
+          [7, "+3", "Capacité de l'archétype martial"],
+          [8, "+3", "Amélioration de caractéristiques"],
+          [9, "+4", "Inflexible (1 utilisation)"],
+          [10, "+4", "Capacité de l'archétype martial"],
+          [11, "+4", "Attaque supplémentaire (2)"],
+          [12, "+4", "Amélioration de caractéristiques"],
+          [13, "+5", "Inflexible (2 utilisations)"],
+          [14, "+5", "Amélioration de caractéristiques"],
+          [15, "+5", "Capacité de l'archétype martial"],
+          [16, "+5", "Amélioration de caractéristiques"],
+          [17, "+6", "Fougue (2 utilisations), Inflexible (3 utilisations)"],
+          [18, "+6", "Capacité de l'archétype martial"],
+          [19, "+6", "Amélioration de caractéristiques"],
+          [20, "+6", "Attaque supplémentaire (3)"]
+        ]
+      },
       "abilities": [
         {
           "name": "Style de combat",
@@ -1545,7 +1709,35 @@
           "un grimoire"
         ]
       },
-      "leveling_table": "./assets/images/lvlclass/lvl_Magicien.webp",
+      "leveling_table": {
+        "headers": [
+          "Niveau", "Maîtrise", "Capacités", "Sorts mineurs",
+          "Empl. 1", "Empl. 2", "Empl. 3", "Empl. 4", "Empl. 5",
+          "Empl. 6", "Empl. 7", "Empl. 8", "Empl. 9"
+        ],
+        "rows": [
+          [1, "+2", "Incantation, Restauration arcanique", 3, 2, "-", "-", "-", "-", "-", "-", "-", "-"],
+          [2, "+2", "Tradition arcanique", 3, 3, "-", "-", "-", "-", "-", "-", "-", "-"],
+          [3, "+2", "-", 3, 4, 2, "-", "-", "-", "-", "-", "-", "-"],
+          [4, "+2", "Amélioration de caractéristiques", 4, 4, 3, "-", "-", "-", "-", "-", "-", "-"],
+          [5, "+3", "-", 4, 4, 3, 2, "-", "-", "-", "-", "-", "-"],
+          [6, "+3", "Capacité de la tradition arcanique", 4, 4, 3, 3, "-", "-", "-", "-", "-", "-"],
+          [7, "+3", "-", 4, 4, 3, 3, 1, "-", "-", "-", "-", "-"],
+          [8, "+3", "Amélioration de caractéristiques", 4, 4, 3, 3, 2, "-", "-", "-", "-", "-"],
+          [9, "+4", "-", 4, 4, 3, 3, 3, 1, "-", "-", "-", "-"],
+          [10, "+4", "Capacité de la tradition arcanique", 5, 4, 3, 3, 3, 2, "-", "-", "-", "-"],
+          [11, "+4", "-", 5, 4, 3, 3, 3, 2, 1, "-", "-", "-"],
+          [12, "+4", "Amélioration de caractéristiques", 5, 4, 3, 3, 3, 2, 1, "-", "-", "-"],
+          [13, "+5", "-", 5, 4, 3, 3, 3, 2, 1, 1, "-", "-"],
+          [14, "+5", "Capacité de la tradition arcanique", 5, 4, 3, 3, 3, 2, 1, 1, "-", "-"],
+          [15, "+5", "-", 5, 4, 3, 3, 3, 2, 1, 1, 1, "-"],
+          [16, "+5", "Amélioration de caractéristiques", 5, 4, 3, 3, 3, 2, 1, 1, 1, "-"],
+          [17, "+6", "-", 5, 4, 3, 3, 3, 2, 1, 1, 1, 1],
+          [18, "+6", "Maîtrise des sorts", 5, 4, 3, 3, 3, 3, 1, 1, 1, 1],
+          [19, "+6", "Amélioration de caractéristiques", 5, 4, 3, 3, 3, 3, 2, 1, 1, 1],
+          [20, "+6", "Sorts de prédilection", 5, 4, 3, 3, 3, 3, 2, 2, 1, 1]
+        ]
+      },
       "abilities": [
         {
           "name": "Incantation",
@@ -1854,7 +2046,38 @@
           "10 fléchettes"
         ]
       },
-      "leveling_table": "./assets/images/lvlclass/lvl_Moine.webp",
+      "leveling_table": {
+        "headers": [
+          "Niveau",
+          "Maîtrise",
+          "Arts martiaux",
+          "Points de Ki",
+          "Mouvement sans armure",
+          "Capacités"
+        ],
+        "rows": [
+          [1, "+2", "1d4", "-", "-", "Défense sans armure, Arts martiaux"],
+          [2, "+2", "1d4", 2, "+3 m", "Ki, Déplacement sans armure"],
+          [3, "+2", "1d4", 3, "+3 m", "Tradition monastique, Parade de projectiles"],
+          [4, "+2", "1d4", 4, "+3 m", "Amélioration de caractéristiques, Chute ralentie"],
+          [5, "+3", "1d6", 5, "+3 m", "Attaque supplémentaire, Frappe étourdissante"],
+          [6, "+3", "1d6", 6, "+4,50 m", "Frappes de ki, Capacité de la tradition monastique"],
+          [7, "+3", "1d6", 7, "+4,50 m", "Esquive totale, Sérénité"],
+          [8, "+3", "1d6", 8, "+4,50 m", "Amélioration de caractéristiques"],
+          [9, "+4", "1d6", 9, "+4,50 m", "Déplacement sans armure amélioré"],
+          [10, "+4", "1d6", 10, "+6 m", "Pureté physique"],
+          [11, "+4", "1d8", 11, "+6 m", "Capacité de la tradition monastique"],
+          [12, "+4", "1d8", 12, "+6 m", "Amélioration de caractéristiques"],
+          [13, "+5", "1d8", 13, "+6 m", "Langue du soleil et de la lune"],
+          [14, "+5", "1d8", 14, "+7,50 m", "Âme de diamant"],
+          [15, "+5", "1d8", 15, "+7,50 m", "Jeunesse éternelle"],
+          [16, "+5", "1d8", 16, "+7,50 m", "Amélioration de caractéristiques"],
+          [17, "+6", "1d10", 17, "+7,50 m", "Capacité de la tradition monastique"],
+          [18, "+6", "1d10", 18, "+9 m", "Désertion de l'âme"],
+          [19, "+6", "1d10", 19, "+9 m", "Amélioration de caractéristiques"],
+          [20, "+6", "1d10", 20, "+9 m", "Perfection de l'être"]
+        ]
+      },
       "abilities": [
         {
           "name": "Défense sans armure",
@@ -2124,7 +2347,34 @@
           "une armure de cuir, n'importe quelle arme courante, et deux dagues"
         ]
       },
-      "leveling_table": "./assets/images/lvlclass/lvl_Ensorceleur.webp",
+      "leveling_table": {
+        "headers": [
+          "Niveau", "Maîtrise", "Capacités", "Sorts mineurs", "Sorts connus",
+          "Emplacements de sorts", "Niveau d'emplacement", "Manifestations connues"
+        ],
+        "rows": [
+          [1, "+2", "Patron d'Outremonde, Magie de pacte", 2, 2, 1, 1, "-"],
+          [2, "+2", "Manifestations occultes", 2, 3, 2, 1, 2],
+          [3, "+2", "Faveur de pacte", 2, 4, 2, 2, 2],
+          [4, "+2", "Amélioration de caractéristiques", 3, 5, 2, 2, 2],
+          [5, "+3", "-", 3, 6, 2, 3, 3],
+          [6, "+3", "Capacité de patron d'Outremonde", 3, 7, 2, 3, 3],
+          [7, "+3", "-", 3, 8, 2, 4, 4],
+          [8, "+3", "Amélioration de caractéristiques", 3, 9, 2, 4, 4],
+          [9, "+4", "-", 3, 10, 2, 5, 5],
+          [10, "+4", "Capacité de patron d'Outremonde", 4, 10, 2, 5, 5],
+          [11, "+4", "Arcanum mystique (niveau 6)", 4, 11, 3, 5, 5],
+          [12, "+4", "Amélioration de caractéristiques", 4, 11, 3, 5, 6],
+          [13, "+5", "Arcanum mystique (niveau 7)", 4, 12, 3, 5, 6],
+          [14, "+5", "Capacité de patron d'Outremonde", 4, 12, 3, 5, 6],
+          [15, "+5", "Arcanum mystique (niveau 8)", 4, 13, 3, 5, 7],
+          [16, "+5", "Amélioration de caractéristiques", 4, 13, 3, 5, 7],
+          [17, "+6", "Arcanum mystique (niveau 9)", 4, 14, 4, 5, 7],
+          [18, "+6", "-", 4, 14, 4, 5, 8],
+          [19, "+6", "Amélioration de caractéristiques", 4, 15, 4, 5, 8],
+          [20, "+6", "Maître de l'occulte", 4, 15, 4, 5, 8]
+        ]
+      },
       "abilities": [
         {
           "name": "Patron d'Outremonde",
@@ -2376,7 +2626,34 @@
           "une cotte de mailles et un symbole sacré"
         ]
       },
-      "leveling_table": "./assets/images/lvlclass/lvl_Paladin.webp",
+      "leveling_table": {
+        "headers": [
+          "Niveau", "Maîtrise", "Capacités",
+          "Empl. 1", "Empl. 2", "Empl. 3", "Empl. 4", "Empl. 5"
+        ],
+        "rows": [
+          [1, "+2", "Sens divin, Imposition des mains", "-", "-", "-", "-", "-"],
+          [2, "+2", "Style de combat, Incantation, Châtiment divin", 2, "-", "-", "-", "-"],
+          [3, "+2", "Santé divine, Serment sacré", 3, "-", "-", "-", "-"],
+          [4, "+2", "Amélioration de caractéristiques", 3, "-", "-", "-", "-"],
+          [5, "+3", "Attaque supplémentaire", 4, 2, "-", "-", "-"],
+          [6, "+3", "Aura de protection", 4, 2, "-", "-", "-"],
+          [7, "+3", "Capacité de serment sacré", 4, 3, "-", "-", "-"],
+          [8, "+3", "Amélioration de caractéristiques", 4, 3, "-", "-", "-"],
+          [9, "+4", "-", 4, 3, 2, "-", "-"],
+          [10, "+4", "Aura de courage", 4, 3, 2, "-", "-"],
+          [11, "+4", "Châtiment divin amélioré", 4, 3, 3, "-", "-"],
+          [12, "+4", "Amélioration de caractéristiques", 4, 3, 3, "-", "-"],
+          [13, "+5", "-", 4, 3, 3, 1, "-"],
+          [14, "+5", "Contact purifiant", 4, 3, 3, 1, "-"],
+          [15, "+5", "Capacité de serment sacré", 4, 3, 3, 2, "-"],
+          [16, "+5", "Amélioration de caractéristiques", 4, 3, 3, 2, "-"],
+          [17, "+6", "-", 4, 3, 3, 3, 1],
+          [18, "+6", "Amélioration d'auras", 4, 3, 3, 3, 1],
+          [19, "+6", "Amélioration de caractéristiques", 4, 3, 3, 3, 2],
+          [20, "+6", "Capacité de serment sacré", 4, 3, 3, 3, 2]
+        ]
+      },
       "abilities": [
         {
           "name": "Sens divin",
@@ -2704,7 +2981,34 @@
           "un arc long et un carquois avec 20 flèches"
         ]
       },
-      "leveling_table": "./assets/images/lvlclass/lvl_Rodeur.webp",
+      "leveling_table": {
+        "headers": [
+          "Niveau", "Maîtrise", "Capacités", "Sorts connus",
+          "Empl. 1", "Empl. 2", "Empl. 3", "Empl. 4", "Empl. 5"
+        ],
+        "rows": [
+          [1, "+2", "Ennemi juré, Explorateur-né", "-", "-", "-", "-", "-", "-"],
+          [2, "+2", "Style de combat, Incantation", 2, 2, "-", "-", "-", "-"],
+          [3, "+2", "Archétype de rôdeur, Vigilance primitive", 3, 3, "-", "-", "-", "-"],
+          [4, "+2", "Amélioration de caractéristiques", 3, 3, "-", "-", "-", "-"],
+          [5, "+3", "Attaque supplémentaire", 4, 4, 2, "-", "-", "-"],
+          [6, "+3", "Amélioration de l'Ennemi juré et de l'Explorateur-né", 4, 4, 2, "-", "-", "-"],
+          [7, "+3", "Capacité de l'archétype de rôdeur", 5, 4, 3, "-", "-", "-"],
+          [8, "+3", "Amélioration de caractéristiques, Foulée tellurique", 5, 4, 3, "-", "-", "-"],
+          [9, "+4", "-", 6, 4, 3, 2, "-", "-"],
+          [10, "+4", "Amélioration de l'Explorateur-né, Camouflage naturel", 6, 4, 3, 2, "-", "-"],
+          [11, "+4", "Capacité de l'archétype de rôdeur", 7, 4, 3, 3, "-", "-"],
+          [12, "+4", "Amélioration de caractéristiques", 7, 4, 3, 3, "-", "-"],
+          [13, "+5", "-", 8, 4, 3, 3, 1, "-"],
+          [14, "+5", "Amélioration de l'Ennemi juré, Disparition", 8, 4, 3, 3, 1, "-"],
+          [15, "+5", "Capacité de l'archétype de rôdeur", 9, 4, 3, 3, 2, "-"],
+          [16, "+5", "Amélioration de caractéristiques", 9, 4, 3, 3, 2, "-"],
+          [17, "+6", "-", 10, 4, 3, 3, 3, 1],
+          [18, "+6", "Sens sauvages", 10, 4, 3, 3, 3, 1],
+          [19, "+6", "Amélioration de caractéristiques", 11, 4, 3, 3, 3, 2],
+          [20, "+6", "Tueur implacable", 11, 4, 3, 3, 3, 2]
+        ]
+      },
       "abilities": [
         {
           "name": "Ennemi juré",
@@ -2878,7 +3182,36 @@
           "une armure de cuir, deux dagues et des outils de voleur"
         ]
       },
-      "leveling_table": "./assets/images/lvlclass/lvl_Roublard.webp",
+      "leveling_table": {
+        "headers": [
+          "Niveau",
+          "Maîtrise",
+          "Attaque sournoise",
+          "Capacités"
+        ],
+        "rows": [
+          [1, "+2", "1d6", "Expertise, Attaque sournoise, Jargon des voleurs"],
+          [2, "+2", "1d6", "Ruse"],
+          [3, "+2", "2d6", "Archétype de roublard"],
+          [4, "+2", "2d6", "Amélioration de caractéristiques"],
+          [5, "+3", "3d6", "Esquive instinctive"],
+          [6, "+3", "3d6", "Expertise"],
+          [7, "+3", "4d6", "Esquive totale"],
+          [8, "+3", "4d6", "Amélioration de caractéristiques"],
+          [9, "+4", "5d6", "Capacité de l'archétype de roublard"],
+          [10, "+4", "5d6", "Amélioration de caractéristiques"],
+          [11, "+4", "6d6", "Savoir-faire"],
+          [12, "+4", "6d6", "Amélioration de caractéristiques"],
+          [13, "+5", "7d6", "Capacité de l'archétype de roublard"],
+          [14, "+5", "7d6", "Perception aveugle"],
+          [15, "+5", "8d6", "Esprit fuyant"],
+          [16, "+5", "8d6", "Amélioration de caractéristiques"],
+          [17, "+6", "9d6", "Capacité de l'archétype de roublard"],
+          [18, "+6", "9d6", "Insaisissable"],
+          [19, "+6", "10d6", "Amélioration de caractéristiques"],
+          [20, "+6", "10d6", "Coup de chance"]
+        ]
+      },
       "abilities": [
         {
           "name": "Expertise",
