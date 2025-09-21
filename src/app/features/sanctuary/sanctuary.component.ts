@@ -41,7 +41,7 @@ export class SanctuaryComponent {
       aria: 'Naviguer vers les historiques'
     },
     {
-      name: 'Les Caractéristiques et Abilités',
+      name: 'Caractéristiques et Abilités',
       path: '/sanctuary/abilities',
       imageUrl: 'assets/images/sanctuary/caracteristiques-logo.webp',
       alt: 'Les Armures',
