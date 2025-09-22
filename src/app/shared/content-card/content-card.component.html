@@ -210,7 +210,37 @@
 
         <!-- Capacités de classe -->
         <div *ngIf="classContent.class_abilities" class="space-y-8">
-          <img *ngIf="classContent.alt_abilities && classContent.class_abilities.leveling_table" [src]="classContent.class_abilities.leveling_table" [alt]="classContent.alt_abilities" class="w-full rounded-lg shadow-md">
+          <div *ngIf="classContent.class_abilities?.leveling_table">
+            <h3 class="text-2xl font-bold font-serif text-blue-400 mb-4 border-b border-blue-400/20 pb-2">Table de Montée de Niveau</h3>
+
+            <ng-container *ngIf="isObject(classContent.class_abilities.leveling_table)">
+              <ng-container *ngIf="classContent.class_abilities.leveling_table as tableData">
+                <div class="overflow-x-auto rounded-lg border border-slate-700/80 shadow-lg">
+                  <table class="w-full text-sm text-left text-gray-300">
+                    <thead class="text-xs text-white uppercase bg-slate-900/70 hidden md:table-header-group">
+                    <tr>
+                      <th *ngFor="let header of tableData.headers" scope="col" class="px-2 py-2 w-24">
+                        {{ header }}
+                      </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let row of tableData.rows" class="flex flex-col md:table-row bg-slate-800/60 mb-4 md:mb-0 md:border-b md:border-gray-700 md:hover:bg-slate-700/50">
+                      <td *ngFor="let cell of row; let colIndex = index" class="px-2 py-2 md:whitespace-nowrap flex justify-between md:table-cell border-b md:border-none border-slate-700/80">
+                        <span class="font-bold text-purple-400 md:hidden mr-4">{{ tableData.headers[colIndex] }}:</span>
+                        <span>{{ cell }}</span>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="!isObject(classContent.class_abilities.leveling_table)">
+              <img [src]="classContent.class_abilities.leveling_table" [alt]="classContent.alt_abilities" class="w-full rounded-lg shadow-md">
+            </ng-container>
+          </div>
 
           <div *ngIf="classContent.class_abilities.health" class="bg-slate-800/60 p-4 rounded-lg border border-slate-700/80">
             <h3 class="text-2xl font-bold font-serif text-blue-400 mb-4 border-b border-blue-400/20 pb-2">Points de Vie</h3>
